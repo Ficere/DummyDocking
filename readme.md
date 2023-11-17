@@ -38,8 +38,5 @@ I've prepared some test data for you in the example folder, and you can find sam
 Of course, you can also perform the test like this:
 
 ```bash
-# Make sure vina_docking/run_vina_docking.py is executable
-# You can easily achieve this by running `chmod 755 vina_docking/run_vina_docking.py`
-# Then, it should be
-vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output
+python vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output
 ```
