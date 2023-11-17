@@ -15,7 +15,7 @@ Here is a molecular docking procedure designed for dummies like me, including:
 conda create -yn vina_docking python=3.10
 conda install -yc conda-forge mamba
 mamba install -yc conda-forge rdkit
-pip install panda meeko openpyxl scipy
+pip install pandas meeko openpyxl scipy
 ```
 
 # Usage
