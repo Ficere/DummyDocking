@@ -85,7 +85,7 @@ def get_features(uniprot_id: str):
 
 
 def agg_key_sites(in_series: pd.Series):
-    return ",".join([i for i in in_series.values if i])
+    return ";".join([i for i in in_series.values if i])
 
 
 def search_key_sites(docking_results_path: str, outdir: Optional[str] = None, n_workers: int = os.cpu_count(), multitasking_engine: str = "process"):
@@ -117,7 +117,6 @@ def search_key_sites(docking_results_path: str, outdir: Optional[str] = None, n_
     )
     Path(search_results_dir).mkdir(exist_ok=True, parents=True)
 
-    Path(search_results_dir).mkdir(exist_ok=True, parents=True)
     query_path = str(Path(search_results_dir, "seqs.fasta"))
     with open(query_path, "w") as f:
         for receptor_id, chains in receptor_id_to_sequence.items():
@@ -189,7 +188,7 @@ def search_key_sites(docking_results_path: str, outdir: Optional[str] = None, n_
         search_result_features
     )
     search_result["target_key_sites"] = search_result["target"].map(
-        lambda x: ",".join(map(str, search_result_key_sites[x]))
+        lambda x: ";".join(sorted(set(map(str, search_result_key_sites[x])), key=lambda x: int(x)))
     )
 
     query_key_sites = []
@@ -212,7 +211,7 @@ def search_key_sites(docking_results_path: str, outdir: Optional[str] = None, n_
         curr_tid_to_features = key_sites_to_feature[tid]
         curr_query_key_sites = []
         if t_key_sites:
-            t_key_sites = list(map(int, t_key_sites.split(",")))
+            t_key_sites = list(map(int, t_key_sites.split(";")))
             t_key_sites_max = max(t_key_sites)
             id_target_to_query = {}
             qid = 1
@@ -242,7 +241,7 @@ def search_key_sites(docking_results_path: str, outdir: Optional[str] = None, n_
     search_result["query_key_sites"] = query_key_sites
     search_result["query_key_sites_features"] = query_key_sites_features
     search_result["query_key_sites"] = search_result["query_key_sites"].apply(
-        lambda x: ",".join(map(str, x))
+        lambda x: ";".join(map(str, x))
     )
     search_result.to_csv(
         str(Path(search_results_dir, "search_results.csv")), index=False
@@ -255,7 +254,7 @@ def search_key_sites(docking_results_path: str, outdir: Optional[str] = None, n_
         .reset_index()
     )
     keysites["query_key_sites"] = keysites["query_key_sites"].apply(
-        lambda x: ",".join([i for i in x.split(",") if i != "unknown"])
+        lambda x: ";".join(sorted(set([i for i in x.split(";") if i != "unknown"]), key=lambda x: int(x)))
     )
     keysites.to_csv(str(Path(search_results_dir, "key_sites.csv")), index=False)
 

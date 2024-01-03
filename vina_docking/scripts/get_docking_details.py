@@ -87,8 +87,8 @@ def get_docking_details(
             [atom.get_coord() for atom in receptor_pdb.get_atoms()]
         )
 
-        for curr_ligand_model, (affinity, rmsd_lb, rmsd_ub) in zip(
-            ligand_pdb, scores[["affinity", "rmsd_lb", "rmsd_ub"]].values
+        for curr_ligand_model, affinity in zip(
+            ligand_pdb, scores["affinity"].values
         ):
             curr_ligand_coords = np.array(
                 [atom.get_coord() for atom in curr_ligand_model.get_atoms()]
@@ -102,13 +102,11 @@ def get_docking_details(
                     receptor_name,
                     ligand_name,
                     curr_result_dir,
-                    ",".join(interact_residues),
-                    ",".join(
+                    ";".join(interact_residues),
+                    ";".join(
                         [str(receptor_resnames_to_id[i]) for i in interact_residues]
                     ),
                     affinity,
-                    rmsd_lb,
-                    rmsd_ub,
                 ]
             )
     out = pd.DataFrame(
@@ -120,8 +118,6 @@ def get_docking_details(
             "interact_residues",
             "interact_residue_ids",
             "affinity",
-            "rmsd_lb",
-            "rmsd_ub",
         ],
     )
     if do_search_key_sites:
@@ -136,12 +132,12 @@ def get_docking_details(
         print("Merging key sites with docking results...")
         key_sites = pd.read_csv(str(Path(search_key_sites_outdir, "key_sites.csv")))
         query_to_key_sites = {
-            k: list(map(int, v.split(",")))
+            k: list(map(int, v.split(";")))
             for k, v in key_sites[["query", "query_key_sites"]].values
         }
         key_sites_involved = []
         for receptor_name, interact_residue_ids in out[["receptor", "interact_residue_ids"]].values:
-            interact_residue_ids_with_buffer = [list(range(i - buffer, i + buffer + 1)) for i in map(int, interact_residue_ids.split(","))]
+            interact_residue_ids_with_buffer = [list(range(i - buffer, i + buffer + 1)) for i in map(int, interact_residue_ids.split(";"))]
             interact_residue_ids_with_buffer = set(chain(*interact_residue_ids_with_buffer))
             key_sites_involved.append(any([i in query_to_key_sites.get(receptor_name, []) for i in interact_residue_ids_with_buffer]))
         out["key_sites_involved"] = key_sites_involved
