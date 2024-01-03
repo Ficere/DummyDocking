@@ -53,6 +53,8 @@ optional arguments:
 ```bash
 # 请确保vina_docking/run_vina_docking.py是可执行文件
 # 你可以简单地chmod 755 vina_docking/run_vina_docking.py实现
-# 当然，它应该是
-vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output
+# 然后，它应该是
+vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output -k
+# 你也可以自行指定python编译器
+python vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output -k
 ```

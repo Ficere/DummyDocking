@@ -55,4 +55,6 @@ Of course, you can also perform the test like this:
 # You can easily achieve this by running `chmod 755 vina_docking/run_vina_docking.py`
 # Then, it should be
 vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output
+# Alternatively, you can specify the location of the Python interpreter yourself.
+python vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output -k
 ```
