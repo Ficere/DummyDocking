@@ -15,9 +15,9 @@
 conda create -yn vina_docking python=3.10
 conda activate vina_docking
 conda install -yc conda-forge mamba
-mamba install -yc conda-forge rdkit
+mamba install -yc conda-forge rdkit openbabel
 mamba install -yc bioconda mmseqs2
-pip install panda meeko openpyxl scipy tqdm biopython biopandas
+pip install pandas meeko openpyxl scipy tqdm biopython biopandas
 ```
 
 # 使用
@@ -53,7 +53,6 @@ optional arguments:
 ```bash
 # 请确保vina_docking/run_vina_docking.py是可执行文件
 # 你可以简单地chmod 755 vina_docking/run_vina_docking.py实现
-vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output -k
-# 或者你也可以自己指定python解释器位置
-python vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output -k
+# 当然，它应该是
+vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output
 ```

@@ -15,9 +15,9 @@ Here is a molecular docking procedure designed for dummies like me, including:
 conda create -yn vina_docking python=3.10
 conda activate vina_docking
 conda install -yc conda-forge mamba
-mamba install -yc conda-forge rdkit
+mamba install -yc conda-forge rdkit openbabel
 mamba install -yc bioconda mmseqs2
-pip install panda meeko openpyxl scipy tqdm biopython biopandas
+pip install pandas meeko openpyxl scipy tqdm biopython biopandas
 ```
 
 # Usage
@@ -54,7 +54,5 @@ Of course, you can also perform the test like this:
 # Make sure vina_docking/run_vina_docking.py is executable
 # You can easily achieve this by running `chmod 755 vina_docking/run_vina_docking.py`
 # Then, it should be
-vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output -k
-# Alternatively, you can specify the location of the Python interpreter yourself.
-python vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output -k
+vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output
 ```
