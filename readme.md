@@ -13,9 +13,11 @@ Here is a molecular docking procedure designed for dummies like me, including:
 ```bash
 # Set up a new environment
 conda create -yn vina_docking python=3.10
+conda activate vina_docking
 conda install -yc conda-forge mamba
 mamba install -yc conda-forge rdkit
-pip install panda meeko openpyxl scipy
+mamba install -yc bioconda mmseqs2
+pip install panda meeko openpyxl scipy tqdm biopython biopandas
 ```
 
 # Usage
@@ -31,6 +33,17 @@ optional arguments:
   -o OUTPUT_DIR, --output_dir OUTPUT_DIR
                         path to the output folder
   -n N_WORKERS, --n_workers N_WORKERS
+                        number of workers
+  -e {process,thread}, --multitasking_engine {process,thread}
+                        multitasking engine
+  -d DISTANCE_THRESHOLD, --distance_threshold DISTANCE_THRESHOLD
+                        Distance threshold (in terms of angstrom) for identifying interacting residues
+  -k, --do_search_key_sites
+                        Search key sites in Swiss-Prot
+  -b BUFFER, --buffer BUFFER
+                        Buffer for identifying key sites. Residues within buffer distance (in terms of residue id) of interacting residues will be considered as involved in the interaction
+  -ko SEARCH_KEY_SITES_OUTDIR, --search_key_sites_outdir SEARCH_KEY_SITES_OUTDIR
+                        Path to output dir for search key sites
 ```
 
 I've prepared some test data for you in the example folder, and you can find sample outputs in the example/output directory.
@@ -41,5 +54,7 @@ Of course, you can also perform the test like this:
 # Make sure vina_docking/run_vina_docking.py is executable
 # You can easily achieve this by running `chmod 755 vina_docking/run_vina_docking.py`
 # Then, it should be
-vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output
+vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output -k
+# Alternatively, you can specify the location of the Python interpreter yourself.
+python vina_docking/run_vina_docking.py -l example/ligand -r example/receptor -o example/output -k
 ```

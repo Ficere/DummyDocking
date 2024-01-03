@@ -21,6 +21,7 @@ MAPWATER = str(Path(BIN_LIB, "AutoDock-Vina/example/autodock_scripts/mapwater.py
 VINA = str(Path(BIN_LIB, "vina_1.2.3_linux_x86_64"))
 DRYPY = str(Path(BIN_LIB, "AutoDock-Vina/example/autodock_scripts/dry.py"))
 
+
 def best_affinity(log_file):
     with open(log_file, "r") as f:
         res = [
@@ -30,6 +31,7 @@ def best_affinity(log_file):
         ]
         cur_low = min(res) if res else None
     return cur_low
+
 
 def run_docking(receptor_path, ligand_path, output_dir):
     workdir = Path(output_dir, f"{Path(receptor_path).stem};;{Path(ligand_path).stem}")
@@ -84,8 +86,10 @@ def run_docking(receptor_path, ligand_path, output_dir):
     affinity = best_affinity(Path(workdir, "vina_dock.log"))
     return Path(receptor_path).stem, Path(ligand_path).stem, affinity, workdir
 
+
 def docking_pfunc(input_vals):
     run_docking(*input_vals)
+
 
 def main():
     from argparse import ArgumentParser
