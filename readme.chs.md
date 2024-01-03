@@ -17,7 +17,7 @@ conda activate vina_docking
 conda install -yc conda-forge mamba
 mamba install -yc conda-forge rdkit openbabel
 mamba install -yc bioconda mmseqs2
-pip install pandas meeko openpyxl scipy tqdm biopython biopandas
+pip install pandas meeko openpyxl scipy tqdm biopython biopandas multitasking retry lxml
 ```
 
 # 使用
