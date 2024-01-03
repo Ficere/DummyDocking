@@ -9,7 +9,7 @@ Here is a molecular docking procedure designed for dummies like me, including:
 
 2. Automated docking with score retrieval (only basic docking implemented yet). outputing to a CSV file.
 
-# Installation 
+# Installing Dependencies
 ```bash
 # Set up a new environment
 conda create -yn vina_docking python=3.10
