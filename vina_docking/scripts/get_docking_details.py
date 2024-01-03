@@ -80,8 +80,7 @@ def get_docking_details(
                     seq1(res.resname),
                     "".join(map(str, res.id)).strip(),
                 ]
-            ): i
-            + 1
+            ): i + 1
             for i, res in enumerate(receptor_pdb.get_residues())
         }
         receptor_coords = np.array(
