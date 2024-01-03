@@ -9,6 +9,10 @@ Here is a molecular docking procedure designed for dummies like me, including:
 
 2. Automated docking with score retrieval (only basic docking implemented yet). outputing to a CSV file.
 
+3. Retrieve interacting residues based on docking results and output them to another CSV file.
+
+4. (Optional) Search the SProt database based on the sequence to obtain key residues (known binding sites, etc.), and determine whether the interaction pocket protects these key residues.
+
 # Installing Dependencies
 ```bash
 # Set up a new environment
