@@ -4,12 +4,12 @@
 ## modify it under the terms of the GNU Lesser General Public
 ## License as published by the Free Software Foundation; either
 ## version 2.1 of the License, or (at your option) any later version.
-## 
+##
 ## This library is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ## Lesser General Public License for more details.
-## 
+##
 ## You should have received a copy of the GNU Lesser General Public
 ## License along with this library; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
@@ -73,29 +73,30 @@ widgetsOnBackWindowsCanGrabFocus = (os.name != 'nt') # True, False
 
 
 from mglutil.util.packageFilePath import getResourceFolderWithVersion
+
+
 def ensureMglutilResourceFile(rcFolder=None):
-    """verify or generate _mglutilrc file
-"""
-    #print "ensureMglutilResourceFile"
+    """verify or generate _mglutilrc file"""
+    # print "ensureMglutilResourceFile"
     if not rcFolder:
         rcFolder = getResourceFolderWithVersion()
     if rcFolder is None:
         return None
-    rcFolder += os.sep + 'mglutil'
+    rcFolder += os.sep + "mglutil"
     if not os.path.isdir(rcFolder):
         try:
             os.mkdir(rcFolder)
         except:
-            txt = "Cannot create the Resource Folder %s" %rcFolder
+            txt = "Cannot create the Resource Folder %s" % rcFolder
             warnings.warn(txt)
             return None
 
-    rcFile = rcFolder + os.sep + '_mglutilrc'
+    rcFile = rcFolder + os.sep + "_mglutilrc"
     if os.path.isfile(rcFile) is False:
         try:
             f = open(rcFile, "w")
             global mglutilrcText
-            map( lambda x, f=f: f.write(x), mglutilrcText )
+            map(lambda x, f=f: f.write(x), mglutilrcText)
             f.close()
         except:
             txt = "can not create _mglutilrc"
@@ -110,26 +111,24 @@ def ensureMglutilResourceFile(rcFolder=None):
 rcFolder = getResourceFolderWithVersion()
 rcFile = ensureMglutilResourceFile(rcFolder)
 if rcFile is None:
-    exec( mglutilrcText )
+    exec(mglutilrcText)
 else:
-    execfile( rcFile )
+    execfile(rcFile)
 
-    if os.name != 'nt': #sys.platform != 'win32':
+    if os.name != "nt":  # sys.platform != 'win32':
         # we create a symbolic link to the shell script that launch python
         # this is link is used by the self-running saved vision network to
         # find mgltools
         # (we create this each time we run mglutils,
         # this way the last running vision will be used)
-        mgltoolsDir = os.path.split(os.path.split(os.path.split(os.path.split(
-            __file__)[0])[0])[0])[0]
-        pythonshFile = os.path.join(mgltoolsDir, 'bin', 'pythonsh')
+        mgltoolsDir = os.path.split(
+            os.path.split(os.path.split(os.path.split(__file__)[0])[0])[0]
+        )[0]
+        pythonshFile = os.path.join(mgltoolsDir, "bin", "pythonsh")
         if os.path.isfile(pythonshFile) is False:
-            #pythonshFile = os.path.realpath(sys.executable)+'sh'
-            pythonshFile = sys.executable+'sh'
+            # pythonshFile = os.path.realpath(sys.executable)+'sh'
+            pythonshFile = sys.executable + "sh"
         try:
-            
-            os.system('ln -f -s ' + pythonshFile + " " + rcFolder + os.sep +'pythonsh')
+            os.system("ln -f -s " + pythonshFile + " " + rcFolder + os.sep + "pythonsh")
         except:
             pass
-    
-

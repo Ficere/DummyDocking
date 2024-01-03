@@ -5,26 +5,28 @@
 # the SWIG interface file instead.
 
 
-
-
-
 from sys import version_info
+
 if version_info >= (2, 6, 0):
+
     def swig_import_helper():
         from os.path import dirname
         import imp
+
         fp = None
         try:
-            fp, pathname, description = imp.find_module('_efitlib', [dirname(__file__)])
+            fp, pathname, description = imp.find_module("_efitlib", [dirname(__file__)])
         except ImportError:
             import _efitlib
+
             return _efitlib
         if fp is not None:
             try:
-                _mod = imp.load_module('_efitlib', fp, pathname, description)
+                _mod = imp.load_module("_efitlib", fp, pathname, description)
             finally:
                 fp.close()
             return _mod
+
     _efitlib = swig_import_helper()
     del swig_import_helper
 else:
@@ -37,16 +39,16 @@ except NameError:
 
 
 def _swig_setattr_nondynamic(self, class_type, name, value, static=1):
-    if (name == "thisown"):
+    if name == "thisown":
         return self.this.own(value)
-    if (name == "this"):
-        if type(value).__name__ == 'SwigPyObject':
+    if name == "this":
+        if type(value).__name__ == "SwigPyObject":
             self.__dict__[name] = value
             return
     method = class_type.__swig_setmethods__.get(name, None)
     if method:
         return method(self, value)
-    if (not static):
+    if not static:
         if _newclass:
             object.__setattr__(self, name, value)
         else:
@@ -60,15 +62,16 @@ def _swig_setattr(self, class_type, name, value):
 
 
 def _swig_getattr_nondynamic(self, class_type, name, static=1):
-    if (name == "thisown"):
+    if name == "thisown":
         return self.this.own()
     method = class_type.__swig_getmethods__.get(name, None)
     if method:
         return method(self)
-    if (not static):
+    if not static:
         return object.__getattr__(self, name)
     else:
         raise AttributeError(name)
+
 
 def _swig_getattr(self, class_type, name):
     return _swig_getattr_nondynamic(self, class_type, name, 0)
@@ -79,14 +82,21 @@ def _swig_repr(self):
         strthis = "proxy of " + self.this.__repr__()
     except Exception:
         strthis = ""
-    return "<%s.%s; %s >" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    return "<%s.%s; %s >" % (
+        self.__class__.__module__,
+        self.__class__.__name__,
+        strthis,
+    )
+
 
 try:
     _object = object
     _newclass = 1
 except AttributeError:
+
     class _object:
         pass
+
     _newclass = 0
 
 
@@ -103,7 +113,9 @@ class ellipsoid(_object):
     __swig_setmethods__["position"] = _efitlib.ellipsoid_position_set
     __swig_getmethods__["position"] = _efitlib.ellipsoid_position_get
     if _newclass:
-        position = _swig_property(_efitlib.ellipsoid_position_get, _efitlib.ellipsoid_position_set)
+        position = _swig_property(
+            _efitlib.ellipsoid_position_get, _efitlib.ellipsoid_position_set
+        )
     __swig_setmethods__["axis"] = _efitlib.ellipsoid_axis_set
     __swig_getmethods__["axis"] = _efitlib.ellipsoid_axis_get
     if _newclass:
@@ -111,15 +123,22 @@ class ellipsoid(_object):
     __swig_setmethods__["orientation"] = _efitlib.ellipsoid_orientation_set
     __swig_getmethods__["orientation"] = _efitlib.ellipsoid_orientation_get
     if _newclass:
-        orientation = _swig_property(_efitlib.ellipsoid_orientation_get, _efitlib.ellipsoid_orientation_set)
+        orientation = _swig_property(
+            _efitlib.ellipsoid_orientation_get, _efitlib.ellipsoid_orientation_set
+        )
     __swig_setmethods__["inv_orientation"] = _efitlib.ellipsoid_inv_orientation_set
     __swig_getmethods__["inv_orientation"] = _efitlib.ellipsoid_inv_orientation_get
     if _newclass:
-        inv_orientation = _swig_property(_efitlib.ellipsoid_inv_orientation_get, _efitlib.ellipsoid_inv_orientation_set)
+        inv_orientation = _swig_property(
+            _efitlib.ellipsoid_inv_orientation_get,
+            _efitlib.ellipsoid_inv_orientation_set,
+        )
     __swig_setmethods__["tensor"] = _efitlib.ellipsoid_tensor_set
     __swig_getmethods__["tensor"] = _efitlib.ellipsoid_tensor_get
     if _newclass:
-        tensor = _swig_property(_efitlib.ellipsoid_tensor_get, _efitlib.ellipsoid_tensor_set)
+        tensor = _swig_property(
+            _efitlib.ellipsoid_tensor_get, _efitlib.ellipsoid_tensor_set
+        )
 
     def getPosition(self):
         return _efitlib.ellipsoid_getPosition(self)
@@ -136,10 +155,14 @@ class ellipsoid(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _efitlib.delete_ellipsoid
     __del__ = lambda self: None
+
+
 ellipsoid_swigregister = _efitlib.ellipsoid_swigregister
 ellipsoid_swigregister(ellipsoid)
+
 
 class efit_info(_object):
     __swig_setmethods__ = {}
@@ -150,43 +173,63 @@ class efit_info(_object):
     __swig_setmethods__["weightflag"] = _efitlib.efit_info_weightflag_set
     __swig_getmethods__["weightflag"] = _efitlib.efit_info_weightflag_get
     if _newclass:
-        weightflag = _swig_property(_efitlib.efit_info_weightflag_get, _efitlib.efit_info_weightflag_set)
+        weightflag = _swig_property(
+            _efitlib.efit_info_weightflag_get, _efitlib.efit_info_weightflag_set
+        )
     __swig_setmethods__["covarflag"] = _efitlib.efit_info_covarflag_set
     __swig_getmethods__["covarflag"] = _efitlib.efit_info_covarflag_get
     if _newclass:
-        covarflag = _swig_property(_efitlib.efit_info_covarflag_get, _efitlib.efit_info_covarflag_set)
+        covarflag = _swig_property(
+            _efitlib.efit_info_covarflag_get, _efitlib.efit_info_covarflag_set
+        )
     __swig_setmethods__["volumeflag"] = _efitlib.efit_info_volumeflag_set
     __swig_getmethods__["volumeflag"] = _efitlib.efit_info_volumeflag_get
     if _newclass:
-        volumeflag = _swig_property(_efitlib.efit_info_volumeflag_get, _efitlib.efit_info_volumeflag_set)
+        volumeflag = _swig_property(
+            _efitlib.efit_info_volumeflag_get, _efitlib.efit_info_volumeflag_set
+        )
     __swig_setmethods__["matrixflag"] = _efitlib.efit_info_matrixflag_set
     __swig_getmethods__["matrixflag"] = _efitlib.efit_info_matrixflag_get
     if _newclass:
-        matrixflag = _swig_property(_efitlib.efit_info_matrixflag_get, _efitlib.efit_info_matrixflag_set)
+        matrixflag = _swig_property(
+            _efitlib.efit_info_matrixflag_get, _efitlib.efit_info_matrixflag_set
+        )
     __swig_setmethods__["nocenterflag"] = _efitlib.efit_info_nocenterflag_set
     __swig_getmethods__["nocenterflag"] = _efitlib.efit_info_nocenterflag_get
     if _newclass:
-        nocenterflag = _swig_property(_efitlib.efit_info_nocenterflag_get, _efitlib.efit_info_nocenterflag_set)
+        nocenterflag = _swig_property(
+            _efitlib.efit_info_nocenterflag_get, _efitlib.efit_info_nocenterflag_set
+        )
     __swig_setmethods__["noscaleflag"] = _efitlib.efit_info_noscaleflag_set
     __swig_getmethods__["noscaleflag"] = _efitlib.efit_info_noscaleflag_get
     if _newclass:
-        noscaleflag = _swig_property(_efitlib.efit_info_noscaleflag_get, _efitlib.efit_info_noscaleflag_set)
+        noscaleflag = _swig_property(
+            _efitlib.efit_info_noscaleflag_get, _efitlib.efit_info_noscaleflag_set
+        )
     __swig_setmethods__["nosortflag"] = _efitlib.efit_info_nosortflag_set
     __swig_getmethods__["nosortflag"] = _efitlib.efit_info_nosortflag_get
     if _newclass:
-        nosortflag = _swig_property(_efitlib.efit_info_nosortflag_get, _efitlib.efit_info_nosortflag_set)
+        nosortflag = _swig_property(
+            _efitlib.efit_info_nosortflag_get, _efitlib.efit_info_nosortflag_set
+        )
     __swig_setmethods__["count"] = _efitlib.efit_info_count_set
     __swig_getmethods__["count"] = _efitlib.efit_info_count_get
     if _newclass:
-        count = _swig_property(_efitlib.efit_info_count_get, _efitlib.efit_info_count_set)
+        count = _swig_property(
+            _efitlib.efit_info_count_get, _efitlib.efit_info_count_set
+        )
     __swig_setmethods__["cov_scale"] = _efitlib.efit_info_cov_scale_set
     __swig_getmethods__["cov_scale"] = _efitlib.efit_info_cov_scale_get
     if _newclass:
-        cov_scale = _swig_property(_efitlib.efit_info_cov_scale_get, _efitlib.efit_info_cov_scale_set)
+        cov_scale = _swig_property(
+            _efitlib.efit_info_cov_scale_get, _efitlib.efit_info_cov_scale_set
+        )
     __swig_setmethods__["ell_scale"] = _efitlib.efit_info_ell_scale_set
     __swig_getmethods__["ell_scale"] = _efitlib.efit_info_ell_scale_get
     if _newclass:
-        ell_scale = _swig_property(_efitlib.efit_info_ell_scale_get, _efitlib.efit_info_ell_scale_set)
+        ell_scale = _swig_property(
+            _efitlib.efit_info_ell_scale_get, _efitlib.efit_info_ell_scale_set
+        )
 
     def __init__(self):
         this = _efitlib.new_efit_info()
@@ -194,119 +237,200 @@ class efit_info(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _efitlib.delete_efit_info
     __del__ = lambda self: None
+
+
 efit_info_swigregister = _efitlib.efit_info_swigregister
 efit_info_swigregister(efit_info)
 
 
 def fitEllipse(pts, ell_scale, cov_scale, eptr, ellipsoid):
     return _efitlib.fitEllipse(pts, ell_scale, cov_scale, eptr, ellipsoid)
+
+
 fitEllipse = _efitlib.fitEllipse
+
 
 def vec_normalize(vector_in_out):
     return _efitlib.vec_normalize(vector_in_out)
+
+
 vec_normalize = _efitlib.vec_normalize
+
 
 def vec_centroid(count, src, p):
     return _efitlib.vec_centroid(count, src, p)
+
+
 vec_centroid = _efitlib.vec_centroid
+
 
 def vec_dot(arg1, arg2):
     return _efitlib.vec_dot(arg1, arg2)
+
+
 vec_dot = _efitlib.vec_dot
+
 
 def vec_magsq(VECTOR):
     return _efitlib.vec_magsq(VECTOR)
+
+
 vec_magsq = _efitlib.vec_magsq
+
 
 def vec_mag(VECTOR):
     return _efitlib.vec_mag(VECTOR)
+
+
 vec_mag = _efitlib.vec_mag
+
 
 def vec_distancesq(arg1, arg2):
     return _efitlib.vec_distancesq(arg1, arg2)
+
+
 vec_distancesq = _efitlib.vec_distancesq
+
 
 def vec_distance(arg1, arg2):
     return _efitlib.vec_distance(arg1, arg2)
+
+
 vec_distance = _efitlib.vec_distance
+
 
 def vec_max(VECTOR):
     return _efitlib.vec_max(VECTOR)
+
+
 vec_max = _efitlib.vec_max
+
 
 def vec_length(VECTOR):
     return _efitlib.vec_length(VECTOR)
+
+
 vec_length = _efitlib.vec_length
+
 
 def vec_ctos(VECTOR):
     return _efitlib.vec_ctos(VECTOR)
+
+
 vec_ctos = _efitlib.vec_ctos
+
 
 def vec_stoc(VECTOR):
     return _efitlib.vec_stoc(VECTOR)
+
+
 vec_stoc = _efitlib.vec_stoc
+
 
 def vec_sub(arg1, arg2):
     return _efitlib.vec_sub(arg1, arg2)
+
+
 vec_sub = _efitlib.vec_sub
+
 
 def vec_copy(VECTOR):
     return _efitlib.vec_copy(VECTOR)
+
+
 vec_copy = _efitlib.vec_copy
+
 
 def vec_add(arg1, arg2):
     return _efitlib.vec_add(arg1, arg2)
+
+
 vec_add = _efitlib.vec_add
+
 
 def vec_scale(f, VECTOR):
     return _efitlib.vec_scale(f, VECTOR)
+
+
 vec_scale = _efitlib.vec_scale
+
 
 def vec_zero():
     return _efitlib.vec_zero()
+
+
 vec_zero = _efitlib.vec_zero
+
 
 def vec_cross(arg1, arg2):
     return _efitlib.vec_cross(arg1, arg2)
+
+
 vec_cross = _efitlib.vec_cross
+
 
 def vec_mult(arg1, arg2):
     return _efitlib.vec_mult(arg1, arg2)
+
+
 vec_mult = _efitlib.vec_mult
+
 
 def vec_offset(s, arg2, arg3):
     return _efitlib.vec_offset(s, arg2, arg3)
+
+
 vec_offset = _efitlib.vec_offset
+
 
 def vec_rand():
     return _efitlib.vec_rand()
+
+
 vec_rand = _efitlib.vec_rand
+
 
 def vec_average(arg1, arg2, arg3):
     return _efitlib.vec_average(arg1, arg2, arg3)
+
+
 vec_average = _efitlib.vec_average
+
 
 def vec_transform(VECTOR, ARRAY2D):
     return _efitlib.vec_transform(VECTOR, ARRAY2D)
+
+
 vec_transform = _efitlib.vec_transform
+
 
 def vec_ftransform(VECTOR, ARRAY2D):
     return _efitlib.vec_ftransform(VECTOR, ARRAY2D)
+
+
 vec_ftransform = _efitlib.vec_ftransform
+
 
 def mat_jacobi(ARRAY2D):
     return _efitlib.mat_jacobi(ARRAY2D)
+
+
 mat_jacobi = _efitlib.mat_jacobi
+
 
 def quat_to_mat(VECTOR):
     return _efitlib.quat_to_mat(VECTOR)
+
+
 quat_to_mat = _efitlib.quat_to_mat
+
 
 def mat_to_quat(ARRAY2D, VECTOR):
     return _efitlib.mat_to_quat(ARRAY2D, VECTOR)
+
+
 mat_to_quat = _efitlib.mat_to_quat
 # This file is compatible with both classic and new-style classes.
-
-

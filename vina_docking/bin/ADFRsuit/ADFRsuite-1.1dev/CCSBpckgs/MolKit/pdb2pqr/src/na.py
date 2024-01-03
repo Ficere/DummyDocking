@@ -50,23 +50,25 @@ __author__ = "Todd Dolinsky"
 import string
 from structures import *
 
+
 class Nucleic(Residue):
     """
-        Nucleic class
+    Nucleic class
 
-        This class provides standard features of the nucleic acids listed
-        below
+    This class provides standard features of the nucleic acids listed
+    below
 
-        Parameters
-            atoms:  A list of Atom objects to be stored in this class
-                     (list)
-            ref:    The reference object for the amino acid.  Used to
-                    convert from the alternate naming scheme to the
-                    main naming scheme.
+    Parameters
+        atoms:  A list of Atom objects to be stored in this class
+                 (list)
+        ref:    The reference object for the amino acid.  Used to
+                convert from the alternate naming scheme to the
+                main naming scheme.
     """
+
     def __init__(self, atoms, ref):
         sampleAtom = atoms[-1]
-        
+
         self.atoms = []
         self.name = sampleAtom.resName
         self.chainID = sampleAtom.chainID
@@ -83,11 +85,11 @@ class Nucleic(Residue):
         self.isNterm = 0
         self.missing = []
         self.reference = ref
-     
+
         # Create each atom
 
         for a in atoms:
-            if a.name in ref.altnames: # Rename atoms
+            if a.name in ref.altnames:  # Rename atoms
                 a.name = ref.altnames[a.name]
 
             if a.name not in self.map:
@@ -96,27 +98,27 @@ class Nucleic(Residue):
 
     def createAtom(self, atomname, newcoords):
         """
-            Create an atom.  Overrides the generic residue's createAtom().
+        Create an atom.  Overrides the generic residue's createAtom().
 
-            Parameters
-                atomname:  The name of the atom to add (string)
-                newcoords: The coordinates of the atom (list)
+        Parameters
+            atomname:  The name of the atom to add (string)
+            newcoords: The coordinates of the atom (list)
         """
         oldatom = self.atoms[0]
         newatom = Atom(oldatom, "ATOM", self)
-        newatom.set("x",newcoords[0])
-        newatom.set("y",newcoords[1])
-        newatom.set("z",newcoords[2])
+        newatom.set("x", newcoords[0])
+        newatom.set("y", newcoords[1])
+        newatom.set("z", newcoords[2])
         newatom.set("name", atomname)
-        newatom.set("occupancy",1.00)
-        newatom.set("tempFactor",0.00)
+        newatom.set("occupancy", 1.00)
+        newatom.set("tempFactor", 0.00)
         newatom.added = 1
-        self.addAtom(newatom) 
+        self.addAtom(newatom)
 
     def addAtom(self, atom):
         """
-            Override the existing addAtom - include the link to the
-            reference object
+        Override the existing addAtom - include the link to the
+        reference object
         """
         self.atoms.append(atom)
         atomname = atom.get("name")
@@ -126,158 +128,173 @@ class Nucleic(Residue):
             for bond in atom.reference.bonds:
                 if self.hasAtom(bond):
                     bondatom = self.map[bond]
-                    if bondatom not in atom.bonds: atom.bonds.append(bondatom)
-                    if atom not in bondatom.bonds: bondatom.bonds.append(atom)
+                    if bondatom not in atom.bonds:
+                        atom.bonds.append(bondatom)
+                    if atom not in bondatom.bonds:
+                        bondatom.bonds.append(atom)
         except KeyError:
             atom.reference = None
 
     def addDihedralAngle(self, value):
         """
-            Add the value to the list of chiangles
+        Add the value to the list of chiangles
 
-            Parameters
-                value: The value to be added (float)
+        Parameters
+            value: The value to be added (float)
         """
         self.dihedrals.append(value)
 
     def setState(self):
-        """ 
-           Adds the termini for all inherited objects
         """
-        if self.is5term: self.ffname = self.ffname + "5"
-        if self.is3term: self.ffname = self.ffname + "3"
- 
+        Adds the termini for all inherited objects
+        """
+        if self.is5term:
+            self.ffname = self.ffname + "5"
+        if self.is3term:
+            self.ffname = self.ffname + "3"
+
+
 class A(Nucleic):
     """
-        Adenosine class
+    Adenosine class
 
-        This class gives data about the Adenosine object, and inherits
-        off the base residue class.
+    This class gives data about the Adenosine object, and inherits
+    off the base residue class.
     """
 
     def __init__(self, atoms, ref):
         """
-            Initialize the class
+        Initialize the class
 
-            Parameters
-                atoms:      A list of Atom objects to be stored in this class
-                            (list)
+        Parameters
+            atoms:      A list of Atom objects to be stored in this class
+                        (list)
         """
         Nucleic.__init__(self, atoms, ref)
         self.reference = ref
 
     def setState(self):
         """
-            Set the state to distinguish RNA from DNA.
+        Set the state to distinguish RNA from DNA.
         """
-        if self.hasAtom("O2'"): self.ffname = "RA"
-        else: self.ffname = "DA"
+        if self.hasAtom("O2'"):
+            self.ffname = "RA"
+        else:
+            self.ffname = "DA"
         Nucleic.setState(self)
-     
+
+
 class C(Nucleic):
     """
-        Cytidine class
+    Cytidine class
 
-        This class gives data about the Cytidine object, and inherits
-        off the base residue class.
+    This class gives data about the Cytidine object, and inherits
+    off the base residue class.
     """
 
     def __init__(self, atoms, ref):
         """
-            Initialize the class
+        Initialize the class
 
-            Parameters
-                atoms:      A list of Atom objects to be stored in this class
-                            (list)
+        Parameters
+            atoms:      A list of Atom objects to be stored in this class
+                        (list)
         """
         Nucleic.__init__(self, atoms, ref)
         self.reference = ref
-        
+
     def setState(self):
         """
-            Set the state to distinguish RNA from DNA.
+        Set the state to distinguish RNA from DNA.
         """
-        if self.hasAtom("O2'"): self.ffname = "RC"
-        else: self.ffname = "DC"
+        if self.hasAtom("O2'"):
+            self.ffname = "RC"
+        else:
+            self.ffname = "DC"
         Nucleic.setState(self)
-        
+
+
 class G(Nucleic):
     """
-        Guanosine class
+    Guanosine class
 
-        This class gives data about the Guanosine object, and inherits
-        off the base residue class.
+    This class gives data about the Guanosine object, and inherits
+    off the base residue class.
     """
 
     def __init__(self, atoms, ref):
         """
-            Initialize the class
+        Initialize the class
 
-            Parameters
-                atoms:      A list of Atom objects to be stored in this class
-                            (list)
+        Parameters
+            atoms:      A list of Atom objects to be stored in this class
+                        (list)
         """
         Nucleic.__init__(self, atoms, ref)
         self.reference = ref
-        
+
     def setState(self):
         """
-            Set the state to distinguish RNA from DNA.
+        Set the state to distinguish RNA from DNA.
         """
-        if self.hasAtom("O2'"): self.ffname = "RG"
-        else: self.ffname = "DG"
+        if self.hasAtom("O2'"):
+            self.ffname = "RG"
+        else:
+            self.ffname = "DG"
         Nucleic.setState(self)
-        
+
+
 class T(Nucleic):
     """
-        Thymine class
+    Thymine class
 
-        This class gives data about the Thymine object, and inherits
-        off the base residue class.
+    This class gives data about the Thymine object, and inherits
+    off the base residue class.
     """
 
     def __init__(self, atoms, ref):
         """
-            Initialize the class
+        Initialize the class
 
-            Parameters
-                atoms:      A list of Atom objects to be stored in this class
-                            (list)
+        Parameters
+            atoms:      A list of Atom objects to be stored in this class
+                        (list)
         """
         Nucleic.__init__(self, atoms, ref)
         self.reference = ref
-        
+
     def setState(self):
         """
-            Set the state to distinguish RNA from DNA.  In this case it is
-            always DNA.
+        Set the state to distinguish RNA from DNA.  In this case it is
+        always DNA.
         """
         self.ffname = "DT"
         Nucleic.setState(self)
-        
+
+
 class U(Nucleic):
     """
-        Uridine class
+    Uridine class
 
-        This class gives data about the Uridine object, and inherits
-        off the base residue class.
+    This class gives data about the Uridine object, and inherits
+    off the base residue class.
     """
 
     def __init__(self, atoms, ref):
         """
-            Initialize the class
+        Initialize the class
 
-            Parameters
-                atoms:      A list of Atom objects to be stored in this class
-                            (list)
+        Parameters
+            atoms:      A list of Atom objects to be stored in this class
+                        (list)
         """
         Nucleic.__init__(self, atoms, ref)
         self.reference = ref
-        
+
     def setState(self):
         """
-            Set the state to distinguish RNA from DNA.  In this case it is
-            always RNA.
+        Set the state to distinguish RNA from DNA.  In this case it is
+        always RNA.
         """
         self.ffname = "RU"
         Nucleic.setState(self)

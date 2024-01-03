@@ -4,12 +4,12 @@
 ## modify it under the terms of the GNU Lesser General Public
 ## License as published by the Free Software Foundation; either
 ## version 2.1 of the License, or (at your option) any later version.
-## 
+##
 ## This library is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ## Lesser General Public License for more details.
-## 
+##
 ## You should have received a copy of the GNU Lesser General Public
 ## License along with this library; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
@@ -44,27 +44,28 @@ import unittest, math
 import numpy
 import numpy.random as RandomArray
 
-class ComputedValues(unittest.TestCase):
-    decimals = 4 # decimal places to round to for float comparison
-    point_list_0 = numpy.zeros((5,3))
-    point_list_1 = numpy.ones( (5,3))
 
-    knowValues = ( (point_list_0, point_list_0, 0.0),
-                   (point_list_1, point_list_1, 0.0),
-                   (point_list_0, point_list_1, math.sqrt(3.0)),
-                   (point_list_1, point_list_0, math.sqrt(3.0)))
+class ComputedValues(unittest.TestCase):
+    decimals = 4  # decimal places to round to for float comparison
+    point_list_0 = numpy.zeros((5, 3))
+    point_list_1 = numpy.ones((5, 3))
+
+    knowValues = (
+        (point_list_0, point_list_0, 0.0),
+        (point_list_1, point_list_1, 0.0),
+        (point_list_0, point_list_1, math.sqrt(3.0)),
+        (point_list_1, point_list_0, math.sqrt(3.0)),
+    )
 
     def test_computeRMSD_KnowValues(self):
         """1. should return known result with known input"""
         for ref, input, known in self.knowValues:
-            self.assertEqual(known,
-                             rmsd.RMSDCalculator(ref).computeRMSD(input))
-
+            self.assertEqual(known, rmsd.RMSDCalculator(ref).computeRMSD(input))
 
     def test_computeRMSD_RandomOffset(self):
         """5. offset point by random value returns offset*sqrt(3)"""
-        min = -10000.
-        max = 10000.
+        min = -10000.0
+        max = 10000.0
         num_points = 20
         dimension = 3
         point_list_1 = RandomArray.uniform(min, max, (num_points, dimension))
@@ -73,25 +74,26 @@ class ComputedValues(unittest.TestCase):
         answer = rmsd.RMSDCalculator(point_list_1).computeRMSD(point_list_2)
         self.assertEqual(
             round(answer, self.decimals),
-            round(abs(delta)*math.sqrt(3.0), self.decimals))
-
+            round(abs(delta) * math.sqrt(3.0), self.decimals),
+        )
 
     def test_computeRMSD_Random(self):
         """3. for two random sets of points, rmsd(x,y) == rmsd(y,x)"""
-        min = -10000.
-        max = 10000.
+        min = -10000.0
+        max = 10000.0
         num_points = 20
         dimension = 3
         point_list_1 = RandomArray.uniform(min, max, (num_points, dimension))
         point_list_2 = RandomArray.uniform(min, max, (num_points, dimension))
         self.assertEqual(
             rmsd.RMSDCalculator(point_list_1).computeRMSD(point_list_2),
-            rmsd.RMSDCalculator(point_list_2).computeRMSD(point_list_1))
-            
+            rmsd.RMSDCalculator(point_list_2).computeRMSD(point_list_1),
+        )
+
 
 class InputValues(unittest.TestCase):
-    point_list_0 = numpy.zeros((3,3))
-    point_list_1 = numpy.ones( (4,3)) # different lengths
+    point_list_0 = numpy.zeros((3, 3))
+    point_list_1 = numpy.ones((4, 3))  # different lengths
 
     def test_computeRMSD_dimensions(self):
         """2. raise ValueError for input of unlike dimensions"""
@@ -103,10 +105,8 @@ class InputValues(unittest.TestCase):
         ruler = rmsd.RMSDCalculator()
         self.assertRaises(ValueError, ruler.computeRMSD, self.point_list_1)
 
+
 if __name__ == "__main__":
-    unittest.main()   
+    unittest.main()
 
 # for example: py mglutil/math/rmsdtest.py -v
-
-
-

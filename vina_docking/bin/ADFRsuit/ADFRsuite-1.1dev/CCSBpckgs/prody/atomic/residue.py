@@ -4,7 +4,8 @@
 from .subset import AtomSubset
 from .atom import Atom
 
-__all__ = ['Residue']
+__all__ = ["Residue"]
+
 
 class Residue(AtomSubset):
 
@@ -18,44 +19,59 @@ class Residue(AtomSubset):
     Indexing :class:`Residue` instances by *atom name* (:func:`str`), e.g.
     ``"CA"`` returns an :class:`.Atom` instance."""
 
-    __slots__ = ['_ag', '_indices', '_hv', '_acsi', '_selstr']
+    __slots__ = ["_ag", "_indices", "_hv", "_acsi", "_selstr"]
 
     def __init__(self, ag, indices, hv, acsi=None, **kwargs):
-
         AtomSubset.__init__(self, ag, indices, acsi, **kwargs)
         self._hv = hv
 
-
     def __repr__(self):
-
         n_csets = self._ag.numCoordsets()
         chain = self.getChid()
         if chain is None:
-            chain = ''
+            chain = ""
         else:
-            chain = ' from Chain {0}'.format(self.getChid())
+            chain = " from Chain {0}".format(self.getChid())
 
         if n_csets == 1:
-            return ('<Residue: {0} {1}{2}{3} from {4} ({5} atoms)>'
-                    ).format(self.getResname(), self.getResnum(),
-                     self.getIcode() or '', chain, self._ag.getTitle(),
-                     len(self))
+            return ("<Residue: {0} {1}{2}{3} from {4} ({5} atoms)>").format(
+                self.getResname(),
+                self.getResnum(),
+                self.getIcode() or "",
+                chain,
+                self._ag.getTitle(),
+                len(self),
+            )
         elif n_csets > 1:
-            return ('<Residue: {0} {1}{2}{3} from {4} '
-                    '({5} atoms; active #{6} of {7} coordsets)>').format(
-                    self.getResname(), self.getResnum(), self.getIcode() or '',
-                    chain, self._ag.getTitle(), len(self), self.getACSIndex(),
-                    n_csets)
+            return (
+                "<Residue: {0} {1}{2}{3} from {4} "
+                "({5} atoms; active #{6} of {7} coordsets)>"
+            ).format(
+                self.getResname(),
+                self.getResnum(),
+                self.getIcode() or "",
+                chain,
+                self._ag.getTitle(),
+                len(self),
+                self.getACSIndex(),
+                n_csets,
+            )
         else:
-            return ('<Residue: {0} {1}{2}{3} from {4} ({5} atoms; '
-                    'no coordinates)>').format(self.getResname(),
-                    self.getResnum(), self.getIcode() or '', chain,
-                    self._ag.getTitle(), len(self))
+            return (
+                "<Residue: {0} {1}{2}{3} from {4} ({5} atoms; " "no coordinates)>"
+            ).format(
+                self.getResname(),
+                self.getResnum(),
+                self.getIcode() or "",
+                chain,
+                self._ag.getTitle(),
+                len(self),
+            )
 
     def __str__(self):
-
-        return '{0} {1}{2}'.format(self.getResname(), self.getResnum(),
-                                         self.getIcode() or '')
+        return "{0} {1}{2}".format(
+            self.getResname(), self.getResnum(), self.getIcode() or ""
+        )
 
     def getAtom(self, name):
         """Return atom with given *name*, ``None`` if not found.  Assumes that
@@ -141,24 +157,26 @@ class Residue(AtomSubset):
     def getSelstr(self):
         """Return selection string that will select this residue."""
 
-        icode = self.getIcode() or ''
+        icode = self.getIcode() or ""
         chain = self.getChain()
         if chain is None:
             if self._selstr:
-                return 'resnum {0}{1} and ({1})'.format(
-                            self.getResnum(), icode, self._selstr)
+                return "resnum {0}{1} and ({1})".format(
+                    self.getResnum(), icode, self._selstr
+                )
             else:
-                return 'resnum {0}{1}'.format(self.getResnum(), icode)
+                return "resnum {0}{1}".format(self.getResnum(), icode)
         else:
-            return 'resnum {0}{1} and ({2})'.format(
-                                self.getResnum(), icode, chain.getSelstr())
+            return "resnum {0}{1} and ({2})".format(
+                self.getResnum(), icode, chain.getSelstr()
+            )
 
     def getPrev(self):
         """Return preceding residue in the atom group."""
 
-        return self._hv._getResidue(self.getResindex()-1)
+        return self._hv._getResidue(self.getResindex() - 1)
 
     def getNext(self):
         """Return following residue in the atom group."""
 
-        return self._hv._getResidue(self.getResindex()+1)
+        return self._hv._getResidue(self.getResindex() + 1)

@@ -4,12 +4,12 @@
 ## modify it under the terms of the GNU Lesser General Public
 ## License as published by the Free Software Foundation; either
 ## version 2.1 of the License, or (at your option) any later version.
-## 
+##
 ## This library is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ## Lesser General Public License for more details.
-## 
+##
 ## You should have received a copy of the GNU Lesser General Public
 ## License along with this library; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
@@ -21,7 +21,9 @@
 import random
 import numpy
 from math import sqrt
+
 # -- The Point class represents points in n-dimensional space
+
 
 class Point:
     # Instance variables
@@ -34,10 +36,13 @@ class Point:
         self.coords = coords
         self.n = len(coords)
         self.reference = reference
+
     # Return a string representation of this Point
 
     def __repr__(self):
         return str(self.coords)
+
+
 # -- The Cluster class represents clusters of points in n-dimensional space
 
 
@@ -49,19 +54,23 @@ class Cluster:
 
     def __init__(self, points):
         # We forbid empty Clusters (they don't make mathematical sense!)
-        if len(points) == 0: raise Exception("ILLEGAL: EMPTY CLUSTER")
+        if len(points) == 0:
+            raise Exception("ILLEGAL: EMPTY CLUSTER")
         self.points = points
         self.n = points[0].n
         # We also forbid Clusters containing Points in different spaces
         # Ie, no Clusters with 2D Points and 3D Points
         for p in points:
-            if p.n != self.n: raise Exception("ILLEGAL: MULTISPACE CLUSTER")
+            if p.n != self.n:
+                raise Exception("ILLEGAL: MULTISPACE CLUSTER")
         # Figure out what the centroid of this Cluster should be
         self.centroid = self.calculateCentroid()
+
     # Return a string representation of this Cluster
 
     def __repr__(self):
         return str(self.points)
+
     # Update function for the K-means algorithm
     # Assigns a new list of Points to this Cluster, returns centroid difference
 
@@ -69,9 +78,11 @@ class Cluster:
         old_centroid = self.centroid
         self.points = points
         self.centroid = self.calculateCentroid()
-        x1,y1,z1 = old_centroid.coords
-        x2,y2,z2 = self.centroid.coords
-        return sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) + (z1-z2)*(z1-z2) )
+        x1, y1, z1 = old_centroid.coords
+        x2, y2, z2 = self.centroid.coords
+        return sqrt(
+            (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2)
+        )
 
     # Calculates the centroid Point - the centroid is the sample mean Point
     # (in plain English, the average of all the Points in the Cluster)
@@ -82,21 +93,21 @@ class Cluster:
             # Take the average across all Points
             centroid_coords.append(0.0)
             for p in self.points:
-                centroid_coords[i] = centroid_coords[i]+p.coords[i]
-            centroid_coords[i] = centroid_coords[i]/len(self.points)
+                centroid_coords[i] = centroid_coords[i] + p.coords[i]
+            centroid_coords[i] = centroid_coords[i] / len(self.points)
         # Return a Point object using the average coordinates
         return Point(centroid_coords)
 
     def radiusOfGyration(self):
         ptCoords = [x.coords for x in self.points]
-        delta = numpy.array(ptCoords)-self.centroid.coords
-        rg = sqrt( sum( numpy.sum( delta*delta, 1))/float(len(ptCoords)) )
+        delta = numpy.array(ptCoords) - self.centroid.coords
+        rg = sqrt(sum(numpy.sum(delta * delta, 1)) / float(len(ptCoords)))
         return rg
 
     def encapsualtingRadius(self):
         ptCoords = [x.coords for x in self.points]
-        delta = numpy.array(ptCoords)-self.centroid.coords
-        rM = sqrt( max( numpy.sum( delta*delta, 1)) )
+        delta = numpy.array(ptCoords) - self.centroid.coords
+        rM = sqrt(max(numpy.sum(delta * delta, 1)))
         return rM
 
 
@@ -107,30 +118,36 @@ def kmeans(points, k, cutoff, initial=None):
         # Randomly sample k Points from the points list, build Clusters around them
         initial = random.sample(points, k)
     else:
-        assert len(initial)==k
+        assert len(initial) == k
 
     clusters = []
-    for p in initial: clusters.append(Cluster([p]))
+    for p in initial:
+        clusters.append(Cluster([p]))
     # Enter the program loop
     while True:
         # Make a list for each Cluster
         lists = []
-        for c in clusters: lists.append([])
+        for c in clusters:
+            lists.append([])
         # For each Point:
         for p in points:
             # Figure out which Cluster's centroid is the nearest
-            x1,y1,z1 = p.coords
-            x2,y2,z2 = clusters[0].centroid.coords
-            smallest_distance = sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) +
-                                      (z1-z2)*(z1-z2) )
+            x1, y1, z1 = p.coords
+            x2, y2, z2 = clusters[0].centroid.coords
+            smallest_distance = sqrt(
+                (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2)
+            )
             index = 0
             for i in range(len(clusters[1:])):
-                x2,y2,z2 = clusters[i+1].centroid.coords
-                distance = sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) +
-                                 (z1-z2)*(z1-z2) )
+                x2, y2, z2 = clusters[i + 1].centroid.coords
+                distance = sqrt(
+                    (x1 - x2) * (x1 - x2)
+                    + (y1 - y2) * (y1 - y2)
+                    + (z1 - z2) * (z1 - z2)
+                )
                 if distance < smallest_distance:
                     smallest_distance = distance
-                    index = i+1
+                    index = i + 1
             # Add this Point to that Cluster's corresponding list
             lists[index].append(p)
         # Update each Cluster with the corresponding list
@@ -141,6 +158,7 @@ def kmeans(points, k, cutoff, initial=None):
                 shift = clusters[i].update(lists[i])
                 biggest_shift = max(biggest_shift, shift)
         # If the biggest centroid shift is less than the cutoff, stop
-        if biggest_shift < cutoff: break
+        if biggest_shift < cutoff:
+            break
     # Return the list of Clusters
     return clusters

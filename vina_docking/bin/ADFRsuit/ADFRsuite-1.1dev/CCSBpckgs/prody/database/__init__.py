@@ -17,4 +17,5 @@ __all__ = []
 
 from . import pfam
 from .pfam import *
+
 __all__.extend(pfam.__all__)

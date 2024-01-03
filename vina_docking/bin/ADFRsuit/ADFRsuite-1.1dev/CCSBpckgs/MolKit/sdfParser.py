@@ -5,7 +5,7 @@
 ##
 ## Lines	Section	Description
 ##
-## 1-3	Header	
+## 1-3	Header
 ## 1		Molecule name ("benzene") unformated 80 characters
 ## 2		User/Program/Date/etc information in the following format
 ##              IIPPPPPPPPMMDDYYHHmmddSSssssssssssEEEEEEEEEEEERRRRRR
@@ -19,7 +19,7 @@
 ##               I6 internal registry number (R) if input through MDL form.
 ## 3		Comment (blank if no comment)
 ##
-## 4-17	Connection table (Ctab)	
+## 4-17	Connection table (Ctab)
 ## 4		Counts line: 6 atoms, 6 bonds, ..., V2000 standard
 ##              aaabbblllfffcccsssxxxrrrpppiiimmmvvvvvv
 ##              Where::
@@ -56,23 +56,22 @@ from MolKit.molecule import Atom, Bond
 from MolKit.protein import ProteinSet, Protein, Residue, Chain
 
 
-class SDFParser( MoleculeParser):
-
-    def __init__( self, filename=None, allLines=None, modelsAs='molecules' ):
+class SDFParser(MoleculeParser):
+    def __init__(self, filename=None, allLines=None, modelsAs="molecules"):
         """Constructor for sdfParser"""
-        MoleculeParser.__init__( self, filename, allLines )
+        MoleculeParser.__init__(self, filename, allLines)
         self.model = False
         self.modelsAs = modelsAs
-        
+
     def readFile(self):
         f = open(self.filename)
         self.allLines = f.readlines()
         f.close()
-        
-    def parse( self, objClass=Protein ):
+
+    def parse(self, objClass=Protein):
         if self.allLines is None and self.filename:
             self.readFile()
-            if self.allLines is None or len(self.allLines)==0:
+            if self.allLines is None or len(self.allLines) == 0:
                 return
         lines = self.allLines
 
@@ -83,16 +82,16 @@ class SDFParser( MoleculeParser):
         lind = 1
         nbLines = len(lines)
         while True:
-            if lind>=nbLines-1: break
-            if lines[lind][0:4]=="$$$$":
+            if lind >= nbLines - 1:
+                break
+            if lines[lind][0:4] == "$$$$":
                 lind += 1
                 molIndex.append(lind)
                 molNames.append(lines[lind].strip())
                 lind += 3
             lind += 1
-        #print "  molIndex:", molIndex, "molNames;", molNames
+        # print "  molIndex:", molIndex, "molNames;", molNames
         return self.getMolecule(0)
-
 
     def getMolIndex(self, molname):
         return self.molNames.index(molname)
@@ -104,38 +103,39 @@ class SDFParser( MoleculeParser):
         return len(self.molNames)
 
     def getMolecule(self, molInd):
-
         molecules = []
-        if molInd==len(self.molIndex)-1:
+        if molInd == len(self.molIndex) - 1:
             lastLine = -1
         else:
-            lastLine = self.molIndex[molInd+1]
+            lastLine = self.molIndex[molInd + 1]
         # lines fotr that molecule
-        lines = self.allLines[self.molIndex[molInd]:lastLine]
-        lineIndex = 0                         
-        atomsSeen = {} # dict of atom types and number of atoms seen
+        lines = self.allLines[self.molIndex[molInd] : lastLine]
+        lineIndex = 0
+        atomsSeen = {}  # dict of atom types and number of atoms seen
 
         # parser header
         molName = lines[lineIndex].strip()
         lineIndex += 3
 
         # create molecule
-        mol = Protein(name = molName)
-        mol.info = lines[lineIndex+1]
-        mol.comment = lines[lineIndex+1]
-        #self.mol.parser = self
-        chain = Chain(id='1', parent=mol, top=mol)
-        res = Residue(type='UNK', number='1', parent=chain, top=mol)
+        mol = Protein(name=molName)
+        mol.info = lines[lineIndex + 1]
+        mol.comment = lines[lineIndex + 1]
+        # self.mol.parser = self
+        chain = Chain(id="1", parent=mol, top=mol)
+        res = Residue(type="UNK", number="1", parent=chain, top=mol)
         mol.levels = [Protein, Chain, Residue, Atom]
 
         # parse count line
         line = lines[lineIndex]
-        assert line[33:39]==" V2000", "Format error: only V2000 is suported, got %s"%line[33:39]
-        nba = int(line[0:3]) # number of atoms
-        nbb = int(line[3:6]) # number of bonds
-        nbal = int(line[6:9]) # number of atom lists
-        ccc = int(line[12:15]) # chiral flag: 0=not chiral, 1=chiral
-        sss = int(line[15:18]) # number of stext entries
+        assert line[33:39] == " V2000", (
+            "Format error: only V2000 is suported, got %s" % line[33:39]
+        )
+        nba = int(line[0:3])  # number of atoms
+        nbb = int(line[3:6])  # number of bonds
+        nbal = int(line[6:9])  # number of atom lists
+        ccc = int(line[12:15])  # chiral flag: 0=not chiral, 1=chiral
+        sss = int(line[15:18])  # number of stext entries
         lineIndex += 1
 
         # parse atoms
@@ -146,13 +146,16 @@ class SDFParser( MoleculeParser):
                 atomsSeen[element] += 1
             else:
                 atomsSeen[element] = 1
-            atom = Atom(name='%s_%s'%(element, atomsSeen[element]), parent=res,
-                        chemicalElement=element, top=mol)
+            atom = Atom(
+                name="%s_%s" % (element, atomsSeen[element]),
+                parent=res,
+                chemicalElement=element,
+                top=mol,
+            )
 
-            atom._coords = [ [float(line[0:10]), float(line[10:20]),
-                              float(line[20:30])] ]
-            atom._charges['sdf'] = int(line[35:38])
-            atom.chargeSet = 'sdf'
+            atom._coords = [[float(line[0:10]), float(line[10:20]), float(line[20:30])]]
+            atom._charges["sdf"] = int(line[35:38])
+            atom.chargeSet = "sdf"
             mol.allAtoms.append(atom)
 
             atom.massDiff = int(line[34:36])
@@ -167,24 +170,25 @@ class SDFParser( MoleculeParser):
         # parse bonds
         for bnum in range(nba):
             line = lines[lineIndex]
-            at1 = mol.allAtoms[int(line[0:3])-1]
-            at2 = mol.allAtoms[int(line[3:6])-1]
-            if at1.isBonded(at2): continue
+            at1 = mol.allAtoms[int(line[0:3]) - 1]
+            at2 = mol.allAtoms[int(line[3:6]) - 1]
+            if at1.isBonded(at2):
+                continue
             bond = Bond(at1, at2, check=0)
 
             bond.bondOrder = int(line[6:9])
-            #1 = Single, 2 = Double,
-            #3 = Triple, 4 = Aromatic,
-            #5 = Single or Double,
-            #6 = Single or Aromatic,
-            #7 = Double or Aromatic, 8 = Any
+            # 1 = Single, 2 = Double,
+            # 3 = Triple, 4 = Aromatic,
+            # 5 = Single or Double,
+            # 6 = Single or Aromatic,
+            # 7 = Double or Aromatic, 8 = Any
 
             bond.stereo = int(line[9:12])
-            #Single bonds: 0 = not stereo,
-            #1 = Up, 4 = Either,
-            #6 = Down, Double bonds: 0 = Use x-, y-, z-coords
-            #from atom block to determine cis or trans,
-            #3 = Cis or trans (either) double bond
+            # Single bonds: 0 = not stereo,
+            # 1 = Up, 4 = Either,
+            # 6 = Down, Double bonds: 0 = Use x-, y-, z-coords
+            # from atom block to determine cis or trans,
+            # 3 = Cis or trans (either) double bond
 
             bond.topo = int(line[15:18])
             # 0 = Either, 1 = Ring, 2 = Chain
@@ -193,59 +197,58 @@ class SDFParser( MoleculeParser):
                 bond.ReactionCenter = int(line[18:21])
             except ValueError:
                 bond.ReactionCenter = 0
-            #0 = unmarked, 1 = a center, -1 = not a center,
-            #Additional: 2 = no change,
-            #4 = bond made/broken,
-            #8 = bond order changes
-            #12 = 4+8 (both made/broken and changes);
-            #5 = (4 + 1), 9 = (8 + 1), and 13 = (12 + 1)
+            # 0 = unmarked, 1 = a center, -1 = not a center,
+            # Additional: 2 = no change,
+            # 4 = bond made/broken,
+            # 8 = bond order changes
+            # 12 = 4+8 (both made/broken and changes);
+            # 5 = (4 + 1), 9 = (8 + 1), and 13 = (12 + 1)
 
         # "M END" and properties are not parsed at this point
         self.mol = mol
         mname = mol.name
-        strRpr = mname + ':::'
-        mol.allAtoms.setStringRepr( strRpr )
-        strRpr = mname + ':'
-        mol.chains.setStringRepr( strRpr )
+        strRpr = mname + ":::"
+        mol.allAtoms.setStringRepr(strRpr)
+        strRpr = mname + ":"
+        mol.chains.setStringRepr(strRpr)
         for c in mol.chains:
             cname = c.id
-            strRpr = mname + ':' + cname + ':'
-            c.residues.setStringRepr( strRpr )
+            strRpr = mname + ":" + cname + ":"
+            c.residues.setStringRepr(strRpr)
             for r in c.residues:
                 rname = r.name
-                strRpr = mname + ':' + cname + ':' + rname + ':'
-                r.atoms.setStringRepr( strRpr )  
+                strRpr = mname + ":" + cname + ":" + rname + ":"
+                r.atoms.setStringRepr(strRpr)
         molList = mol.setClass()
-        molList.append( mol )
+        molList.append(mol)
         mol.parser = self
         for n in molList.name:
-            name = n + ','
+            name = n + ","
         name = name[:-1]
-        molList.setStringRepr( name )
-        strRpr = name + ':::'
-        molList.allAtoms.setStringRepr( strRpr )
-        
+        molList.setStringRepr(name)
+        strRpr = name + ":::"
+        molList.allAtoms.setStringRepr(strRpr)
+
         return molList
 
     def getMoleculeInformation(self):
-        """ Function to retrieve the general informations on the molecule.
+        """Function to retrieve the general informations on the molecule.
         This information is used by the molecule chooser to provide
         informations on the molecule selected.
         """
-        molStr = ''
+        molStr = ""
         return molStr
-    
-    def configureProgressBar( self, **kw ):
+
+    def configureProgressBar(self, **kw):
         # this method is to be implemented by the user from outside
         pass
 
     def hasSsDataInFile(self):
-        """ Function testing if the informations on the secondary structure
+        """Function testing if the informations on the secondary structure
         are in the file"""
-        return 0 
+        return 0
 
 
-
-#from MolKit.sdfParser import SDFParser
-#pr = SDFParser("ZINC_results2.sdf")
-#mol = pr.parse()
+# from MolKit.sdfParser import SDFParser
+# pr = SDFParser("ZINC_results2.sdf")
+# mol = pr.parse()

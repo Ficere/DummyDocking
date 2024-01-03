@@ -4,12 +4,12 @@
 ## modify it under the terms of the GNU Lesser General Public
 ## License as published by the Free Software Foundation; either
 ## version 2.1 of the License, or (at your option) any later version.
-## 
+##
 ## This library is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ## Lesser General Public License for more details.
-## 
+##
 ## You should have received a copy of the GNU Lesser General Public
 ## License along with this library; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
@@ -49,84 +49,68 @@ class NcoordsTest(unittest.TestCase):
 
         npts = 500
         dim = 3
-        self.max = 9999999.
+        self.max = 9999999.0
         self.min = -self.max
-        self.random_points = RandomArray.uniform(self.min,
-                                                 self.max, (npts,dim)).tolist()
-
+        self.random_points = RandomArray.uniform(
+            self.min, self.max, (npts, dim)
+        ).tolist()
 
     def tearDown(self):
         pass
 
 
-
 class InputOutputValues(NcoordsTest):
-
-
     def test_constructor_shape(self):
         """__init__         -- make refCoords and resultCoords homogeneous"""
         n = len(self.random_points)
-        ncoords = Ncoords( self.random_points) ### tested call ###
+        ncoords = Ncoords(self.random_points)  ### tested call ###
         # confirm shape to be nx4
-        self.assertEqual( (n, 4), numpy.shape(ncoords.resultCoords))
-        self.assertEqual( (n, 4), numpy.shape(ncoords.refCoords))
+        self.assertEqual((n, 4), numpy.shape(ncoords.resultCoords))
+        self.assertEqual((n, 4), numpy.shape(ncoords.refCoords))
         # cofirm that the last column is all ones
-        self.assertEqual(numpy.ones(n).tolist(),
-                         ncoords.resultCoords[:,3].tolist())
-        self.assertEqual(numpy.ones(n).tolist(),
-                         ncoords.refCoords[:,3].tolist())
-
+        self.assertEqual(numpy.ones(n).tolist(), ncoords.resultCoords[:, 3].tolist())
+        self.assertEqual(numpy.ones(n).tolist(), ncoords.refCoords[:, 3].tolist())
 
     def test_input_error(self):
         """__init__         -- ValueError on bad input"""
         self.assertRaises(ValueError, Ncoords, range(10))
-        self.assertRaises(ValueError, Ncoords, [(1,1,1),(1,1)] )
-
+        self.assertRaises(ValueError, Ncoords, [(1, 1, 1), (1, 1)])
 
     def test_reset_values(self):
         """reset            -- points equal input values after reset"""
-        nc = Ncoords( self.random_points, tolist=1)
-        nc.reset() ### tested call ###
+        nc = Ncoords(self.random_points, tolist=1)
+        nc.reset()  ### tested call ###
         result = nc.getResultCoords()
         # compare input and output point lists
-        self.assertEqual( self.random_points, result)
-
+        self.assertEqual(self.random_points, result)
 
     def test_getResultCoords_shape(self):
         """getResultCoords  -- if tolist: return nx3 ListType"""
         n = len(self.random_points)
         nc = Ncoords(self.random_points, tolist=0)
-        nc.tolist=1
-        result = nc.getResultCoords() ### tested call ###
+        nc.tolist = 1
+        result = nc.getResultCoords()  ### tested call ###
         # confirm shape
         self.assertEqual((n, 3), numpy.shape(result))
         # confirm type
         self.assertEqual(type([]), type(result))
 
-
     def test_getResultCoords_type(self):
         """getResultCoords  -- if not tolist: return nx4 numpy.array"""
         n = len(self.random_points)
         nc = Ncoords(self.random_points, tolist=1)
-        nc.tolist=0
-        result = nc.getResultCoords() ### tested call ###
+        nc.tolist = 0
+        result = nc.getResultCoords()  ### tested call ###
         # confirm shape
         self.assertEqual((n, 4), numpy.shape(result))
         # confirm type
         self.assertEqual(type(numpy.array([])), type(result))
 
 
-
-if __name__ == '__main__':
-    unittest.main()   
+if __name__ == "__main__":
+    unittest.main()
 
 # for example:
 #     py mglutil/math/ncoordstest.py -v
 # or, to redirect output to a file:
 #     py ncoordstest.py -v > & ! /tmp/nct.out
-
-
-
-
-
-

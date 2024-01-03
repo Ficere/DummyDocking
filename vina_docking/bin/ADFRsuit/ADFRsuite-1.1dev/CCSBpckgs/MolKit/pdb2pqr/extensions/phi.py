@@ -14,27 +14,29 @@ __author__ = "Mike Bradley, Todd Dolinsky"
 from src.utilities import *
 from src.routines import *
 
+
 def usage():
-    str  = "        --phi         :  Print the per-residue backbone phi\n"
+    str = "        --phi         :  Print the per-residue backbone phi\n"
     str += "                         angle to {output-path}.phi\n"
     return str
 
+
 def phi(routines, outroot):
     """
-        Print the list of phi angles
+    Print the list of phi angles
 
-        Parameters
-            routines:  A link to the routines object
-            outroot:   The root of the output name
+    Parameters
+        routines:  A link to the routines object
+        outroot:   The root of the output name
     """
 
     outname = outroot + ".phi"
     file = open(outname, "w")
-    
+
     routines.write("\nPrinting phi angles for each residue...\n")
     routines.write("Residue     Phi\n")
     routines.write("----------------\n")
-    
+
     # Initialize some variables
 
     protein = routines.protein
@@ -43,18 +45,25 @@ def phi(routines, outroot):
         try:
             if residue.peptideC != None:
                 pepcoords = residue.peptideC.getCoords()
-            else: continue
-        except AttributeError: # Non amino acids
+            else:
+                continue
+        except AttributeError:  # Non amino acids
             continue
-        
-        if residue.hasAtom("N"): ncoords = residue.getAtom("N").getCoords()
-        else: continue
 
-        if residue.hasAtom("CA"): cacoords = residue.getAtom("CA").getCoords()
-        else: continue
+        if residue.hasAtom("N"):
+            ncoords = residue.getAtom("N").getCoords()
+        else:
+            continue
 
-        if residue.hasAtom("C"): ccoords = residue.getAtom("C").getCoords()
-        else: continue
+        if residue.hasAtom("CA"):
+            cacoords = residue.getAtom("CA").getCoords()
+        else:
+            continue
+
+        if residue.hasAtom("C"):
+            ccoords = residue.getAtom("C").getCoords()
+        else:
+            continue
 
         phi = getDihedral(pepcoords, ncoords, cacoords, ccoords)
         routines.write("%s\t%.4f\n" % (residue, phi))

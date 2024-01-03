@@ -8,10 +8,11 @@ import os.path
 from ..apptools import *
 from .nmaoptions import *
 
+
 def addCommand(commands):
-
-    subparser = commands.add_parser('eda',
-        parents=[commands.choices.get('pca')],
-        help='perform essential dynamics analysis calculations',
-        add_help=False)
-
+    subparser = commands.add_parser(
+        "eda",
+        parents=[commands.choices.get("pca")],
+        help="perform essential dynamics analysis calculations",
+        add_help=False,
+    )

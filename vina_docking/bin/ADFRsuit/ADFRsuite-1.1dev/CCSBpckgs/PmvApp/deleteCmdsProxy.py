@@ -4,12 +4,12 @@
 ## modify it under the terms of the GNU Lesser General Public
 ## License as published by the Free Software Foundation; either
 ## version 2.1 of the License, or (at your option) any later version.
-## 
+##
 ## This library is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ## Lesser General Public License for more details.
-## 
+##
 ## You should have received a copy of the GNU Lesser General Public
 ## License along with this library; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
@@ -32,36 +32,39 @@
 # $Id: deleteCmdsProxy.py,v 1.1.4.1 2017/07/13 20:55:28 annao Exp $
 #
 
+
 def getGUI(GUITK):
-    if GUITK=='Tk':
-        from guiTK.deleteCmds import DeleteMoleculesGUI, DeleteAllMoleculesGUI,\
-              DeleteCurrentSelectionGUI, DeleteHydrogensGUI
+    if GUITK == "Tk":
+        from guiTK.deleteCmds import (
+            DeleteMoleculesGUI,
+            DeleteAllMoleculesGUI,
+            DeleteCurrentSelectionGUI,
+            DeleteHydrogensGUI,
+        )
+
         return {
-            'deleteMolecule':[(None , (), {})],
+            "deleteMolecule": [(None, (), {})],
             #'deleteMolecules':[(DeleteMoleculesGUI , (), {})],
             #'deleteAllMolecules' : [(DeleteAllMoleculesGUI , (), {})],
             #'deleteAtomSet':[(None , (), {})],
             #'deleteCurrentSelection' :[(DeleteCurrentSelectionGUI , (), {})],
             #'deleteHydrogens':[(DeleteHydrogensGUI , (), {})],
             #'restoreMol':[(None , (), {})]
-            }
-    elif GUITK=='Qt':
+        }
+    elif GUITK == "Qt":
         return {}
-    elif GUITK=='Wx':
+    elif GUITK == "Wx":
         return {}
     else:
         return {
-            'deleteMolecule':[(None , (), {})],
-            'deleteAtoms':[(None , (), {})],
+            "deleteMolecule": [(None, (), {})],
+            "deleteAtoms": [(None, (), {})],
             #'deleteMolecules':[(None , (), {})],
             #'deleteAllMolecules' : [(None , (), {})],
-
             #'deleteCurrentSelection' :[(None , (), {})],
             #'deleteHydrogens':[(None , (), {})],
             #'restoreMol':[(None , (), {})]
-            }
-    
-commandsInfo = {
-    'icoms' : {
         }
-    }
+
+
+commandsInfo = {"icoms": {}}

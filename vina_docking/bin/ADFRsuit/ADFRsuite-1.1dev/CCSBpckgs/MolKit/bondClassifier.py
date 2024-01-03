@@ -24,26 +24,22 @@ values the bonds which have been classified.
 from MolKit.molecule import BondSet
 
 
-
 class BondClassifier:
-    """ Base class that sorts bonds based on an input dictionary with keys
+    """Base class that sorts bonds based on an input dictionary with keys
     and bondSelector values
     """
-
 
     def __init__(self, d={}):
         self.dict = d
 
-
     def classify(self, bonds=None):
-        """ 
+        """
         select using each bondselector (the values of the dict); store result
         in resultDict and return the result dict when finished...
         """
-        #make sure that classify is called with some bonds
+        # make sure that classify is called with some bonds
         assert isinstance(bonds, BondSet)
         resultDict = {}
         for k, v in self.dict.items():
             resultDict[k] = v.select(bonds)
         return resultDict
-

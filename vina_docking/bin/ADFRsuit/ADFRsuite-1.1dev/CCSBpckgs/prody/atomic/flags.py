@@ -42,131 +42,279 @@ from numpy import array, ones, zeros
 from prody import SETTINGS, LOGGER
 from prody.utilities import joinLinks, joinTerms, wrapText
 
-__all__ = ['flagDefinition', 'listNonstdAAProps', 'getNonstdProperties',
-           'addNonstdAminoacid', 'delNonstdAminoacid']
+__all__ = [
+    "flagDefinition",
+    "listNonstdAAProps",
+    "getNonstdProperties",
+    "addNonstdAminoacid",
+    "delNonstdAminoacid",
+]
 
 
-TIMESTAMP_KEY = 'flags_timestamp'
-DEFINITIONS_KEY = 'flags_definitions'
-NONSTANDARD_KEY = 'flags_nonstandard'
+TIMESTAMP_KEY = "flags_timestamp"
+DEFINITIONS_KEY = "flags_definitions"
+NONSTANDARD_KEY = "flags_nonstandard"
 
 ALIASES = {}
 PLANTERS = {}
 EDITORS = {}
 FIELDS = defaultdict(set)  # flags that fill be nulled when a field changes
-FIELDSDEFAULT = ['name', 'resname', 'resnum']
+FIELDSDEFAULT = ["name", "resname", "resnum"]
 TIMESTAMP = 0
 
-PDBLIGSUM = ('.. _{0}: '
-             'http://www.pdb.org/pdb/ligand/ligandsummary.do?hetId={0}\n')
+PDBLIGSUM = ".. _{0}: " "http://www.pdb.org/pdb/ligand/ligandsummary.do?hetId={0}\n"
 
-STANDARDAA = ['ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLY', 'HIS',
-              'ILE', 'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP',
-              'TYR', 'VAL']
+STANDARDAA = [
+    "ALA",
+    "ARG",
+    "ASN",
+    "ASP",
+    "CYS",
+    "GLN",
+    "GLU",
+    "GLY",
+    "HIS",
+    "ILE",
+    "LEU",
+    "LYS",
+    "MET",
+    "PHE",
+    "PRO",
+    "SER",
+    "THR",
+    "TRP",
+    "TYR",
+    "VAL",
+]
 
 NONSTANDARD = {
-    'ASX': set(['acyclic', 'surface', 'polar', 'medium']),
-    'GLX': set(['acyclic', 'surface', 'large', 'polar']),
-    'CSO': set(['acyclic', 'neutral', 'surface', 'medium', 'polar']),
-    'HIP': set(['cyclic', 'basic', 'surface', 'large', 'polar']),
-    'HSD': set(['cyclic', 'basic', 'surface', 'large', 'polar']),
-    'HSE': set(['cyclic', 'basic', 'surface', 'large', 'polar']),
-    'HSP': set(['cyclic', 'acidic', 'surface', 'large', 'polar']),
-    'MSE': set(['acyclic', 'neutral', 'buried', 'large']),
-    'SEC': set(['acyclic', 'neutral', 'buried', 'polar', 'medium']),
-    'SEP': set(['acyclic', 'surface', 'acidic', 'large', 'polar']),
-    'TPO': set(['acyclic', 'surface', 'acidic', 'large', 'polar']),
-    'PTR': set(['cyclic', 'aromatic', 'surface', 'acidic', 'large', 'polar']),
-    'XLE': set(['aliphatic', 'acyclic', 'buried', 'hydrophobic', 'large']),
-    'XAA': set(),
+    "ASX": set(["acyclic", "surface", "polar", "medium"]),
+    "GLX": set(["acyclic", "surface", "large", "polar"]),
+    "CSO": set(["acyclic", "neutral", "surface", "medium", "polar"]),
+    "HIP": set(["cyclic", "basic", "surface", "large", "polar"]),
+    "HSD": set(["cyclic", "basic", "surface", "large", "polar"]),
+    "HSE": set(["cyclic", "basic", "surface", "large", "polar"]),
+    "HSP": set(["cyclic", "acidic", "surface", "large", "polar"]),
+    "MSE": set(["acyclic", "neutral", "buried", "large"]),
+    "SEC": set(["acyclic", "neutral", "buried", "polar", "medium"]),
+    "SEP": set(["acyclic", "surface", "acidic", "large", "polar"]),
+    "TPO": set(["acyclic", "surface", "acidic", "large", "polar"]),
+    "PTR": set(["cyclic", "aromatic", "surface", "acidic", "large", "polar"]),
+    "XLE": set(["aliphatic", "acyclic", "buried", "hydrophobic", "large"]),
+    "XAA": set(),
 }
 
 DEFAULTS = {
-
-    'stdaa': set(['ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLY',
-                  'HIS', 'ILE', 'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER',
-                  'THR', 'TRP', 'TYR', 'VAL']),
-
-    'nonstdaa': set(NONSTANDARD),
-
+    "stdaa": set(
+        [
+            "ALA",
+            "ARG",
+            "ASN",
+            "ASP",
+            "CYS",
+            "GLN",
+            "GLU",
+            "GLY",
+            "HIS",
+            "ILE",
+            "LEU",
+            "LYS",
+            "MET",
+            "PHE",
+            "PRO",
+            "SER",
+            "THR",
+            "TRP",
+            "TYR",
+            "VAL",
+        ]
+    ),
+    "nonstdaa": set(NONSTANDARD),
     # GLY is excluded from this list
-    'aliphatic': set(['ALA', 'ILE', 'LEU', 'VAL', 'PRO', 'GLY']),
-    'aromatic': set(['HIS', 'PHE', 'TRP', 'TYR']),
-
-    'acidic': set(['ASP', 'GLU']),
-    'basic': set(['LYS', 'ARG', 'HIS']),
-    'neutral': set(['ALA', 'ASN', 'CYS', 'GLN', 'GLY', 'ILE', 'LEU', 'MET',
-                    'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL']),
-
-    'buried': set(['ALA', 'CYS', 'ILE', 'LEU', 'MET', 'PHE', 'TRP', 'VAL']),
-    'surface': set(['ARG', 'ASN', 'ASP', 'GLN', 'GLU', 'GLY', 'HIS', 'LYS',
-                    'PRO', 'SER', 'THR', 'TYR']),
-
-    'cyclic': set(['HIS', 'PHE', 'PRO', 'TRP', 'TYR']),
-    'acyclic': set(['ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLY',
-                    'ILE', 'LEU', 'LYS', 'MET', 'SER', 'THR', 'VAL']),
-
-    'hydrophobic': set(['ALA', 'ILE', 'LEU', 'MET', 'PHE', 'PRO', 'TRP',
-                        'VAL']),
-    'polar': set(['ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLY', 'HIS',
-                  'LYS', 'SER', 'THR', 'TYR']),
-
-    'small': set(['ALA', 'GLY', 'SER']),
-    'medium': set(['ASN', 'ASP', 'CYS', 'PRO', 'THR', 'VAL']),
-    'large': set(['ARG', 'GLN', 'GLU', 'HIS', 'ILE', 'LEU', 'LYS', 'MET',
-                  'PHE', 'TRP', 'TYR']),
-
-
-    'hydrogen': '[0-9]?H.*',
-    'carbon': 'C.*',
-    'nitrogen': 'N.*',
-    'oxygen': 'O.*',
-    'sulfur': 'S.*',
-
-    'nucleobase': set(['GUN', 'ADE', 'CYT', 'THY', 'URA']),
-    'nucleotide': set(['DA', 'DC', 'DG', 'DT', 'DU', 'A', 'C', 'G', 'T', 'U']),
-    'nucleoside': set(['AMP', 'ADP', 'ATP', 'CDP', 'CTP', 'GMP', 'GDP', 'GTP',
-                       'TMP', 'TTP', 'UMP', 'UDP', 'UTP']),
-
-    'at': set(['ADE', 'A', 'THY', 'T']),
-    'cg': set(['CYT', 'C', 'GUN', 'G']),
-    'purine': set(['ADE', 'A', 'GUN', 'G']),
-    'pyrimidine': set(['CYT', 'C', 'THY', 'T', 'URA', 'U']),
-
-    'water': set(['HOH', 'DOD', 'WAT', 'TIP3', 'H2O', 'OH2', 'TIP', 'TIP2',
-                  'TIP4']),
-
-    'ion': set(['AL', 'BA', 'CA', 'CD', 'CL', 'CO', 'CS', 'CU', 'CU1', 'CUA',
-                'HG', 'IN', 'IOD', 'K', 'MG', 'MN3', 'NA', 'PB', 'PT', 'RB',
-                'TB', 'TL', 'WO4', 'YB', 'ZN']),
-    'ion_other': set(['CAL', 'CES', 'CLA', 'POT', 'SOD', 'ZN2']),
-
-
-    'lipid': set(['GPE', 'LPP', 'OLA', 'SDS', 'STE']),
-    'lipid_other': set(['DLPE', 'DMPC', 'LPPC', 'OLEO', 'PALM', 'PCGL', 'POPC',
-                        'POPE', 'STEA']),
-
-    'sugar': set(['GLC', 'GLO', 'BGC']),
-    'sugar_other': set(['AGLC']),
-
-    'heme': set(['1FH', '2FH', 'DDH', 'DHE', 'HAS', 'HDD', 'HDE', 'HDM',
-                 'HEA', 'HEB', 'HEC', 'HEM', 'HEO', 'HES', 'HEV', 'NTE',
-                 'SRM', 'VER']),
-    'heme_other': set(['HEMO', 'HEMR'])
-
+    "aliphatic": set(["ALA", "ILE", "LEU", "VAL", "PRO", "GLY"]),
+    "aromatic": set(["HIS", "PHE", "TRP", "TYR"]),
+    "acidic": set(["ASP", "GLU"]),
+    "basic": set(["LYS", "ARG", "HIS"]),
+    "neutral": set(
+        [
+            "ALA",
+            "ASN",
+            "CYS",
+            "GLN",
+            "GLY",
+            "ILE",
+            "LEU",
+            "MET",
+            "PHE",
+            "PRO",
+            "SER",
+            "THR",
+            "TRP",
+            "TYR",
+            "VAL",
+        ]
+    ),
+    "buried": set(["ALA", "CYS", "ILE", "LEU", "MET", "PHE", "TRP", "VAL"]),
+    "surface": set(
+        [
+            "ARG",
+            "ASN",
+            "ASP",
+            "GLN",
+            "GLU",
+            "GLY",
+            "HIS",
+            "LYS",
+            "PRO",
+            "SER",
+            "THR",
+            "TYR",
+        ]
+    ),
+    "cyclic": set(["HIS", "PHE", "PRO", "TRP", "TYR"]),
+    "acyclic": set(
+        [
+            "ALA",
+            "ARG",
+            "ASN",
+            "ASP",
+            "CYS",
+            "GLN",
+            "GLU",
+            "GLY",
+            "ILE",
+            "LEU",
+            "LYS",
+            "MET",
+            "SER",
+            "THR",
+            "VAL",
+        ]
+    ),
+    "hydrophobic": set(["ALA", "ILE", "LEU", "MET", "PHE", "PRO", "TRP", "VAL"]),
+    "polar": set(
+        [
+            "ARG",
+            "ASN",
+            "ASP",
+            "CYS",
+            "GLN",
+            "GLU",
+            "GLY",
+            "HIS",
+            "LYS",
+            "SER",
+            "THR",
+            "TYR",
+        ]
+    ),
+    "small": set(["ALA", "GLY", "SER"]),
+    "medium": set(["ASN", "ASP", "CYS", "PRO", "THR", "VAL"]),
+    "large": set(
+        ["ARG", "GLN", "GLU", "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "TRP", "TYR"]
+    ),
+    "hydrogen": "[0-9]?H.*",
+    "carbon": "C.*",
+    "nitrogen": "N.*",
+    "oxygen": "O.*",
+    "sulfur": "S.*",
+    "nucleobase": set(["GUN", "ADE", "CYT", "THY", "URA"]),
+    "nucleotide": set(["DA", "DC", "DG", "DT", "DU", "A", "C", "G", "T", "U"]),
+    "nucleoside": set(
+        [
+            "AMP",
+            "ADP",
+            "ATP",
+            "CDP",
+            "CTP",
+            "GMP",
+            "GDP",
+            "GTP",
+            "TMP",
+            "TTP",
+            "UMP",
+            "UDP",
+            "UTP",
+        ]
+    ),
+    "at": set(["ADE", "A", "THY", "T"]),
+    "cg": set(["CYT", "C", "GUN", "G"]),
+    "purine": set(["ADE", "A", "GUN", "G"]),
+    "pyrimidine": set(["CYT", "C", "THY", "T", "URA", "U"]),
+    "water": set(["HOH", "DOD", "WAT", "TIP3", "H2O", "OH2", "TIP", "TIP2", "TIP4"]),
+    "ion": set(
+        [
+            "AL",
+            "BA",
+            "CA",
+            "CD",
+            "CL",
+            "CO",
+            "CS",
+            "CU",
+            "CU1",
+            "CUA",
+            "HG",
+            "IN",
+            "IOD",
+            "K",
+            "MG",
+            "MN3",
+            "NA",
+            "PB",
+            "PT",
+            "RB",
+            "TB",
+            "TL",
+            "WO4",
+            "YB",
+            "ZN",
+        ]
+    ),
+    "ion_other": set(["CAL", "CES", "CLA", "POT", "SOD", "ZN2"]),
+    "lipid": set(["GPE", "LPP", "OLA", "SDS", "STE"]),
+    "lipid_other": set(
+        ["DLPE", "DMPC", "LPPC", "OLEO", "PALM", "PCGL", "POPC", "POPE", "STEA"]
+    ),
+    "sugar": set(["GLC", "GLO", "BGC"]),
+    "sugar_other": set(["AGLC"]),
+    "heme": set(
+        [
+            "1FH",
+            "2FH",
+            "DDH",
+            "DHE",
+            "HAS",
+            "HDD",
+            "HDE",
+            "HDM",
+            "HEA",
+            "HEB",
+            "HEC",
+            "HEM",
+            "HEO",
+            "HES",
+            "HEV",
+            "NTE",
+            "SRM",
+            "VER",
+        ]
+    ),
+    "heme_other": set(["HEMO", "HEMR"]),
 }
 
-DEFAULTS['backbone'] = DEFAULTS['bb'] = set(['CA', 'C', 'O', 'N'])
-DEFAULTS['backbonefull'] = DEFAULTS['bbfull'] = set(['CA', 'C', 'O', 'N', 'H',
-                                                     'H1', 'H2', 'H3', 'OXT'])
+DEFAULTS["backbone"] = DEFAULTS["bb"] = set(["CA", "C", "O", "N"])
+DEFAULTS["backbonefull"] = DEFAULTS["bbfull"] = set(
+    ["CA", "C", "O", "N", "H", "H1", "H2", "H3", "OXT"]
+)
 
 CATEGORIES = {
-    'aromaticity': set(['aromatic', 'aliphatic']),
-    'cyclic': set(['acyclic', 'cyclic']),
-    'charge': set(['acidic', 'basic', 'neutral']),
-    'depth': set(['buried', 'surface']),
-    'hydrophobicity': set(['hydrophobic', 'polar']),
-    'size': set(['small', 'medium', 'large']),
+    "aromaticity": set(["aromatic", "aliphatic"]),
+    "cyclic": set(["acyclic", "cyclic"]),
+    "charge": set(["acidic", "basic", "neutral"]),
+    "depth": set(["buried", "surface"]),
+    "hydrophobicity": set(["hydrophobic", "polar"]),
+    "size": set(["small", "medium", "large"]),
 }
 
 CATEGORIZED = {}
@@ -174,8 +322,8 @@ for catgroup in CATEGORIES.values():
     for category in catgroup:
         CATEGORIZED[category] = list(DEFAULTS[category])
 INDEPENDENT = list(CATEGORIZED)
-CATEGORIZED['charged'] = list(CATEGORIZED['acidic'])
-CATEGORIZED['charged'].extend(CATEGORIZED['basic'])
+CATEGORIZED["charged"] = list(CATEGORIZED["acidic"])
+CATEGORIZED["charged"].extend(CATEGORIZED["basic"])
 
 for resi, cats in NONSTANDARD.items():
     for cat in cats:
@@ -183,9 +331,8 @@ for resi, cats in NONSTANDARD.items():
 
 
 def addPlanter(func, *labels, **kwargs):
-
-    aliases = kwargs.get('aliases', True)
-    editor = kwargs.get('editor', False)
+    aliases = kwargs.get("aliases", True)
+    editor = kwargs.get("editor", False)
     for label in labels:
         PLANTERS[label] = func
         if aliases:
@@ -194,12 +341,11 @@ def addPlanter(func, *labels, **kwargs):
             ALIASES[label] = [label]
         if editor:
             EDITORS[label] = editor
-    for field in kwargs.get('fields', FIELDSDEFAULT):
+    for field in kwargs.get("fields", FIELDSDEFAULT):
         FIELDS[field].update(labels)
 
 
 def updateNonstandard(nonstd):
-
     SETTINGS[NONSTANDARD_KEY] = nonstd
     SETTINGS[TIMESTAMP_KEY] = int(time())
     SETTINGS.save()
@@ -207,7 +353,6 @@ def updateNonstandard(nonstd):
 
 
 def changeDefinitions(**kwargs):
-
     defs = SETTINGS.get(DEFINITIONS_KEY, {})
     defs.update(kwargs)
     SETTINGS[DEFINITIONS_KEY] = defs
@@ -217,14 +362,13 @@ def changeDefinitions(**kwargs):
 
 
 def resetDefinitions(flag):
-
-    if flag == 'all':
+    if flag == "all":
         SETTINGS.pop(DEFINITIONS_KEY, None)
         SETTINGS.pop(NONSTANDARD_KEY, None)
         SETTINGS[TIMESTAMP_KEY] = int(time())
         SETTINGS.save()
         updateDefinitions()
-    elif flag == 'nonstdaa':
+    elif flag == "nonstdaa":
         SETTINGS.pop(NONSTANDARD_KEY, None)
         SETTINGS[TIMESTAMP_KEY] = int(time())
         SETTINGS.save()
@@ -247,7 +391,7 @@ def changeResnames(flag, resnames):
     names."""
 
     if flag not in EDITORS:
-        raise ValueError('{0} is not an editable flag'.format(repr(flag)))
+        raise ValueError("{0} is not an editable flag".format(repr(flag)))
 
     resnames = [str(rn) for rn in resnames]
     changeDefinitions(**{flag: resnames})
@@ -258,13 +402,14 @@ def changeNameRegex(flag, regex):
     See :ref:`element-flags` for the default list of flags."""
 
     if flag not in EDITORS:
-        raise ValueError('{0} is not an editable flag'.format(repr(flag)))
+        raise ValueError("{0} is not an editable flag".format(repr(flag)))
 
     try:
         recompile(regex)
     except Exception as err:
-        raise ValueError('{0} is not a valid regular expression, {1}'
-                         .format(repr(regex), str(err)))
+        raise ValueError(
+            "{0} is not a valid regular expression, {1}".format(repr(regex), str(err))
+        )
     else:
         changeDefinitions(**{flag: regex})
 
@@ -274,11 +419,11 @@ def changeBackbone(flag, names):
     *names* must be a list of atom names."""
 
     if flag not in EDITORS:
-        raise ValueError('{0} is not an editable flag'.format(repr(flag)))
+        raise ValueError("{0} is not an editable flag".format(repr(flag)))
 
     names = [str(nm) for nm in names]
 
-    if flag.endswith('full'):
+    if flag.endswith("full"):
         changeDefinitions(bbfull=names, backbonefull=names)
     else:
         changeDefinitions(bb=names, backbone=names)
@@ -353,10 +498,12 @@ Protein
 
 
 """.format(
-
-stdaa = wrapText('indicates the standard amino acid residues: ' +
-                 joinLinks(DEFAULTS['stdaa'], last=', and ', sort=True),
-                 subsequent_indent=' '*6))
+    stdaa=wrapText(
+        "indicates the standard amino acid residues: "
+        + joinLinks(DEFAULTS["stdaa"], last=", and ", sort=True),
+        subsequent_indent=" " * 6,
+    )
+)
 
 
 cats = list(CATEGORIZED)
@@ -369,12 +516,13 @@ for cat in cats:
    {cat}
        {res}
 
-""".format(cat=cat, res=wrapText('residues ' + ', '.join(res),
-                                 subsequent_indent=' '*6))
+""".format(
+        cat=cat, res=wrapText("residues " + ", ".join(res), subsequent_indent=" " * 6)
+    )
 
-for resi in DEFAULTS['stdaa']:
+for resi in DEFAULTS["stdaa"]:
     __doc__ += PDBLIGSUM.format(resi)
-for resi in DEFAULTS['nonstdaa']:
+for resi in DEFAULTS["nonstdaa"]:
     __doc__ += PDBLIGSUM.format(resi)
 
 
@@ -444,13 +592,13 @@ Nucleic
 
 """
 
-for resi in DEFAULTS['nucleobase']:
+for resi in DEFAULTS["nucleobase"]:
     __doc__ += PDBLIGSUM.format(resi)
 
-for resi in DEFAULTS['nucleotide']:
+for resi in DEFAULTS["nucleotide"]:
     __doc__ += PDBLIGSUM.format(resi)
 
-for resi in DEFAULTS['nucleoside']:
+for resi in DEFAULTS["nucleoside"]:
     __doc__ += PDBLIGSUM.format(resi)
 
 __doc__ += """
@@ -542,34 +690,39 @@ Heteros
       indicates atoms that were followed by ``'TER'`` record.
 
 """.format(
-
-lipid = wrapText('indicates ' +
-                 joinLinks(DEFAULTS['lipid'], last=', and ', sort=True) +
-                 ' from *PDB*, and also ' + ', '.join(DEFAULTS['lipid_other']) +
-                 ' from *CHARMM* force field.', subsequent_indent=' '*6),
-
-sugar = wrapText('indicates ' +
-                 joinLinks(DEFAULTS['sugar'], last=', and ', sort=True) +
-                 ' from *PDB*, and also AGLC from *CHARMM*.',
-                 subsequent_indent=' '*6),
-
-heme = wrapText('indicates ' +
-                joinLinks(DEFAULTS['heme'], last=', and ', sort=True) +
-                ' from *PDB*, and also HEMO and HEMR from CHARMM.',
-                subsequent_indent=' '*6)
+    lipid=wrapText(
+        "indicates "
+        + joinLinks(DEFAULTS["lipid"], last=", and ", sort=True)
+        + " from *PDB*, and also "
+        + ", ".join(DEFAULTS["lipid_other"])
+        + " from *CHARMM* force field.",
+        subsequent_indent=" " * 6,
+    ),
+    sugar=wrapText(
+        "indicates "
+        + joinLinks(DEFAULTS["sugar"], last=", and ", sort=True)
+        + " from *PDB*, and also AGLC from *CHARMM*.",
+        subsequent_indent=" " * 6,
+    ),
+    heme=wrapText(
+        "indicates "
+        + joinLinks(DEFAULTS["heme"], last=", and ", sort=True)
+        + " from *PDB*, and also HEMO and HEMR from CHARMM.",
+        subsequent_indent=" " * 6,
+    ),
 )
 
 
-for resi in DEFAULTS['ion']:
+for resi in DEFAULTS["ion"]:
     __doc__ += PDBLIGSUM.format(resi)
 
-for resi in DEFAULTS['lipid']:
+for resi in DEFAULTS["lipid"]:
     __doc__ += PDBLIGSUM.format(resi)
 
-for resi in DEFAULTS['sugar']:
+for resi in DEFAULTS["sugar"]:
     __doc__ += PDBLIGSUM.format(resi)
 
-for resi in DEFAULTS['heme']:
+for resi in DEFAULTS["heme"]:
     __doc__ += PDBLIGSUM.format(resi)
 
 
@@ -668,8 +821,8 @@ Following functions can be used to customize flag definitions:
 """
 
 # join split lists
-for key in ['ion', 'lipid', 'sugar', 'heme']:
-    DEFAULTS[key].update(DEFAULTS.pop(key + '_other'))
+for key in ["ion", "lipid", "sugar", "heme"]:
+    DEFAULTS[key].update(DEFAULTS.pop(key + "_other"))
 
 DEFINITIONS = None
 AMINOACIDS = None
@@ -682,28 +835,37 @@ def updateDefinitions():
 
     global DEFINITIONS, AMINOACIDS, BACKBONE, TIMESTAMP
     DEFINITIONS = {}
-    user = SETTINGS.get('flag_definitions', {})
+    user = SETTINGS.get("flag_definitions", {})
 
     # nucleics
     nucleic = set()
-    for key in ['nucleobase', 'nucleoside', 'nucleotide']:
+    for key in ["nucleobase", "nucleoside", "nucleotide"]:
         aset = set(user.get(key, DEFAULTS[key]))
         nucleic.update(aset)
         DEFINITIONS[key] = aset
-    DEFINITIONS['nucleic'] = nucleic
+    DEFINITIONS["nucleic"] = nucleic
 
     # heteros
-    for key in ['water', 'lipid', 'ion', 'sugar', 'heme',
-                'at', 'cg', 'purine', 'pyrimidine']:
+    for key in [
+        "water",
+        "lipid",
+        "ion",
+        "sugar",
+        "heme",
+        "at",
+        "cg",
+        "purine",
+        "pyrimidine",
+    ]:
         DEFINITIONS[key] = set(user.get(key, DEFAULTS[key]))
 
-    DEFINITIONS['backbone'] = DEFINITIONS['bb'] = set(user.get(key,
-                                                      DEFAULTS['bb']))
-    DEFINITIONS['backbonefull'] = DEFINITIONS['bbfull'] = set(user.get(key,
-                                                           DEFAULTS['bbfull']))
+    DEFINITIONS["backbone"] = DEFINITIONS["bb"] = set(user.get(key, DEFAULTS["bb"]))
+    DEFINITIONS["backbonefull"] = DEFINITIONS["bbfull"] = set(
+        user.get(key, DEFAULTS["bbfull"])
+    )
 
     # element regex
-    for key in ['hydrogen', 'carbon', 'nitrogen', 'oxygen', 'sulfur']:
+    for key in ["hydrogen", "carbon", "nitrogen", "oxygen", "sulfur"]:
         DEFINITIONS[key] = recompile(user.get(key, DEFAULTS[key]))
 
     try:
@@ -713,33 +875,32 @@ def updateDefinitions():
         nonstd = NONSTANDARD
         DEFINITIONS.update(CATEGORIZED)
     else:
-
         for cat in CATEGORIES:
             for key in CATEGORIES[cat]:
                 DEFINITIONS[key] = set(DEFAULTS[key])
 
-        DEFINITIONS['charged'] = set(DEFINITIONS['acidic'])
-        DEFINITIONS['charged'].update(DEFINITIONS['basic'])
+        DEFINITIONS["charged"] = set(DEFINITIONS["acidic"])
+        DEFINITIONS["charged"].update(DEFINITIONS["basic"])
 
         for resi, props in nonstd.items():
             for prop in props:
                 DEFINITIONS[prop].add(resi)
 
-    DEFINITIONS['stdaa'] = DEFAULTS['stdaa']
-    DEFINITIONS['nonstdaa'] = set(nonstd)
-    AMINOACIDS = set(DEFINITIONS['stdaa'])
-    AMINOACIDS.update(DEFINITIONS['nonstdaa'])
-    DEFINITIONS['protein'] = DEFINITIONS['aminoacid'] = AMINOACIDS
+    DEFINITIONS["stdaa"] = DEFAULTS["stdaa"]
+    DEFINITIONS["nonstdaa"] = set(nonstd)
+    AMINOACIDS = set(DEFINITIONS["stdaa"])
+    AMINOACIDS.update(DEFINITIONS["nonstdaa"])
+    DEFINITIONS["protein"] = DEFINITIONS["aminoacid"] = AMINOACIDS
 
-    BACKBONE = DEFINITIONS['bb']
+    BACKBONE = DEFINITIONS["bb"]
 
     global TIMESTAMP
     TIMESTAMP = SETTINGS.get(TIMESTAMP_KEY, 0)
 
 
-#==============================================================================
+# ==============================================================================
 # PLANTERS
-#==============================================================================
+# ==============================================================================
 
 # flag planters are functions that take an AtomGroup instance
 # and set flags for a given label using the atomic data stored in the AtomGroup
@@ -747,11 +908,11 @@ def updateDefinitions():
 # planters return the flags after calculation is over
 
 # protein
-#==============================================================================
+# ==============================================================================
+
 
 def setCalpha(ag, label):
-
-    flags = ag._getNames() == 'CA'
+    flags = ag._getNames() == "CA"
     indices = flags.nonzero()[0]
     if len(indices):
         torf = array([rn in AMINOACIDS for rn in ag._getResnames()[indices]])
@@ -763,12 +924,12 @@ def setCalpha(ag, label):
         ag._setSubset(label, array([]))
     return flags
 
-addPlanter(setCalpha, 'ca', 'calpha')
+
+addPlanter(setCalpha, "ca", "calpha")
 
 
 def setProtein(ag, label):
-
-    calpha = ag._getSubset('calpha')
+    calpha = ag._getSubset("calpha")
     if len(calpha):
         torf = zeros(ag.numResidues(), bool)
         resindices = ag._getResindices()
@@ -776,18 +937,18 @@ def setProtein(ag, label):
         flags = torf[resindices]
     else:
         flags = zeros(ag.numAtoms(), bool)
-    ag._setFlags('protein', flags)
+    ag._setFlags("protein", flags)
     return flags
 
-addPlanter(setProtein, 'protein', 'aminoacid')
+
+addPlanter(setProtein, "protein", "aminoacid")
 
 # subsets
-#==============================================================================
+# ==============================================================================
 
 
 def setBackbone(ag, label):
-
-    protein = ag._getSubset('protein')
+    protein = ag._getSubset("protein")
     if len(protein):
         bb = DEFINITIONS[label]
         names = ag._getNames()[protein]
@@ -798,152 +959,186 @@ def setBackbone(ag, label):
     ag._setFlags(label, flags)
     return flags
 
-addPlanter(setBackbone, 'bb', 'backbone', editor=changeBackbone)
-addPlanter(setBackbone, 'bbfull', 'backbonefull', editor=changeBackbone)
+
+addPlanter(setBackbone, "bb", "backbone", editor=changeBackbone)
+addPlanter(setBackbone, "bbfull", "backbonefull", editor=changeBackbone)
 
 
 def setSidechain(ag, label):
-
-    protein = ag._getSubset('protein')
+    protein = ag._getSubset("protein")
     if len(protein):
         flags = zeros(ag.numAtoms(), bool)
         flags[protein] = True
-        flags[ag._getSubset('bbfull')] = False
+        flags[ag._getSubset("bbfull")] = False
     else:
         flags = zeros(ag.numAtoms(), bool)
     ag._setFlags(label, flags)
     return flags
 
-addPlanter(setSidechain, 'sc', 'sidechain')
+
+addPlanter(setSidechain, "sc", "sidechain")
 
 
 def setCategories(ag, label):
-
-    calpha = ag._getSubset('ca')
+    calpha = ag._getSubset("ca")
     if len(calpha):
         resnames = DEFINITIONS[label]
         residx = ag._getResindices()
         torf = zeros(ag.numResidues(), bool)
-        torf[residx[calpha]] = [rn in resnames
-                                for rn in ag._getResnames()[calpha]]
+        torf[residx[calpha]] = [rn in resnames for rn in ag._getResnames()[calpha]]
         flags = torf[residx]
     else:
         flags = zeros(ag.numAtoms(), bool)
     ag._setFlags(label, flags)
     return flags
 
-addPlanter(setCategories, 'stdaa', 'nonstdaa', *list(CATEGORIZED.keys()),
-           aliases=False)
+
+addPlanter(setCategories, "stdaa", "nonstdaa", *list(CATEGORIZED.keys()), aliases=False)
 
 
 def setAll(ag, label):
-
     flags = ones(ag.numAtoms(), bool)
-    ag._setFlags('all', flags)
+    ag._setFlags("all", flags)
     return flags
 
-addPlanter(setAll, 'all')
+
+addPlanter(setAll, "all")
 
 
 def setNone(ag, label):
-
     flags = zeros(ag.numAtoms(), bool)
-    ag._setFlags('none', flags)
+    ag._setFlags("none", flags)
     return flags
 
-addPlanter(setNone, 'none')
+
+addPlanter(setNone, "none")
 
 # hetero, nucleic, water, etc.
-#==============================================================================
+# ==============================================================================
 
 
 def setResiflag(ag, label):
-
     resnames = DEFINITIONS[label]
     flags = array([rn in resnames for rn in ag._getResnames()], bool)
     ag._setFlags(label, flags)
     return flags
 
-addPlanter(setResiflag, 'nucleobase', 'nucleoside', 'nucleotide',
-           'water', 'ion', 'lipid', 'sugar', 'heme', 'at', 'cg', 'purine',
-           'pyrimidine', aliases=False, editor=changeResnames)
-addPlanter(setResiflag, 'nucleic')
+
+addPlanter(
+    setResiflag,
+    "nucleobase",
+    "nucleoside",
+    "nucleotide",
+    "water",
+    "ion",
+    "lipid",
+    "sugar",
+    "heme",
+    "at",
+    "cg",
+    "purine",
+    "pyrimidine",
+    aliases=False,
+    editor=changeResnames,
+)
+addPlanter(setResiflag, "nucleic")
 
 
 def setHetero(ag, label):
-
     flags = ones(ag.numAtoms(), bool)
-    flags[ag._getSubset('protein')] = False
-    flags[ag._getSubset('nucleic')] = False
-    ag._setFlags('hetero', flags)
+    flags[ag._getSubset("protein")] = False
+    flags[ag._getSubset("nucleic")] = False
+    ag._setFlags("hetero", flags)
     return flags
 
-addPlanter(setHetero, 'hetero',)
+
+addPlanter(
+    setHetero,
+    "hetero",
+)
 
 
 # element
-#==============================================================================
+# ==============================================================================
+
 
 def setElement(ag, label):
-
     match = DEFINITIONS[label].match
     flags = array([match(nm) is not None for nm in ag._getNames()])
-    flags[ag._getSubset('ion')] = False
+    flags[ag._getSubset("ion")] = False
     ag._setFlags(label, flags)
     return flags
 
-addPlanter(setElement, 'hydrogen', 'carbon', 'nitrogen', 'oxygen', 'sulfur',
-           aliases=False, editor=changeNameRegex)
+
+addPlanter(
+    setElement,
+    "hydrogen",
+    "carbon",
+    "nitrogen",
+    "oxygen",
+    "sulfur",
+    aliases=False,
+    editor=changeNameRegex,
+)
 
 
 def setNoh(ag, label):
-
     flags = ones(ag.numAtoms(), bool)
-    flags[ag._getSubset('hydrogen')] = False
+    flags[ag._getSubset("hydrogen")] = False
     ag._setFlags(label, flags)
     return flags
 
-addPlanter(setNoh, 'noh', 'heavy')
+
+addPlanter(setNoh, "noh", "heavy")
 
 
 # secondary
-#==============================================================================
+# ==============================================================================
 
-SECONDARY = {'extended': 'E', 'helix': 'H', 'helix310': 'G', 'helixpi': 'I',
-             'turn': 'T', 'bridge': 'B', 'bend': 'S', 'coil': 'C'}
+SECONDARY = {
+    "extended": "E",
+    "helix": "H",
+    "helix310": "G",
+    "helixpi": "I",
+    "turn": "T",
+    "bridge": "B",
+    "bend": "S",
+    "coil": "C",
+}
 
 
 def setSecondary(ag, label):
-
     secstrs = ag._getSecstrs()
     if secstrs is None:
-        raise ValueError('no secondary structure assignments')
+        raise ValueError("no secondary structure assignments")
     flags = secstrs == SECONDARY[label]
     ag._setFlags(label, flags)
     return flags
 
-addPlanter(setSecondary, *list(SECONDARY.keys()), aliases=False,
-           fields=['secondary'])
+
+addPlanter(setSecondary, *list(SECONDARY.keys()), aliases=False, fields=["secondary"])
 
 
 # secondary
-#==============================================================================
+# ==============================================================================
+
 
 def setDummy(ag, label):
-
-    if label == 'dummy':
+    if label == "dummy":
         flags = zeros(len(ag), bool)
     else:
         flags = ones(len(ag), bool)
     ag._setFlags(label, flags)
     return flags
 
-addPlanter(setDummy, 'dummy', 'mapped', aliases=False, fields=[])
+
+addPlanter(setDummy, "dummy", "mapped", aliases=False, fields=[])
 
 
-#==============================================================================
+# ==============================================================================
 # User functions
-#==============================================================================
+# ==============================================================================
+
 
 def flagDefinition(*arg, **kwarg):
     """Learn, change, or reset :ref:`flags` definitions.
@@ -1001,18 +1196,19 @@ def flagDefinition(*arg, **kwarg):
        flagDefinition(reset='nitrogen')"""
 
     if arg and kwarg:
-        raise ValueError('only a single argument or a single keyword '
-                         'argument is accepted at a time')
+        raise ValueError(
+            "only a single argument or a single keyword "
+            "argument is accepted at a time"
+        )
 
     elif arg:
         if len(arg) > 1:
-            raise ValueError('specify only one flag label')
+            raise ValueError("specify only one flag label")
         arg = arg[0]
         try:
             definition = DEFINITIONS[arg]
         except KeyError:
-            raise ValueError('{0} is not a valid flag label'
-                             .format(repr(arg)))
+            raise ValueError("{0} is not a valid flag label".format(repr(arg)))
         else:
             try:
                 return definition.pattern
@@ -1023,35 +1219,41 @@ def flagDefinition(*arg, **kwarg):
 
     elif kwarg:
         if len(kwarg) > 1:
-            raise ValueError('specify only one keyword argument')
+            raise ValueError("specify only one keyword argument")
         key, val = list(kwarg.items())[0]
-        if key == 'editable' and val:
+        if key == "editable" and val:
             alist = list(EDITORS)
             alist.sort()
             return alist
-        if key == 'reset' and val:
+        if key == "reset" and val:
             resetDefinitions(val)
             return
         try:
             editor = EDITORS[key]
         except KeyError:
-            raise ValueError('{0} is not an editable flag or a valid '
-                             'keyword'.format(repr(key)))
+            raise ValueError(
+                "{0} is not an editable flag or a valid " "keyword".format(repr(key))
+            )
         else:
             type_ = type(flagDefinition(key))
             if type(val) != type_:
-                raise TypeError('expected {0} as type of new definition, '
-                                'found {1}'.format(repr(type_.__name__),
-                                repr(type(val).__name__)))
+                raise TypeError(
+                    "expected {0} as type of new definition, "
+                    "found {1}".format(repr(type_.__name__), repr(type(val).__name__))
+                )
             editor(key, val)
     else:
         alist = list(DEFINITIONS)
         alist.sort()
         return alist
 
+
 flagDefinition.__doc__ = flagDefinition.__doc__.format(
-    editable=wrapText(joinTerms(flagDefinition(editable=True), last=', and '),
-                      subsequent_indent=' '*4))
+    editable=wrapText(
+        joinTerms(flagDefinition(editable=True), last=", and "),
+        subsequent_indent=" " * 4,
+    )
+)
 
 
 def addNonstdAminoacid(resname, *properties):
@@ -1072,33 +1274,38 @@ def addNonstdAminoacid(resname, *properties):
 
     resname = str(resname)
     if len(resname) > 4:
-        LOGGER.warn('Residue name {0} is unusually long.'
-                    .format(repr(resname)))
+        LOGGER.warn("Residue name {0} is unusually long.".format(repr(resname)))
     propset = set(properties)
     for cat, val in CATEGORIES.items():
         intersection = val.intersection(propset)
         if intersection:
             if len(intersection) > 1:
-                raise ValueError('amino acid properties {0} cannot be '
-                                 'present together'
-                                 .format(', '.join([repr(prp)
-                                                    for prp in intersection])))
+                raise ValueError(
+                    "amino acid properties {0} cannot be "
+                    "present together".format(
+                        ", ".join([repr(prp) for prp in intersection])
+                    )
+                )
             for prop in intersection:
                 propset.remove(prop)
     if propset:
-        raise ValueError('amino acid property {0} is not valid'
-                         .format(repr(propset.pop())))
+        raise ValueError(
+            "amino acid property {0} is not valid".format(repr(propset.pop()))
+        )
 
     nonstd = SETTINGS.get(NONSTANDARD_KEY, NONSTANDARD)
     nonstd[resname] = set(properties)
     updateNonstandard(nonstd)
 
+
 INDEPENDENT.sort()
 addNonstdAminoacid.__doc__ = addNonstdAminoacid.__doc__.format(
-    props='\n      * '.join([
-        '*{0}*: {1}'.format(cat, joinTerms(terms, last=', or ', sort=True))
-        for cat, terms in CATEGORIES.items()
-    ])
+    props="\n      * ".join(
+        [
+            "*{0}*: {1}".format(cat, joinTerms(terms, last=", or ", sort=True))
+            for cat, terms in CATEGORIES.items()
+        ]
+    )
 )
 
 
@@ -1120,18 +1327,17 @@ def delNonstdAminoacid(resname):
     try:
         nonstd.pop(resname)
     except KeyError:
-        raise ValueError('{0} is not a non-standard residue name'
-                         .format(repr(resname)))
+        raise ValueError("{0} is not a non-standard residue name".format(repr(resname)))
     else:
         updateNonstandard(nonstd)
 
 
 def getNonstdProperties(resname):
-    """Deprecated for removal in v1.4, use :func:`listNonstdAAProps` instead.
-    """
+    """Deprecated for removal in v1.4, use :func:`listNonstdAAProps` instead."""
 
     from prody import deprecate
-    deprecate('getNonstdProperties', 'listNonstdAAProps')
+
+    deprecate("getNonstdProperties", "listNonstdAAProps")
 
     return listNonstdAAProps(resname)
 
@@ -1146,8 +1352,7 @@ def listNonstdAAProps(resname):
     try:
         alist = list(SETTINGS.get(NONSTANDARD_KEY, NONSTANDARD)[resname])
     except KeyError:
-        raise ValueError('{0} is not a non-standard residue name'
-                         .format(repr(resname)))
+        raise ValueError("{0} is not a non-standard residue name".format(repr(resname)))
     else:
         alist.sort()
         return alist

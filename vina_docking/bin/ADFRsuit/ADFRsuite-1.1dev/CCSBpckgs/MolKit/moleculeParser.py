@@ -17,15 +17,18 @@ import warnings, os
 from mglutil.util.misc import ensureFontCase
 
 # dict used to guess parser based on file extension
-parserToExt = {'PDB':'.pdb', 'PDBQ':'.pdbq',
-               'PDBQS':'.pdbqs', 'PDBQT':'.pdbqt',
-               'MOL2':'.mol2',
-               'PQR':'.pqr',
-               'GRO':'.gro',
-               'F2D':'.f2d',
-               'SDF':'.sdf',
-               'CIF':'.cif',
-               }
+parserToExt = {
+    "PDB": ".pdb",
+    "PDBQ": ".pdbq",
+    "PDBQS": ".pdbqs",
+    "PDBQT": ".pdbqt",
+    "MOL2": ".mol2",
+    "PQR": ".pqr",
+    "GRO": ".gro",
+    "F2D": ".f2d",
+    "SDF": ".sdf",
+    "CIF": ".cif",
+}
 
 
 class MoleculeParser:
@@ -34,31 +37,30 @@ class MoleculeParser:
         supply the lines directly via allLines
         """
         self.filename = str(filename)
-        self.allLines = allLines #stores all lines from file
+        self.allLines = allLines  # stores all lines from file
 
-        
     def readFile(self):
         f = open(self.filename)
         self.allLines = f.readlines()
-        if len(self.allLines)==1:
+        if len(self.allLines) == 1:
             # this file probably has \r instead or \n
-            self.allLines = self.allLines[0].split('\r')
-            warnings.warn('Only 1 line read from PDB file, splitting on \r')
+            self.allLines = self.allLines[0].split("\r")
+            warnings.warn("Only 1 line read from PDB file, splitting on \r")
         f.close()
         import string
-        self.allLines = filter( lambda x,s=string.strip: len(s(x)),
-                                self.allLines )
 
-    
+        self.allLines = filter(lambda x, s=string.strip: len(s(x)), self.allLines)
+
     def viewSource(self):
         import Tkinter, Pmw
+
         root = Tkinter.Toplevel()
         root.title(self.filename)
         self.st = Pmw.ScrolledText(root)
-        self.st.pack(fill = 'both', expand=1)
-        
-        self.st._textbox.configure(bg='white', font=(ensureFontCase('Courier'), '10'))
-        txt = ''
+        self.st.pack(fill="both", expand=1)
+
+        self.st._textbox.configure(bg="white", font=(ensureFontCase("Courier"), "10"))
+        txt = ""
         for line in self.allLines:
-            txt += ''.join(line)
+            txt += "".join(line)
         self.st.setvalue(txt)

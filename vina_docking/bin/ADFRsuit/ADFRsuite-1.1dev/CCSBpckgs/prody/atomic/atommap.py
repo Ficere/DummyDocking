@@ -84,15 +84,23 @@ from .fields import ATOMIC_FIELDS
 from .fields import wrapGetMethod
 from .pointer import AtomPointer
 
-__all__ = ['AtomMap']
+__all__ = ["AtomMap"]
 
 
 class AtomMap(AtomPointer):
 
     """A class for mapping atomic data."""
 
-    __slots__ = ['_ag', '_indices', '_acsi', '_mapping', '_dummies', '_title',
-                 '_len', '_idarray']
+    __slots__ = [
+        "_ag",
+        "_indices",
+        "_acsi",
+        "_mapping",
+        "_dummies",
+        "_title",
+        "_len",
+        "_idarray",
+    ]
 
     def __init__(self, ag, indices, acsi=None, **kwargs):
         """Instantiate an atom map.
@@ -119,8 +127,8 @@ class AtomMap(AtomPointer):
         AtomPointer.__init__(self, ag, acsi)
 
         self._dummies = self._mapping = None
-        mapping = kwargs.get('mapping', None)
-        dummies = kwargs.get('dummies', False)
+        mapping = kwargs.get("mapping", None)
+        dummies = kwargs.get("dummies", False)
 
         try:
             len(dummies)
@@ -130,13 +138,12 @@ class AtomMap(AtomPointer):
             dummy_array = True
 
         if mapping is None:
-            if not kwargs.get('intarrays'):
+            if not kwargs.get("intarrays"):
                 indices = array(indices, int)
             self._len = len(indices)
 
             if dummy_array:
-                raise TypeError('mapping and dummies must be provided '
-                                'together')
+                raise TypeError("mapping and dummies must be provided " "together")
 
             if dummies:
                 dummies = (indices == DUMMY).nonzero()[0]
@@ -151,19 +158,19 @@ class AtomMap(AtomPointer):
                 self._indices = self._idarray = indices
         else:
             if dummies is None:
-                raise TypeError('mapping and dummies must be provided '
-                                'together')
+                raise TypeError("mapping and dummies must be provided " "together")
 
             if len(mapping) != len(indices):
-                raise ValueError('indices and mapping arrays must have the '
-                                 'same length')
-            if not kwargs.get('intarrays'):
+                raise ValueError(
+                    "indices and mapping arrays must have the " "same length"
+                )
+            if not kwargs.get("intarrays"):
                 indices = array(indices, int)
                 mapping = array(mapping, int)
                 if dummy_array:
                     dummies = array(dummies, int)
             if any(mapping[1:] - mapping[:-1] < 0):
-                raise ValueError('mapping must be an ordered array')
+                raise ValueError("mapping must be an ordered array")
             self._len = len(indices)
             if dummy_array:
                 self._indices = indices
@@ -175,34 +182,31 @@ class AtomMap(AtomPointer):
                 idarray[self._dummies] = DUMMY
             else:
                 self._indices = self._idarray = indices[mapping]
-        self._title = str(kwargs.get('title', 'Unknown'))
+        self._title = str(kwargs.get("title", "Unknown"))
 
     def __repr__(self):
-
-        rep = '<AtomMap: {0} from {1} ({2} atoms'.format(
-                self._title, self._ag.getTitle(), self._len)
+        rep = "<AtomMap: {0} from {1} ({2} atoms".format(
+            self._title, self._ag.getTitle(), self._len
+        )
         if self.numDummies():
-            rep += ', {0} mapped, {1} dummy'.format(self.numMapped(),
-                                                        self.numDummies())
+            rep += ", {0} mapped, {1} dummy".format(self.numMapped(), self.numDummies())
 
         n_csets = self._ag.numCoordsets()
         if n_csets > 1:
-            rep += '; active #{0} of {1} coordsets)>'.format(
-                    self.getACSIndex(), n_csets)
+            rep += "; active #{0} of {1} coordsets)>".format(
+                self.getACSIndex(), n_csets
+            )
         elif n_csets == 0:
-            rep += '; no coordinates'
-        return rep + ')>'
+            rep += "; no coordinates"
+        return rep + ")>"
 
     def __str__(self):
-
-        return 'AtomMap {0}'.format(self._title)
+        return "AtomMap {0}".format(self._title)
 
     def __len__(self):
-
         return self._len
 
     def __getitem__(self, index):
-
         indices = self._idarray[index]
         try:
             len(indices)
@@ -210,9 +214,14 @@ class AtomMap(AtomPointer):
             if indices != DUMMY:
                 return self._ag[indices]
         else:
-            return AtomMap(self._ag, indices, self._acsi,
-                       title='({0})[{1}]'.format(self._title, repr(index)),
-                       intarrays=True, dummies=self.numDummies())
+            return AtomMap(
+                self._ag,
+                indices,
+                self._acsi,
+                title="({0})[{1}]".format(self._title, repr(index)),
+                intarrays=True,
+                dummies=self.numDummies(),
+            )
 
     def getTitle(self):
         """Return title of the instance."""
@@ -262,7 +271,6 @@ class AtomMap(AtomPointer):
                 coordsets[self.getACSIndex(), self._indices] = coords
             elif self._dummies is None:
                 coordsets[self.getACSIndex(), self._indices] = coords
-
 
     def getCoordsets(self, indices=None):
         """Return coordinate set(s) at given *indices*, which may be an integer
@@ -319,11 +327,11 @@ class AtomMap(AtomPointer):
         """Return a copy of atom flags for given *label*, or **None** when
         flags for *label* is not set."""
 
-        if label == 'dummy':
+        if label == "dummy":
             flags = zeros(self._len, bool)
             if self._dummies is not None:
                 flags[self._dummies] = True
-        elif label == 'mapped':
+        elif label == "mapped":
             flags = ones(self._len, bool)
             if self._dummies is not None:
                 flags[self._dummies] = False
@@ -338,7 +346,6 @@ class AtomMap(AtomPointer):
     _getFlags = getFlags
 
     def _getSubset(self, label):
-
         return self._idarray[self._getFlags(label)]
 
     def getIndices(self):
@@ -377,19 +384,18 @@ class AtomMap(AtomPointer):
     def getSelstr(self):
         """Return selection string that selects mapped atoms."""
 
-        return 'index ' + rangeString(self._indices)
+        return "index " + rangeString(self._indices)
 
 
 for fname, field in ATOMIC_FIELDS.items():
-
     if field.private:
         continue
 
     meth = field.meth_pl
-    getMeth = 'get' + meth
+    getMeth = "get" + meth
 
     def getData(self, meth=field.meth_pl, dtype=field.dtype):
-        data = getattr(self._ag, '_get' + meth)()
+        data = getattr(self._ag, "_get" + meth)()
         if data is not None:
             if self._mapping is None:
                 return data[self._indices]
@@ -400,10 +406,12 @@ for fname, field in ATOMIC_FIELDS.items():
 
     getData = wrapGetMethod(getData)
     getData.__name__ = getMeth
-    getData.__doc__ = (field.getDocstr('get', selex=False) +
-                       ' Entries for dummy atoms will be ``{0}``.'
-                       .format(repr(dtype(field.dtype).type())))
+    getData.__doc__ = field.getDocstr(
+        "get", selex=False
+    ) + " Entries for dummy atoms will be ``{0}``.".format(
+        repr(dtype(field.dtype).type())
+    )
     setattr(AtomMap, getMeth, getData)
-    setattr(AtomMap, '_' + getMeth, getData)
+    setattr(AtomMap, "_" + getMeth, getData)
 
 del getData

@@ -9,23 +9,25 @@
 
 __date__ = "17 February 2006"
 __author__ = "Mike Bradley, Todd Dolinsky"
-  
+
 from src.utilities import *
 from src.routines import *
 
+
 def usage():
-    str =  "        --rama        :  Print the per-residue phi and psi\n"
+    str = "        --rama        :  Print the per-residue phi and psi\n"
     str += "                         angles to {output-path}.rama for\n"
     str += "                         Ramachandran plots\n"
     return str
 
+
 def rama(routines, outroot):
     """
-        Print the list of phi and psi angles for use in a Ramachandran plot.
+    Print the list of phi and psi angles for use in a Ramachandran plot.
 
-        Parameters
-            routines:  A link to the routines object
-            outroot:   The root of the output name
+    Parameters
+        routines:  A link to the routines object
+        outroot:   The root of the output name
     """
 
     outname = outroot + ".rama"
@@ -40,24 +42,32 @@ def rama(routines, outroot):
     protein = routines.protein
 
     for residue in protein.getResidues():
-        if residue.hasAtom("N"): ncoords = residue.getAtom("N").getCoords()
-        else: continue
+        if residue.hasAtom("N"):
+            ncoords = residue.getAtom("N").getCoords()
+        else:
+            continue
 
-        if residue.hasAtom("CA"): cacoords = residue.getAtom("CA").getCoords()
-        else: continue
+        if residue.hasAtom("CA"):
+            cacoords = residue.getAtom("CA").getCoords()
+        else:
+            continue
 
-        if residue.hasAtom("C"): ccoords = residue.getAtom("C").getCoords()
-        else: continue
+        if residue.hasAtom("C"):
+            ccoords = residue.getAtom("C").getCoords()
+        else:
+            continue
 
         try:
             if residue.peptideN != None:
                 pepncoords = residue.peptideN.getCoords()
-            else: continue
+            else:
+                continue
 
             if residue.peptideC != None:
                 pepccoords = residue.peptideC.getCoords()
-            else: continue
-        except AttributeError: # Non amino acids
+            else:
+                continue
+        except AttributeError:  # Non amino acids
             continue
 
         phi = getDihedral(pepccoords, ncoords, cacoords, ccoords)

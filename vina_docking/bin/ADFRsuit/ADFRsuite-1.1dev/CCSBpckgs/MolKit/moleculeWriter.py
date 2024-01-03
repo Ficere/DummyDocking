@@ -12,8 +12,6 @@
 # $Id: moleculeWriter.py,v 1.1.1.1 2001/04/03 19:47:52 gillet Exp $
 #
 
+
 class MoleculeWriter:
-
     pass
-
-

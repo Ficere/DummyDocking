@@ -5,21 +5,42 @@ from numpy import arange, unique
 
 from .subset import AtomSubset
 
-__all__ = ['Chain']
+__all__ = ["Chain"]
 
 AAMAP = {
-    'ALA': 'A', 'ARG': 'R', 'ASN': 'N', 'ASP': 'D', 'CYS': 'C', 'GLN': 'Q',
-    'GLU': 'E', 'GLY': 'G', 'HIS': 'H', 'ILE': 'I', 'LEU': 'L', 'LYS': 'K',
-    'MET': 'M', 'PHE': 'F', 'PRO': 'P', 'SER': 'S', 'THR': 'T', 'TRP': 'W',
-    'TYR': 'Y', 'VAL': 'V',
-    'ASX': 'B', 'GLX': 'Z', 'SEC': 'U', 'PYL': 'O', 'XLE': 'J',
+    "ALA": "A",
+    "ARG": "R",
+    "ASN": "N",
+    "ASP": "D",
+    "CYS": "C",
+    "GLN": "Q",
+    "GLU": "E",
+    "GLY": "G",
+    "HIS": "H",
+    "ILE": "I",
+    "LEU": "L",
+    "LYS": "K",
+    "MET": "M",
+    "PHE": "F",
+    "PRO": "P",
+    "SER": "S",
+    "THR": "T",
+    "TRP": "W",
+    "TYR": "Y",
+    "VAL": "V",
+    "ASX": "B",
+    "GLX": "Z",
+    "SEC": "U",
+    "PYL": "O",
+    "XLE": "J",
 }
 _ = {}
 for aaa, a in AAMAP.items():
     _[a] = aaa
 AAMAP.update(_)
-AAMAP.update({'PTR': 'Y', 'TPO': 'T', 'SEP': 'S', 'CSO': 'C',
-              'HSD': 'H', 'HSP': 'H', 'HSE': 'H'})
+AAMAP.update(
+    {"PTR": "Y", "TPO": "T", "SEP": "S", "CSO": "C", "HSD": "H", "HSP": "H", "HSE": "H"}
+)
 
 
 def getSequence(resnames):
@@ -27,7 +48,7 @@ def getSequence(resnames):
     name abbreviations)."""
 
     get = AAMAP.get
-    return ''.join([get(rn, 'X') for rn in resnames])
+    return "".join([get(rn, "X") for rn in resnames])
 
 
 class Chain(AtomSubset):
@@ -46,52 +67,63 @@ class Chain(AtomSubset):
          - *slice* (:func:`slice`), e.g, ``10:20``, returns a list of
            :class:`.Residue` instances"""
 
-    __slots__ = ['_ag', '_indices', '_hv', '_acsi', '_selstr', '_seq']
+    __slots__ = ["_ag", "_indices", "_hv", "_acsi", "_selstr", "_seq"]
 
     def __init__(self, ag, indices, hv, acsi=None, **kwargs):
-
         AtomSubset.__init__(self, ag, indices, acsi, **kwargs)
         self._hv = hv
         self._seq = None
 
     def __repr__(self):
-
         n_csets = self._ag.numCoordsets()
         segment = self.getSegment()
         if segment is None:
-            segment = ''
+            segment = ""
         else:
-            segment = ' from ' + str(segment)
+            segment = " from " + str(segment)
         if n_csets == 1:
-            return ('<Chain: {0}{1} from {2} ({3} residues, {4} atoms)>'
-                    ).format(self.getChid(), segment, self._ag.getTitle(),
-                             self.numResidues(), self.numAtoms())
+            return ("<Chain: {0}{1} from {2} ({3} residues, {4} atoms)>").format(
+                self.getChid(),
+                segment,
+                self._ag.getTitle(),
+                self.numResidues(),
+                self.numAtoms(),
+            )
         elif n_csets > 1:
-            return ('<Chain: {0}{1} from {2} ({3} residues, {4} '
-                    'atoms; active #{5} of {6} coordsets)>'
-                    ).format(self.getChid(), segment, self._ag.getTitle(),
-                             self.numResidues(), self.numAtoms(),
-                             self.getACSIndex(), n_csets)
+            return (
+                "<Chain: {0}{1} from {2} ({3} residues, {4} "
+                "atoms; active #{5} of {6} coordsets)>"
+            ).format(
+                self.getChid(),
+                segment,
+                self._ag.getTitle(),
+                self.numResidues(),
+                self.numAtoms(),
+                self.getACSIndex(),
+                n_csets,
+            )
         else:
-            return ('<Chain: {0}{1} from {2} ({3} residues, '
-                    '{4} atoms; no coordinates)>'
-                    ).format(self.getChid(), segment, self._ag.getTitle(),
-                             self.numResidues(), self.numAtoms())
+            return (
+                "<Chain: {0}{1} from {2} ({3} residues, " "{4} atoms; no coordinates)>"
+            ).format(
+                self.getChid(),
+                segment,
+                self._ag.getTitle(),
+                self.numResidues(),
+                self.numAtoms(),
+            )
 
     def __str__(self):
-
-        return 'Chain ' + self.getChid()
+        return "Chain " + self.getChid()
 
     def __getitem__(self, key):
-
         if isinstance(key, tuple):
             return self.getResidue(*key)
 
         elif isinstance(key, slice):
-            resnums = set(arange(*key.indices(self._getResnums().max()+1)))
+            resnums = set(arange(*key.indices(self._getResnums().max() + 1)))
             _list = self._list
-            return [_list[i] for (rn, ic), i in self._dict.items()
-                    if rn in resnums]
+            return [_list[i] for (rn, ic), i in self._dict.items() if rn in resnums]
 
         else:
             return self.getResidue(key)
@@ -113,8 +145,7 @@ class Chain(AtomSubset):
     def getResidue(self, resnum, icode=None):
         """Return residue with number *resnum* and insertion code *icode*."""
 
-        return self._hv.getResidue(self.getChid(), resnum, icode,
-                                   self.getSegname())
+        return self._hv.getResidue(self.getChid(), resnum, icode, self.getSegname())
 
     def iterResidues(self):
         """Yield residues."""
@@ -153,9 +184,9 @@ class Chain(AtomSubset):
         residues (e.g. water molecules) in the chain and **X** will be used for
         non-standard residue names."""
 
-        if kwargs.get('allres', False):
+        if kwargs.get("allres", False):
             get = AAMAP.get
-            seq = ''.join([get(res.getResname(), 'X') for res in self])
+            seq = "".join([get(res.getResname(), "X") for res in self])
         elif self._seq:
             seq = self._seq
         else:
@@ -163,7 +194,7 @@ class Chain(AtomSubset):
             if calpha:
                 seq = getSequence(calpha.getResnames())
             else:
-                seq = ''
+                seq = ""
             self._seq = seq
         return seq
 
@@ -173,10 +204,8 @@ class Chain(AtomSubset):
         segment = self.getSegment()
         if segment is None:
             if self._selstr:
-                return 'chain {0} and ({1})'.format(self.getChid(),
-                                                    self._selstr)
+                return "chain {0} and ({1})".format(self.getChid(), self._selstr)
             else:
-                return 'chain {0}'.format(self.getChid())
+                return "chain {0}".format(self.getChid())
         else:
-            return 'chain {0} and ({1})'.format(self.getChid(),
-                                                segment.getSelstr())
+            return "chain {0} and ({1})".format(self.getChid(), segment.getSelstr())

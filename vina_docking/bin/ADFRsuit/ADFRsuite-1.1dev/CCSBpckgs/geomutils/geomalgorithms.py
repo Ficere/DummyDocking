@@ -5,26 +5,30 @@
 # the SWIG interface file instead.
 
 
-
-
-
 from sys import version_info
+
 if version_info >= (2, 6, 0):
+
     def swig_import_helper():
         from os.path import dirname
         import imp
+
         fp = None
         try:
-            fp, pathname, description = imp.find_module('_geomalgorithms', [dirname(__file__)])
+            fp, pathname, description = imp.find_module(
+                "_geomalgorithms", [dirname(__file__)]
+            )
         except ImportError:
             import _geomalgorithms
+
             return _geomalgorithms
         if fp is not None:
             try:
-                _mod = imp.load_module('_geomalgorithms', fp, pathname, description)
+                _mod = imp.load_module("_geomalgorithms", fp, pathname, description)
             finally:
                 fp.close()
             return _mod
+
     _geomalgorithms = swig_import_helper()
     del swig_import_helper
 else:
@@ -37,16 +41,16 @@ except NameError:
 
 
 def _swig_setattr_nondynamic(self, class_type, name, value, static=1):
-    if (name == "thisown"):
+    if name == "thisown":
         return self.this.own(value)
-    if (name == "this"):
-        if type(value).__name__ == 'SwigPyObject':
+    if name == "this":
+        if type(value).__name__ == "SwigPyObject":
             self.__dict__[name] = value
             return
     method = class_type.__swig_setmethods__.get(name, None)
     if method:
         return method(self, value)
-    if (not static):
+    if not static:
         if _newclass:
             object.__setattr__(self, name, value)
         else:
@@ -60,15 +64,16 @@ def _swig_setattr(self, class_type, name, value):
 
 
 def _swig_getattr_nondynamic(self, class_type, name, static=1):
-    if (name == "thisown"):
+    if name == "thisown":
         return self.this.own()
     method = class_type.__swig_getmethods__.get(name, None)
     if method:
         return method(self)
-    if (not static):
+    if not static:
         return object.__getattr__(self, name)
     else:
         raise AttributeError(name)
+
 
 def _swig_getattr(self, class_type, name):
     return _swig_getattr_nondynamic(self, class_type, name, 0)
@@ -79,105 +84,166 @@ def _swig_repr(self):
         strthis = "proxy of " + self.this.__repr__()
     except Exception:
         strthis = ""
-    return "<%s.%s; %s >" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    return "<%s.%s; %s >" % (
+        self.__class__.__module__,
+        self.__class__.__name__,
+        strthis,
+    )
+
 
 try:
     _object = object
     _newclass = 1
 except AttributeError:
+
     class _object:
         pass
-    _newclass = 0
 
+    _newclass = 0
 
 
 def triangleNormalsPerFace(*args, **kwargs):
     return _geomalgorithms.triangleNormalsPerFace(*args, **kwargs)
+
+
 triangleNormalsPerFace = _geomalgorithms.triangleNormalsPerFace
+
 
 def triangleNormalsPerVertex(*args, **kwargs):
     return _geomalgorithms.triangleNormalsPerVertex(*args, **kwargs)
+
+
 triangleNormalsPerVertex = _geomalgorithms.triangleNormalsPerVertex
+
 
 def triangleNormalsBoth(*args, **kwargs):
     return _geomalgorithms.triangleNormalsBoth(*args, **kwargs)
+
+
 triangleNormalsBoth = _geomalgorithms.triangleNormalsBoth
+
 
 def removeDuplicatedVertices(*args, **kwargs):
     return _geomalgorithms.removeDuplicatedVertices(*args, **kwargs)
+
+
 removeDuplicatedVertices = _geomalgorithms.removeDuplicatedVertices
+
 
 def computeRMSD(*args, **kwargs):
     return _geomalgorithms.computeRMSD(*args, **kwargs)
+
+
 computeRMSD = _geomalgorithms.computeRMSD
 
 
-def TriangleNormals(vertices, triangles, mode = "PER_FACE" ):
+def TriangleNormals(vertices, triangles, mode="PER_FACE"):
     import numpy
+
     if type(vertices) == numpy.ndarray:
-        vertices = vertices.astype('f')
+        vertices = vertices.astype("f")
     if type(triangles) == numpy.ndarray:
-        triangles = triangles.astype('i')
+        triangles = triangles.astype("i")
 
     if mode == "PER_FACE":
         return triangleNormalsPerFace(vertices, triangles)
     elif mode == "PER_VERTEX":
-        return triangleNormalsPerVertex(vertices, triangles)  
+        return triangleNormalsPerVertex(vertices, triangles)
     elif mode == "BOTH":
-        return triangleNormalsBoth(vertices, triangles) 
+        return triangleNormalsBoth(vertices, triangles)
 
 
 def closest2D_Point_to_Line(*args, **kwargs):
     return _geomalgorithms.closest2D_Point_to_Line(*args, **kwargs)
+
+
 closest2D_Point_to_Line = _geomalgorithms.closest2D_Point_to_Line
+
 
 def dist_Point_to_Line(*args, **kwargs):
     return _geomalgorithms.dist_Point_to_Line(*args, **kwargs)
+
+
 dist_Point_to_Line = _geomalgorithms.dist_Point_to_Line
+
 
 def dist_Point_to_Segment(*args, **kwargs):
     return _geomalgorithms.dist_Point_to_Segment(*args, **kwargs)
+
+
 dist_Point_to_Segment = _geomalgorithms.dist_Point_to_Segment
+
 
 def pbase_Plane(*args, **kwargs):
     return _geomalgorithms.pbase_Plane(*args, **kwargs)
+
+
 pbase_Plane = _geomalgorithms.pbase_Plane
+
 
 def dist3D_Line_to_Line(*args, **kwargs):
     return _geomalgorithms.dist3D_Line_to_Line(*args, **kwargs)
+
+
 dist3D_Line_to_Line = _geomalgorithms.dist3D_Line_to_Line
+
 
 def dist3D_Segment_to_Segment(*args, **kwargs):
     return _geomalgorithms.dist3D_Segment_to_Segment(*args, **kwargs)
+
+
 dist3D_Segment_to_Segment = _geomalgorithms.dist3D_Segment_to_Segment
+
 
 def cpa_time(*args, **kwargs):
     return _geomalgorithms.cpa_time(*args, **kwargs)
+
+
 cpa_time = _geomalgorithms.cpa_time
+
 
 def cpa_distance(*args, **kwargs):
     return _geomalgorithms.cpa_distance(*args, **kwargs)
+
+
 cpa_distance = _geomalgorithms.cpa_distance
+
 
 def intersect2D_Segments(*args, **kwargs):
     return _geomalgorithms.intersect2D_Segments(*args, **kwargs)
+
+
 intersect2D_Segments = _geomalgorithms.intersect2D_Segments
+
 
 def inSegment(*args, **kwargs):
     return _geomalgorithms.inSegment(*args, **kwargs)
+
+
 inSegment = _geomalgorithms.inSegment
+
 
 def intersect3D_SegmentPlane(*args, **kwargs):
     return _geomalgorithms.intersect3D_SegmentPlane(*args, **kwargs)
+
+
 intersect3D_SegmentPlane = _geomalgorithms.intersect3D_SegmentPlane
+
 
 def intersect3D_2Planes(*args, **kwargs):
     return _geomalgorithms.intersect3D_2Planes(*args, **kwargs)
+
+
 intersect3D_2Planes = _geomalgorithms.intersect3D_2Planes
+
 
 def intersect_RayTriangle(*args, **kwargs):
     return _geomalgorithms.intersect_RayTriangle(*args, **kwargs)
+
+
 intersect_RayTriangle = _geomalgorithms.intersect_RayTriangle
+
+
 class Vert(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Vert, name, value)
@@ -203,35 +269,53 @@ class Vert(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _geomalgorithms.delete_Vert
     __del__ = lambda self: None
+
+
 Vert_swigregister = _geomalgorithms.Vert_swigregister
 Vert_swigregister(Vert)
 
 
 def orientation2D_Polygon(*args, **kwargs):
     return _geomalgorithms.orientation2D_Polygon(*args, **kwargs)
+
+
 orientation2D_Polygon = _geomalgorithms.orientation2D_Polygon
+
 
 def area2D_Polygon(*args, **kwargs):
     return _geomalgorithms.area2D_Polygon(*args, **kwargs)
+
+
 area2D_Polygon = _geomalgorithms.area2D_Polygon
+
 
 def area3D_Polygon(*args, **kwargs):
     return _geomalgorithms.area3D_Polygon(*args, **kwargs)
+
+
 area3D_Polygon = _geomalgorithms.area3D_Polygon
+
 
 def fastBall(*args, **kwargs):
     return _geomalgorithms.fastBall(*args, **kwargs)
+
+
 fastBall = _geomalgorithms.fastBall
+
 
 def detectObjFileContent(*args, **kwargs):
     return _geomalgorithms.detectObjFileContent(*args, **kwargs)
+
+
 detectObjFileContent = _geomalgorithms.detectObjFileContent
+
 
 def readObjFileGroup(*args, **kwargs):
     return _geomalgorithms.readObjFileGroup(*args, **kwargs)
+
+
 readObjFileGroup = _geomalgorithms.readObjFileGroup
 # This file is compatible with both classic and new-style classes.
-
-

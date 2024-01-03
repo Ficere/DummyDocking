@@ -5,26 +5,30 @@
 # the SWIG interface file instead.
 
 
-
-
-
 from sys import version_info
+
 if version_info >= (2, 6, 0):
+
     def swig_import_helper():
         from os.path import dirname
         import imp
+
         fp = None
         try:
-            fp, pathname, description = imp.find_module('_bhtreelib', [dirname(__file__)])
+            fp, pathname, description = imp.find_module(
+                "_bhtreelib", [dirname(__file__)]
+            )
         except ImportError:
             import _bhtreelib
+
             return _bhtreelib
         if fp is not None:
             try:
-                _mod = imp.load_module('_bhtreelib', fp, pathname, description)
+                _mod = imp.load_module("_bhtreelib", fp, pathname, description)
             finally:
                 fp.close()
             return _mod
+
     _bhtreelib = swig_import_helper()
     del swig_import_helper
 else:
@@ -37,16 +41,16 @@ except NameError:
 
 
 def _swig_setattr_nondynamic(self, class_type, name, value, static=1):
-    if (name == "thisown"):
+    if name == "thisown":
         return self.this.own(value)
-    if (name == "this"):
-        if type(value).__name__ == 'SwigPyObject':
+    if name == "this":
+        if type(value).__name__ == "SwigPyObject":
             self.__dict__[name] = value
             return
     method = class_type.__swig_setmethods__.get(name, None)
     if method:
         return method(self, value)
-    if (not static):
+    if not static:
         if _newclass:
             object.__setattr__(self, name, value)
         else:
@@ -60,15 +64,16 @@ def _swig_setattr(self, class_type, name, value):
 
 
 def _swig_getattr_nondynamic(self, class_type, name, static=1):
-    if (name == "thisown"):
+    if name == "thisown":
         return self.this.own()
     method = class_type.__swig_getmethods__.get(name, None)
     if method:
         return method(self)
-    if (not static):
+    if not static:
         return object.__getattr__(self, name)
     else:
         raise AttributeError(name)
+
 
 def _swig_getattr(self, class_type, name):
     return _swig_getattr_nondynamic(self, class_type, name, 0)
@@ -79,21 +84,31 @@ def _swig_repr(self):
         strthis = "proxy of " + self.this.__repr__()
     except Exception:
         strthis = ""
-    return "<%s.%s; %s >" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    return "<%s.%s; %s >" % (
+        self.__class__.__module__,
+        self.__class__.__name__,
+        strthis,
+    )
+
 
 try:
     _object = object
     _newclass = 1
 except AttributeError:
+
     class _object:
         pass
-    _newclass = 0
 
+    _newclass = 0
 
 
 def findFaceSubset(vs, fs, nbVert):
     return _bhtreelib.findFaceSubset(vs, fs, nbVert)
+
+
 findFaceSubset = _bhtreelib.findFaceSubset
+
+
 class BHpoint(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, BHpoint, name, value)
@@ -119,10 +134,14 @@ class BHpoint(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _bhtreelib.delete_BHpoint
     __del__ = lambda self: None
+
+
 BHpoint_swigregister = _bhtreelib.BHpoint_swigregister
 BHpoint_swigregister(BHpoint)
+
 
 class BHnode(_object):
     __swig_setmethods__ = {}
@@ -161,10 +180,14 @@ class BHnode(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _bhtreelib.delete_BHnode
     __del__ = lambda self: None
+
+
 BHnode_swigregister = _bhtreelib.BHnode_swigregister
 BHnode_swigregister(BHnode)
+
 
 class BHtree(_object):
     __swig_setmethods__ = {}
@@ -199,7 +222,9 @@ class BHtree(_object):
     __swig_setmethods__["nodeLookUp"] = _bhtreelib.BHtree_nodeLookUp_set
     __swig_getmethods__["nodeLookUp"] = _bhtreelib.BHtree_nodeLookUp_get
     if _newclass:
-        nodeLookUp = _swig_property(_bhtreelib.BHtree_nodeLookUp_get, _bhtreelib.BHtree_nodeLookUp_set)
+        nodeLookUp = _swig_property(
+            _bhtreelib.BHtree_nodeLookUp_get, _bhtreelib.BHtree_nodeLookUp_set
+        )
     __swig_setmethods__["nbp"] = _bhtreelib.BHtree_nbp_set
     __swig_getmethods__["nbp"] = _bhtreelib.BHtree_nbp_get
     if _newclass:
@@ -215,6 +240,7 @@ class BHtree(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _bhtreelib.delete_BHtree
     __del__ = lambda self: None
 
@@ -237,57 +263,96 @@ class BHtree(_object):
         return _bhtreelib.BHtree_closestPointsArray(self, xyz, cut, returnNullIfFail)
 
     def closestPointsArrayDist2(self, xyz, cut, returnNullIfFail=1):
-        return _bhtreelib.BHtree_closestPointsArrayDist2(self, xyz, cut, returnNullIfFail)
+        return _bhtreelib.BHtree_closestPointsArrayDist2(
+            self, xyz, cut, returnNullIfFail
+        )
+
+
 BHtree_swigregister = _bhtreelib.BHtree_swigregister
 BHtree_swigregister(BHtree)
 
 
 def generateBHtree(atoms, nbat, granularity):
     return _bhtreelib.generateBHtree(atoms, nbat, granularity)
+
+
 generateBHtree = _bhtreelib.generateBHtree
+
 
 def findBHnode(tree, x):
     return _bhtreelib.findBHnode(tree, x)
+
+
 findBHnode = _bhtreelib.findBHnode
+
 
 def findBHcloseAtoms(tree, x, cutoff, atom, maxn):
     return _bhtreelib.findBHcloseAtoms(tree, x, cutoff, atom, maxn)
+
+
 findBHcloseAtoms = _bhtreelib.findBHcloseAtoms
+
 
 def findBHcloseAtomsdist(tree, x, cutoff, atom, d, maxn):
     return _bhtreelib.findBHcloseAtomsdist(tree, x, cutoff, atom, d, maxn)
+
+
 findBHcloseAtomsdist = _bhtreelib.findBHcloseAtomsdist
+
 
 def findBHcloseAtomsdist2(tree, x, cutoff, atom, dist, maxn):
     return _bhtreelib.findBHcloseAtomsdist2(tree, x, cutoff, atom, dist, maxn)
+
+
 findBHcloseAtomsdist2 = _bhtreelib.findBHcloseAtomsdist2
+
 
 def freeBHtree(tree):
     return _bhtreelib.freeBHtree(tree)
+
+
 freeBHtree = _bhtreelib.freeBHtree
+
 
 def divideBHnode(node, xmin, xmax, granularity):
     return _bhtreelib.divideBHnode(node, xmin, xmax, granularity)
+
+
 divideBHnode = _bhtreelib.divideBHnode
+
 
 def freeBHnode(node):
     return _bhtreelib.freeBHnode(node)
+
+
 freeBHnode = _bhtreelib.freeBHnode
+
 
 def findClosePairsInTree(bht, tolerance):
     return _bhtreelib.findClosePairsInTree(bht, tolerance)
+
+
 findClosePairsInTree = _bhtreelib.findClosePairsInTree
+
 
 def findClosePairs(bht, xyz, rad, tolerance):
     return _bhtreelib.findClosePairs(bht, xyz, rad, tolerance)
+
+
 findClosePairs = _bhtreelib.findClosePairs
+
 
 def findClosestAtoms(bht, xyz, cut, returnNullIfFail):
     return _bhtreelib.findClosestAtoms(bht, xyz, cut, returnNullIfFail)
+
+
 findClosestAtoms = _bhtreelib.findClosestAtoms
+
 
 def findClosestAtomsDist2(bht, xyz, cut, returnNullIfFail):
     return _bhtreelib.findClosestAtomsDist2(bht, xyz, cut, returnNullIfFail)
+
+
 findClosestAtomsDist2 = _bhtreelib.findClosestAtomsDist2
 
 _bhtreelib.BH_MAXFINDCOUNT_swigconstant(_bhtreelib)
@@ -364,6 +429,8 @@ FLAG_OWNSMEMORY = _bhtreelib.FLAG_OWNSMEMORY
 
 _bhtreelib.FLAG_EMPTY_TREE_swigconstant(_bhtreelib)
 FLAG_EMPTY_TREE = _bhtreelib.FLAG_EMPTY_TREE
+
+
 class TBHPoint(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, TBHPoint, name, value)
@@ -381,11 +448,15 @@ class TBHPoint(_object):
     __swig_setmethods__["Data"] = _bhtreelib.TBHPoint_Data_set
     __swig_getmethods__["Data"] = _bhtreelib.TBHPoint_Data_get
     if _newclass:
-        Data = _swig_property(_bhtreelib.TBHPoint_Data_get, _bhtreelib.TBHPoint_Data_set)
+        Data = _swig_property(
+            _bhtreelib.TBHPoint_Data_get, _bhtreelib.TBHPoint_Data_set
+        )
     __swig_setmethods__["uInt"] = _bhtreelib.TBHPoint_uInt_set
     __swig_getmethods__["uInt"] = _bhtreelib.TBHPoint_uInt_get
     if _newclass:
-        uInt = _swig_property(_bhtreelib.TBHPoint_uInt_get, _bhtreelib.TBHPoint_uInt_set)
+        uInt = _swig_property(
+            _bhtreelib.TBHPoint_uInt_get, _bhtreelib.TBHPoint_uInt_set
+        )
     __swig_setmethods__["ID"] = _bhtreelib.TBHPoint_ID_set
     __swig_getmethods__["ID"] = _bhtreelib.TBHPoint_ID_get
     if _newclass:
@@ -401,10 +472,14 @@ class TBHPoint(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _bhtreelib.delete_TBHPoint
     __del__ = lambda self: None
+
+
 TBHPoint_swigregister = _bhtreelib.TBHPoint_swigregister
 TBHPoint_swigregister(TBHPoint)
+
 
 class TBHIndex(_object):
     __swig_setmethods__ = {}
@@ -419,11 +494,15 @@ class TBHIndex(_object):
     __swig_setmethods__["NumPts"] = _bhtreelib.TBHIndex_NumPts_set
     __swig_getmethods__["NumPts"] = _bhtreelib.TBHIndex_NumPts_get
     if _newclass:
-        NumPts = _swig_property(_bhtreelib.TBHIndex_NumPts_get, _bhtreelib.TBHIndex_NumPts_set)
+        NumPts = _swig_property(
+            _bhtreelib.TBHIndex_NumPts_get, _bhtreelib.TBHIndex_NumPts_set
+        )
     __swig_setmethods__["Size"] = _bhtreelib.TBHIndex_Size_set
     __swig_getmethods__["Size"] = _bhtreelib.TBHIndex_Size_get
     if _newclass:
-        Size = _swig_property(_bhtreelib.TBHIndex_Size_get, _bhtreelib.TBHIndex_Size_set)
+        Size = _swig_property(
+            _bhtreelib.TBHIndex_Size_get, _bhtreelib.TBHIndex_Size_set
+        )
 
     def __init__(self):
         this = _bhtreelib.new_TBHIndex()
@@ -431,10 +510,14 @@ class TBHIndex(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _bhtreelib.delete_TBHIndex
     __del__ = lambda self: None
+
+
 TBHIndex_swigregister = _bhtreelib.TBHIndex_swigregister
 TBHIndex_swigregister(TBHIndex)
+
 
 class TBHNode(_object):
     __swig_setmethods__ = {}
@@ -449,19 +532,27 @@ class TBHNode(_object):
     __swig_setmethods__["Right"] = _bhtreelib.TBHNode_Right_set
     __swig_getmethods__["Right"] = _bhtreelib.TBHNode_Right_get
     if _newclass:
-        Right = _swig_property(_bhtreelib.TBHNode_Right_get, _bhtreelib.TBHNode_Right_set)
+        Right = _swig_property(
+            _bhtreelib.TBHNode_Right_get, _bhtreelib.TBHNode_Right_set
+        )
     __swig_setmethods__["Parent"] = _bhtreelib.TBHNode_Parent_set
     __swig_getmethods__["Parent"] = _bhtreelib.TBHNode_Parent_get
     if _newclass:
-        Parent = _swig_property(_bhtreelib.TBHNode_Parent_get, _bhtreelib.TBHNode_Parent_set)
+        Parent = _swig_property(
+            _bhtreelib.TBHNode_Parent_get, _bhtreelib.TBHNode_Parent_set
+        )
     __swig_setmethods__["Buffer"] = _bhtreelib.TBHNode_Buffer_set
     __swig_getmethods__["Buffer"] = _bhtreelib.TBHNode_Buffer_get
     if _newclass:
-        Buffer = _swig_property(_bhtreelib.TBHNode_Buffer_get, _bhtreelib.TBHNode_Buffer_set)
+        Buffer = _swig_property(
+            _bhtreelib.TBHNode_Buffer_get, _bhtreelib.TBHNode_Buffer_set
+        )
     __swig_setmethods__["Index"] = _bhtreelib.TBHNode_Index_set
     __swig_getmethods__["Index"] = _bhtreelib.TBHNode_Index_get
     if _newclass:
-        Index = _swig_property(_bhtreelib.TBHNode_Index_get, _bhtreelib.TBHNode_Index_set)
+        Index = _swig_property(
+            _bhtreelib.TBHNode_Index_get, _bhtreelib.TBHNode_Index_set
+        )
     __swig_setmethods__["xmin"] = _bhtreelib.TBHNode_xmin_set
     __swig_getmethods__["xmin"] = _bhtreelib.TBHNode_xmin_get
     if _newclass:
@@ -485,10 +576,14 @@ class TBHNode(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _bhtreelib.delete_TBHNode
     __del__ = lambda self: None
+
+
 TBHNode_swigregister = _bhtreelib.TBHNode_swigregister
 TBHNode_swigregister(TBHNode)
+
 
 class TBHTree(_object):
     __swig_setmethods__ = {}
@@ -507,7 +602,9 @@ class TBHTree(_object):
     __swig_setmethods__["NumPts"] = _bhtreelib.TBHTree_NumPts_set
     __swig_getmethods__["NumPts"] = _bhtreelib.TBHTree_NumPts_get
     if _newclass:
-        NumPts = _swig_property(_bhtreelib.TBHTree_NumPts_get, _bhtreelib.TBHTree_NumPts_set)
+        NumPts = _swig_property(
+            _bhtreelib.TBHTree_NumPts_get, _bhtreelib.TBHTree_NumPts_set
+        )
     __swig_setmethods__["xmin"] = _bhtreelib.TBHTree_xmin_set
     __swig_getmethods__["xmin"] = _bhtreelib.TBHTree_xmin_get
     if _newclass:
@@ -526,11 +623,14 @@ class TBHTree(_object):
         bfl = _swig_property(_bhtreelib.TBHTree_bfl_get, _bhtreelib.TBHTree_bfl_set)
 
     def __init__(self, points3D, ids, Granularity, LeafPadding, SpacePadding):
-        this = _bhtreelib.new_TBHTree(points3D, ids, Granularity, LeafPadding, SpacePadding)
+        this = _bhtreelib.new_TBHTree(
+            points3D, ids, Granularity, LeafPadding, SpacePadding
+        )
         try:
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _bhtreelib.delete_TBHTree
     __del__ = lambda self: None
 
@@ -539,8 +639,11 @@ class TBHTree(_object):
 
     def ClosePointsDist2(self, pt, cutoff, result, dist_2):
         return _bhtreelib.TBHTree_ClosePointsDist2(self, pt, cutoff, result, dist_2)
+
+
 TBHTree_swigregister = _bhtreelib.TBHTree_swigregister
 TBHTree_swigregister(TBHTree)
+
 
 class RBHTree(_object):
     __swig_setmethods__ = {}
@@ -559,15 +662,21 @@ class RBHTree(_object):
     __swig_setmethods__["FreePts"] = _bhtreelib.RBHTree_FreePts_set
     __swig_getmethods__["FreePts"] = _bhtreelib.RBHTree_FreePts_get
     if _newclass:
-        FreePts = _swig_property(_bhtreelib.RBHTree_FreePts_get, _bhtreelib.RBHTree_FreePts_set)
+        FreePts = _swig_property(
+            _bhtreelib.RBHTree_FreePts_get, _bhtreelib.RBHTree_FreePts_set
+        )
     __swig_setmethods__["NumPts"] = _bhtreelib.RBHTree_NumPts_set
     __swig_getmethods__["NumPts"] = _bhtreelib.RBHTree_NumPts_get
     if _newclass:
-        NumPts = _swig_property(_bhtreelib.RBHTree_NumPts_get, _bhtreelib.RBHTree_NumPts_set)
+        NumPts = _swig_property(
+            _bhtreelib.RBHTree_NumPts_get, _bhtreelib.RBHTree_NumPts_set
+        )
     __swig_setmethods__["SizePts"] = _bhtreelib.RBHTree_SizePts_set
     __swig_getmethods__["SizePts"] = _bhtreelib.RBHTree_SizePts_get
     if _newclass:
-        SizePts = _swig_property(_bhtreelib.RBHTree_SizePts_get, _bhtreelib.RBHTree_SizePts_set)
+        SizePts = _swig_property(
+            _bhtreelib.RBHTree_SizePts_get, _bhtreelib.RBHTree_SizePts_set
+        )
     __swig_setmethods__["xmin"] = _bhtreelib.RBHTree_xmin_set
     __swig_getmethods__["xmin"] = _bhtreelib.RBHTree_xmin_get
     if _newclass:
@@ -587,26 +696,54 @@ class RBHTree(_object):
     __swig_setmethods__["Flags"] = _bhtreelib.RBHTree_Flags_set
     __swig_getmethods__["Flags"] = _bhtreelib.RBHTree_Flags_get
     if _newclass:
-        Flags = _swig_property(_bhtreelib.RBHTree_Flags_get, _bhtreelib.RBHTree_Flags_set)
+        Flags = _swig_property(
+            _bhtreelib.RBHTree_Flags_get, _bhtreelib.RBHTree_Flags_set
+        )
     __swig_setmethods__["Granularity"] = _bhtreelib.RBHTree_Granularity_set
     __swig_getmethods__["Granularity"] = _bhtreelib.RBHTree_Granularity_get
     if _newclass:
-        Granularity = _swig_property(_bhtreelib.RBHTree_Granularity_get, _bhtreelib.RBHTree_Granularity_set)
+        Granularity = _swig_property(
+            _bhtreelib.RBHTree_Granularity_get, _bhtreelib.RBHTree_Granularity_set
+        )
     __swig_setmethods__["LeafPadding"] = _bhtreelib.RBHTree_LeafPadding_set
     __swig_getmethods__["LeafPadding"] = _bhtreelib.RBHTree_LeafPadding_get
     if _newclass:
-        LeafPadding = _swig_property(_bhtreelib.RBHTree_LeafPadding_get, _bhtreelib.RBHTree_LeafPadding_set)
+        LeafPadding = _swig_property(
+            _bhtreelib.RBHTree_LeafPadding_get, _bhtreelib.RBHTree_LeafPadding_set
+        )
     __swig_setmethods__["SpacePadding"] = _bhtreelib.RBHTree_SpacePadding_set
     __swig_getmethods__["SpacePadding"] = _bhtreelib.RBHTree_SpacePadding_get
     if _newclass:
-        SpacePadding = _swig_property(_bhtreelib.RBHTree_SpacePadding_get, _bhtreelib.RBHTree_SpacePadding_set)
+        SpacePadding = _swig_property(
+            _bhtreelib.RBHTree_SpacePadding_get, _bhtreelib.RBHTree_SpacePadding_set
+        )
 
-    def __init__(self, points3D, ids, Granularity, LeafPadding, InsertPadding, DeletePadding, SpacePadding, OwnsMemory):
-        this = _bhtreelib.new_RBHTree(points3D, ids, Granularity, LeafPadding, InsertPadding, DeletePadding, SpacePadding, OwnsMemory)
+    def __init__(
+        self,
+        points3D,
+        ids,
+        Granularity,
+        LeafPadding,
+        InsertPadding,
+        DeletePadding,
+        SpacePadding,
+        OwnsMemory,
+    ):
+        this = _bhtreelib.new_RBHTree(
+            points3D,
+            ids,
+            Granularity,
+            LeafPadding,
+            InsertPadding,
+            DeletePadding,
+            SpacePadding,
+            OwnsMemory,
+        )
         try:
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _bhtreelib.delete_RBHTree
     __del__ = lambda self: None
 
@@ -624,93 +761,177 @@ class RBHTree(_object):
 
     def MoveRBHPoint(self, ID, NewPos, FindDirection):
         return _bhtreelib.RBHTree_MoveRBHPoint(self, ID, NewPos, FindDirection)
+
+
 RBHTree_swigregister = _bhtreelib.RBHTree_swigregister
 RBHTree_swigregister(RBHTree)
 
 
 def GenerateTBHTree(Pts, NumPts, Granularity, LeafPadding, SpacePadding):
-    return _bhtreelib.GenerateTBHTree(Pts, NumPts, Granularity, LeafPadding, SpacePadding)
+    return _bhtreelib.GenerateTBHTree(
+        Pts, NumPts, Granularity, LeafPadding, SpacePadding
+    )
+
+
 GenerateTBHTree = _bhtreelib.GenerateTBHTree
+
 
 def FindTBHNodeUp(node, x):
     return _bhtreelib.FindTBHNodeUp(node, x)
+
+
 FindTBHNodeUp = _bhtreelib.FindTBHNodeUp
+
 
 def FindTBHNode(tree, x):
     return _bhtreelib.FindTBHNode(tree, x)
+
+
 FindTBHNode = _bhtreelib.FindTBHNode
+
 
 def FreeTBHTree(tree):
     return _bhtreelib.FreeTBHTree(tree)
+
+
 FreeTBHTree = _bhtreelib.FreeTBHTree
+
 
 def FreeTBHNode(node):
     return _bhtreelib.FreeTBHNode(node)
+
+
 FreeTBHNode = _bhtreelib.FreeTBHNode
+
 
 def MoveTBHPoint(tree, ID, NewPos, FindDirection):
     return _bhtreelib.MoveTBHPoint(tree, ID, NewPos, FindDirection)
+
+
 MoveTBHPoint = _bhtreelib.MoveTBHPoint
 
+
 def DivideTBHNode(node, xmin, xmax, sxmin, sxmax, granularity, LeafPadding):
-    return _bhtreelib.DivideTBHNode(node, xmin, xmax, sxmin, sxmax, granularity, LeafPadding)
+    return _bhtreelib.DivideTBHNode(
+        node, xmin, xmax, sxmin, sxmax, granularity, LeafPadding
+    )
+
+
 DivideTBHNode = _bhtreelib.DivideTBHNode
+
 
 def FindTBHCloseAtomsDist(tree, x, cutoff, atom, dist, maxn):
     return _bhtreelib.FindTBHCloseAtomsDist(tree, x, cutoff, atom, dist, maxn)
+
+
 FindTBHCloseAtomsDist = _bhtreelib.FindTBHCloseAtomsDist
+
 
 def FindTBHCloseAtomsInNodeDist(node, x, cutoff, atom, dist, maxn):
     return _bhtreelib.FindTBHCloseAtomsInNodeDist(node, x, cutoff, atom, dist, maxn)
+
+
 FindTBHCloseAtomsInNodeDist = _bhtreelib.FindTBHCloseAtomsInNodeDist
+
 
 def FindTBHCloseAtoms(tree, x, cutoff, atom, maxn):
     return _bhtreelib.FindTBHCloseAtoms(tree, x, cutoff, atom, maxn)
+
+
 FindTBHCloseAtoms = _bhtreelib.FindTBHCloseAtoms
+
 
 def FindTBHCloseAtomsInNode(node, x, cutoff, atom, maxn):
     return _bhtreelib.FindTBHCloseAtomsInNode(node, x, cutoff, atom, maxn)
+
+
 FindTBHCloseAtomsInNode = _bhtreelib.FindTBHCloseAtomsInNode
+
 
 def ModifyBHPoint(tree, ID, Rad):
     return _bhtreelib.ModifyBHPoint(tree, ID, Rad)
+
+
 ModifyBHPoint = _bhtreelib.ModifyBHPoint
 
-def GenerateRBHTree(Pts, NumPts, MaxPts, Granularity, LeafPadding, DeletePadding, SpacePadding, OwnsMemory):
-    return _bhtreelib.GenerateRBHTree(Pts, NumPts, MaxPts, Granularity, LeafPadding, DeletePadding, SpacePadding, OwnsMemory)
+
+def GenerateRBHTree(
+    Pts,
+    NumPts,
+    MaxPts,
+    Granularity,
+    LeafPadding,
+    DeletePadding,
+    SpacePadding,
+    OwnsMemory,
+):
+    return _bhtreelib.GenerateRBHTree(
+        Pts,
+        NumPts,
+        MaxPts,
+        Granularity,
+        LeafPadding,
+        DeletePadding,
+        SpacePadding,
+        OwnsMemory,
+    )
+
+
 GenerateRBHTree = _bhtreelib.GenerateRBHTree
+
 
 def FindRBHNode(tree, x):
     return _bhtreelib.FindRBHNode(tree, x)
+
+
 FindRBHNode = _bhtreelib.FindRBHNode
+
 
 def FreeRBHTree(tree):
     return _bhtreelib.FreeRBHTree(tree)
+
+
 FreeRBHTree = _bhtreelib.FreeRBHTree
+
 
 def InsertRBHPoint(tree, Pos, Rad, Data, uInt, ID):
     return _bhtreelib.InsertRBHPoint(tree, Pos, Rad, Data, uInt, ID)
+
+
 InsertRBHPoint = _bhtreelib.InsertRBHPoint
+
 
 def DeleteRBHPoint(tree, ID):
     return _bhtreelib.DeleteRBHPoint(tree, ID)
+
+
 DeleteRBHPoint = _bhtreelib.DeleteRBHPoint
+
 
 def MoveRBHPoint(tree, ID, NewPos, FindDirection):
     return _bhtreelib.MoveRBHPoint(tree, ID, NewPos, FindDirection)
+
+
 MoveRBHPoint = _bhtreelib.MoveRBHPoint
+
 
 def ModifyRBHPoint(tree, ID, Rad):
     return _bhtreelib.ModifyRBHPoint(tree, ID, Rad)
+
+
 ModifyRBHPoint = _bhtreelib.ModifyRBHPoint
+
 
 def FindRBHCloseAtomsDist(tree, x, cutoff, atom, dist, maxn):
     return _bhtreelib.FindRBHCloseAtomsDist(tree, x, cutoff, atom, dist, maxn)
+
+
 FindRBHCloseAtomsDist = _bhtreelib.FindRBHCloseAtomsDist
+
 
 def FindRBHCloseAtoms(tree, x, cutoff, atom, maxn):
     return _bhtreelib.FindRBHCloseAtoms(tree, x, cutoff, atom, maxn)
+
+
 FindRBHCloseAtoms = _bhtreelib.FindRBHCloseAtoms
 # This file is compatible with both classic and new-style classes.
-
-

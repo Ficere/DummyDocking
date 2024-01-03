@@ -134,14 +134,29 @@ it is used internally by :mod:`.prody.atomic` classes:
   * :func:`.listReservedWords`"""
 
 import prody
+
 LOGGER = prody.LOGGER
 SETTINGS = prody.SETTINGS
 
-__all__ = ['Atomic', 'AtomGroup',
-           'HierView', 'Segment', 'Chain', 'Residue', 'Atom',
-           'AtomPointer', 'AtomSubset',
-           'Selection', 'AtomMap',
-           'Bond', 'select', 'atomgroup', 'hierview', 'fields', 'flags']
+__all__ = [
+    "Atomic",
+    "AtomGroup",
+    "HierView",
+    "Segment",
+    "Chain",
+    "Residue",
+    "Atom",
+    "AtomPointer",
+    "AtomSubset",
+    "Selection",
+    "AtomMap",
+    "Bond",
+    "select",
+    "atomgroup",
+    "hierview",
+    "fields",
+    "flags",
+]
 
 from .fields import ATOMIC_FIELDS
 
@@ -202,25 +217,25 @@ selection.HierView = HierView
 import numpy as np
 
 n_atoms = 10
-ATOMGROUP = AtomGroup('Test')
+ATOMGROUP = AtomGroup("Test")
 ATOMGROUP.setCoords(np.random.random((n_atoms, 3)))
-ATOMGROUP.setNames(['CA']*n_atoms)
-ATOMGROUP.setResnames(['GLY']*n_atoms)
-ATOMGROUP.setResnums(np.arange(1, n_atoms+1))
-ATOMGROUP.setChids(['A']*n_atoms)
-ATOMGROUP.setAltlocs([' ']*n_atoms)
-ATOMGROUP.setElements(['C']*n_atoms)
-ATOMGROUP.setFlags('hetatm', [False]*n_atoms)
-ATOMGROUP.setOccupancies([1]*n_atoms)
-ATOMGROUP.setSecstrs(['H']*n_atoms)
-ATOMGROUP.setSegnames(['PDB']*n_atoms)
+ATOMGROUP.setNames(["CA"] * n_atoms)
+ATOMGROUP.setResnames(["GLY"] * n_atoms)
+ATOMGROUP.setResnums(np.arange(1, n_atoms + 1))
+ATOMGROUP.setChids(["A"] * n_atoms)
+ATOMGROUP.setAltlocs([" "] * n_atoms)
+ATOMGROUP.setElements(["C"] * n_atoms)
+ATOMGROUP.setFlags("hetatm", [False] * n_atoms)
+ATOMGROUP.setOccupancies([1] * n_atoms)
+ATOMGROUP.setSecstrs(["H"] * n_atoms)
+ATOMGROUP.setSegnames(["PDB"] * n_atoms)
 ATOMGROUP.setAnisous(np.random.random((n_atoms, 6)))
 ATOMGROUP.setAnistds(np.random.random((n_atoms, 6)))
-ATOMGROUP.setIcodes([' ']*n_atoms)
-ATOMGROUP.setTypes(['CH2']*n_atoms)
-ATOMGROUP.setBetas([0]*n_atoms)
-ATOMGROUP.setCharges([0]*n_atoms)
-ATOMGROUP.setMasses([12]*n_atoms)
-ATOMGROUP.setRadii([1.4]*n_atoms)
+ATOMGROUP.setIcodes([" "] * n_atoms)
+ATOMGROUP.setTypes(["CH2"] * n_atoms)
+ATOMGROUP.setBetas([0] * n_atoms)
+ATOMGROUP.setCharges([0] * n_atoms)
+ATOMGROUP.setMasses([12] * n_atoms)
+ATOMGROUP.setRadii([1.4] * n_atoms)
 
 select.ATOMGROUP = ATOMGROUP

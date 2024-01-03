@@ -395,5 +395,5 @@ Michel Sanner April 2000
 sanner@scripps.edu
 """
 
-CRITICAL_DEPENDENCIES = ['MolKit', 'mglutil']
-NONCRITICAL_DEPENDENCIES = ['Pmv', 'DejaVu']
+CRITICAL_DEPENDENCIES = ["MolKit", "mglutil"]
+NONCRITICAL_DEPENDENCIES = ["Pmv", "DejaVu"]

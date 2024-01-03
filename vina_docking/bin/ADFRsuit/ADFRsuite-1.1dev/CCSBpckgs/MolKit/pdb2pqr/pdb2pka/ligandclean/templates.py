@@ -13,8 +13,8 @@ template = {}
 # C.ar        C.ar-C.2
 #   \         /      \
 #    C.ar-C.ar        O.co2
-template['SimpleBenzAcid']={'C.2':['O.co2','O.co2','C.ar']}
-template['SortedSimpleBenzAcid']={'C.2':['C.ar','O.co2','O.co2']}
+template["SimpleBenzAcid"] = {"C.2": ["O.co2", "O.co2", "C.ar"]}
+template["SortedSimpleBenzAcid"] = {"C.2": ["C.ar", "O.co2", "O.co2"]}
 # (2) Phenols and Thiophenols
 # ===============================================
 # only 6 thiophenols in Glen's data set => too exotic
@@ -23,31 +23,32 @@ template['SortedSimpleBenzAcid']={'C.2':['C.ar','O.co2','O.co2']}
 # (3) Aliphatic and Alicyclic Carboxylic, Sulfonic, and Sulfinic Acids
 # ===============================================
 
-#                   
+#
 #                   O.co2
 #                  /
 #  -C.ar-O.3-C.3-C.2
 #                  \
 #                   O.co2
-template['SimpleAliphaticAcid']={'C.2': ['C.3','O.co2','O.co2'],
-                                 'C.3': ['C.2','H','H','O.3'],
-                                 'O.3': ['C.3','C.ar'],
-                                 'C.ar':['C.ar','C.ar','O.3'],
-                                 'root_atoms': ['C.2','C.3','O.3','C.ar']}
-template['Acid_TypesNames']={'O1':{'sybylType':'O.co2','neighbours':['C3']},
-                             'O2':{'sybylType':'O.co2','neighbours':['C3']},
-                             'C3':{'sybylType':'C.2','neighbours':['O1','O2','C4']},
-                             'C4':{'sybylType':'C.3','neighbours':['C3','C5','H4A','H4B']},
-                             'O5':{'sybylType':'O.3','neighbours':['C4','C6']},
-                             'C6':{'sybylType':'C.ar','neighbours':['O5','C6A','C6B']},
-                             
-#                             'O2':'O.co2',
-#                             'C3':'C.3',
-#                             'C4':'C.3',
-#                             'O5':'O.3',
-#                             'C6':'C.ar',
-                             
-                             }
+template["SimpleAliphaticAcid"] = {
+    "C.2": ["C.3", "O.co2", "O.co2"],
+    "C.3": ["C.2", "H", "H", "O.3"],
+    "O.3": ["C.3", "C.ar"],
+    "C.ar": ["C.ar", "C.ar", "O.3"],
+    "root_atoms": ["C.2", "C.3", "O.3", "C.ar"],
+}
+template["Acid_TypesNames"] = {
+    "O1": {"sybylType": "O.co2", "neighbours": ["C3"]},
+    "O2": {"sybylType": "O.co2", "neighbours": ["C3"]},
+    "C3": {"sybylType": "C.2", "neighbours": ["O1", "O2", "C4"]},
+    "C4": {"sybylType": "C.3", "neighbours": ["C3", "C5", "H4A", "H4B"]},
+    "O5": {"sybylType": "O.3", "neighbours": ["C4", "C6"]},
+    "C6": {"sybylType": "C.ar", "neighbours": ["O5", "C6A", "C6B"]},
+    #                             'O2':'O.co2',
+    #                             'C3':'C.3',
+    #                             'C4':'C.3',
+    #                             'O5':'O.3',
+    #                             'C6':'C.ar',
+}
 
 
 ## template['AromaticMethoxyAceticAcid']={'atoms'       : ['O.co2','C.2','O.co2','C.2','O.3','C.ar'],
@@ -84,10 +85,10 @@ template['Acid_TypesNames']={'O1':{'sybylType':'O.co2','neighbours':['C3']},
 # six-membered ring with one nitrogen
 #
 #    C.ar-C.ar
-#   /         \ 
+#   /         \
 # C.ar        N.ar
-#   \         / 
-#    C.ar-C.ar 
+#   \         /
+#    C.ar-C.ar
 #
 
 
@@ -101,5 +102,4 @@ template['Acid_TypesNames']={'O1':{'sybylType':'O.co2','neighbours':['C3']},
 # (3) Imidazoles
 
 
-
-# (4) Alkylamines 
+# (4) Alkylamines

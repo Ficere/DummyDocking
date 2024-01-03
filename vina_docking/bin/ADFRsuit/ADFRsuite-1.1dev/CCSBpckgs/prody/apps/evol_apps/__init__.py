@@ -10,35 +10,48 @@ except ImportError:
 
 from ..apptools import *
 
-path_prody = imp.find_module('prody')[1]
-path_apps = imp.find_module('apps', [path_prody])[1]
-path_apps = imp.find_module('evol_apps', [path_apps])[1]
+path_prody = imp.find_module("prody")[1]
+path_apps = imp.find_module("apps", [path_prody])[1]
+path_apps = imp.find_module("evol_apps", [path_apps])[1]
 
-EVOL_APPS = ['search', 'fetch', 'filter', 'refine', 'merge', 'occupancy',
-             'conserv', 'coevol', 'rankorder']
+EVOL_APPS = [
+    "search",
+    "fetch",
+    "filter",
+    "refine",
+    "merge",
+    "occupancy",
+    "conserv",
+    "coevol",
+    "rankorder",
+]
 
-__all__ = ['evol_main']
+__all__ = ["evol_main"]
 
 evol_parser = argparse.ArgumentParser(
     description="Evol: Sequence Evolution and Dynamics Analysis",
-    epilog="See 'evol <command> -h' for more information on a specific "
-           "command."
-    )
+    epilog="See 'evol <command> -h' for more information on a specific " "command.",
+)
 
-evol_parser.add_argument('-c', '--cite',
-    help="print citation info and exit",
-    action=ProDyCitation, nargs=0)
+evol_parser.add_argument(
+    "-c", "--cite", help="print citation info and exit", action=ProDyCitation, nargs=0
+)
 
-evol_parser.add_argument('-v', '--version',
-    help="print ProDy version and exit",
-    action=ProDyVersion, nargs=0)
+evol_parser.add_argument(
+    "-v", "--version", help="print ProDy version and exit", action=ProDyVersion, nargs=0
+)
 
-evol_parser.add_argument('-e', '--examples', action=UsageExample, nargs=0,
-    help='show usage examples and exit')
+evol_parser.add_argument(
+    "-e",
+    "--examples",
+    action=UsageExample,
+    nargs=0,
+    help="show usage examples and exit",
+)
 
 
-evol_parser.set_defaults(usage_example=
-"""Sequence coevolution analysis involves several steps that including
+evol_parser.set_defaults(
+    usage_example="""Sequence coevolution analysis involves several steps that including
 retrieving data and refining it for calculations.  These steps are
 illustrated below for RnaseA protein family.
 
@@ -70,21 +83,22 @@ Rank order analysis:
 
 
   $ evol rankorder RnaseA_full_refined_mutinfo_corr_apc.txt -p \
-2w5i_1-121.pdb --seq-sep 3 """, test_examples=[(0,1,2)])
+2w5i_1-121.pdb --seq-sep 3 """,
+    test_examples=[(0, 1, 2)],
+)
 
-evol_commands = evol_parser.add_subparsers(
-    title='subcommands')
+evol_commands = evol_parser.add_subparsers(title="subcommands")
 
 
 for cmd in EVOL_APPS:
-    cmd = 'evol_' + cmd
-    mod = imp.load_module('prody.apps.evol_apps.' + cmd,
-                          *imp.find_module(cmd, [path_apps]))
+    cmd = "evol_" + cmd
+    mod = imp.load_module(
+        "prody.apps.evol_apps." + cmd, *imp.find_module(cmd, [path_apps])
+    )
     mod.APP.addApplication(evol_commands)
 
 
 def evol_main():
-
     if len(sys.argv) == 1:
         evol_parser.print_help()
     else:
@@ -92,5 +106,5 @@ def evol_main():
         namespace.func(namespace)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     evol_main()

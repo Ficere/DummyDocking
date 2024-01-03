@@ -4,12 +4,12 @@
 ## modify it under the terms of the GNU Lesser General Public
 ## License as published by the Free Software Foundation; either
 ## version 2.1 of the License, or (at your option) any later version.
-## 
+##
 ## This library is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ## Lesser General Public License for more details.
-## 
+##
 ## You should have received a copy of the GNU Lesser General Public
 ## License along with this library; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
@@ -36,53 +36,52 @@ import types
 import sys
 import os
 
-_proc_status = '/proc/%d/status' % os.getpid()
+_proc_status = "/proc/%d/status" % os.getpid()
 
-_scale = {'kB': 1024.0, 'mB': 1024.0*1024.0,
-          'KB': 1024.0, 'MB': 1024.0*1024.0}
+_scale = {"kB": 1024.0, "mB": 1024.0 * 1024.0, "KB": 1024.0, "MB": 1024.0 * 1024.0}
+
 
 def _VmB(VmKey):
-    '''Private.
-    '''
+    """Private."""
     global _proc_status, _scale
-     # get pseudo file  /proc/<pid>/status
+    # get pseudo file  /proc/<pid>/status
     try:
         t = open(_proc_status)
         v = t.read()
         t.close()
     except:
         return 0.0  # non-Linux?
-     # get VmKey line e.g. 'VmRSS:  9999  kB\n ...'
+    # get VmKey line e.g. 'VmRSS:  9999  kB\n ...'
     i = v.index(VmKey)
     v = v[i:].split(None, 3)  # whitespace
     if len(v) < 3:
         return 0.0  # invalid format?
-     # convert Vm value to bytes
+    # convert Vm value to bytes
     return float(v[1]) * _scale[v[2]]
 
 
 def memory(since=0.0):
-    '''Return memory usage in bytes.
-    '''
-    return _VmB('VmSize:') - since
+    """Return memory usage in bytes."""
+    return _VmB("VmSize:") - since
 
 
 def resident(since=0.0):
-    '''Return resident memory usage in bytes.
-    '''
-    return _VmB('VmRSS:') - since
+    """Return resident memory usage in bytes."""
+    return _VmB("VmRSS:") - since
 
 
 def stacksize(since=0.0):
-    '''Return stack size in bytes.
-    '''
-    return _VmB('VmStk:') - since
+    """Return stack size in bytes."""
+    return _VmB("VmStk:") - since
 
 
 def issequence(a):
-    return type(a) is types.TupleType or \
-           type(a) is types.ListType or \
-           isinstance(a, numpy.ndarray)
+    return (
+        type(a) is types.TupleType
+        or type(a) is types.ListType
+        or isinstance(a, numpy.ndarray)
+    )
+
 
 def isnumericstring(a):
     try:
@@ -91,9 +90,10 @@ def isnumericstring(a):
     except:
         return 0
 
+
 def uniq(objectSequence):
     """Remove the duplicates from a list while keeping the original
-    list order """
+    list order"""
     l = []
     d = {}
     for o in objectSequence:
@@ -104,11 +104,12 @@ def uniq(objectSequence):
 
 
 def deepCopySeq(sequence):
-    """ returns the deep copy of the given sequence """
+    """returns the deep copy of the given sequence"""
 
     from types import TupleType, ListType
-    assert type(sequence) in (TupleType, ListType, type(numpy.array([1,2,3])))
-    if hasattr(sequence, 'copy'):
+
+    assert type(sequence) in (TupleType, ListType, type(numpy.array([1, 2, 3])))
+    if hasattr(sequence, "copy"):
         dcSeq = sequence.copy()
     else:
         dcSeq = sequence[:]
@@ -118,6 +119,8 @@ def deepCopySeq(sequence):
 
 def ensureFontCase(font):
     return font
+
+
 #    from Tkinter import TkVersion
 #    lFont = font[0].upper() + font[1:].lower()
 #    if TkVersion == '8.4' and sys.platform != "win32":
@@ -126,37 +129,39 @@ def ensureFontCase(font):
 
 
 def isInstance(lObject):
-
     import types
-    if sys.version.startswith('2.5'): #detect python25
+
+    if sys.version.startswith("2.5"):  # detect python25
         if type(lObject) == types.InstanceType:
             return True
         else:
             return False
     else:
-            import inspect
-            ltype = type(lObject)
-            if ltype == types.InstanceType:
+        import inspect
+
+        ltype = type(lObject)
+        if ltype == types.InstanceType:
+            return True
+        elif inspect.isclass(lObject) is False and isinstance(lObject, ltype) is True:
+            from abc import ABCMeta
+
+            if ltype == types.ClassType is True:
                 return True
-            elif inspect.isclass(lObject) is False \
-              and isinstance(lObject, ltype) is True:
-                from abc import ABCMeta
-                if ltype == types.ClassType is True:
-                    return True
-                elif type(ltype) == ABCMeta:
-                    return True
-                else:
-                    return False
+            elif type(ltype) == ABCMeta:
+                return True
             else:
                 return False
+        else:
+            return False
 
 
 def importMainOrIPythonMain():
     try:
         from IPython import ipapi
+
         mainDict = ipapi.get().user_ns
     except:
-        mainDict = __import__('__main__').__dict__
+        mainDict = __import__("__main__").__dict__
     return mainDict
 
 
@@ -166,9 +171,9 @@ def suppressMultipleQuotes(aString):
     while type(lStringToSimplify) == types.StringType:
         lSimplifiedString = lStringToSimplify
         try:
-           lStringToSimplify = eval(lSimplifiedString)
+            lStringToSimplify = eval(lSimplifiedString)
         except:
-           break
+            break
     return lSimplifiedString
 
 
@@ -179,7 +184,7 @@ class IntVar:
     def get(self):
         return self.val
 
-    def set(self,val):
+    def set(self, val):
         self.val = int(val)
 
 
@@ -190,7 +195,7 @@ class StringVar:
     def get(self):
         return self.val
 
-    def set(self,val):
+    def set(self, val):
         self.val = str(val)
 
 
@@ -201,5 +206,5 @@ class BooleanVar:
     def get(self):
         return self.val
 
-    def set(self,val):
-        self.val = (val==True)
+    def set(self, val):
+        self.val = val == True

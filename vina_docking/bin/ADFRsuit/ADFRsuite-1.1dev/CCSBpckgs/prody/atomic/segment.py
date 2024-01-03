@@ -5,7 +5,8 @@ from numpy import unique
 
 from .subset import AtomSubset
 
-__all__ = ['Segment']
+__all__ = ["Segment"]
+
 
 class Segment(AtomSubset):
 
@@ -19,36 +20,47 @@ class Segment(AtomSubset):
     Indexing :class:`Segment` instances by a *chain identifier* (:func:`str`),
     e.g. ``A``, returns a :class:`.Chain`."""
 
-    __slots__ = ['_ag', '_indices', '_hv', '_acsi', '_selstr']
+    __slots__ = ["_ag", "_indices", "_hv", "_acsi", "_selstr"]
 
     def __init__(self, ag, indices, hv, acsi=None, **kwargs):
-
         AtomSubset.__init__(self, ag, indices, acsi, **kwargs)
         self._hv = hv
 
     def __repr__(self):
-
         n_csets = self._ag.numCoordsets()
         if n_csets == 1:
-            return ('<Segment: {0} from {1} ({2} chains, {3} atoms)>'
-                    ).format(self.getSegname(), self._ag.getTitle(),
-                             self.numChains(), self.numAtoms())
+            return ("<Segment: {0} from {1} ({2} chains, {3} atoms)>").format(
+                self.getSegname(),
+                self._ag.getTitle(),
+                self.numChains(),
+                self.numAtoms(),
+            )
         elif n_csets > 1:
-            return ('<Segment: {0} from {1} ({2} chains, {3} atoms; '
-                    'active #{4} of {5} coordsets)>').format(
-                    self.getSegname(), self._ag.getTitle(), self.numChains(),
-                    self.numAtoms(), self.getACSIndex(), n_csets)
+            return (
+                "<Segment: {0} from {1} ({2} chains, {3} atoms; "
+                "active #{4} of {5} coordsets)>"
+            ).format(
+                self.getSegname(),
+                self._ag.getTitle(),
+                self.numChains(),
+                self.numAtoms(),
+                self.getACSIndex(),
+                n_csets,
+            )
         else:
-            return ('<Segment: {0} from {1} ({2} chains, {3} atoms; '
-                    'no coordinates)>').format(self.getSegname(),
-                    self._ag.getTitle(), self.numAtoms(), self.numChains())
+            return (
+                "<Segment: {0} from {1} ({2} chains, {3} atoms; " "no coordinates)>"
+            ).format(
+                self.getSegname(),
+                self._ag.getTitle(),
+                self.numAtoms(),
+                self.numChains(),
+            )
 
     def __str__(self):
-
-        return 'Segment {0}'.format(self.getSegname())
+        return "Segment {0}".format(self.getSegname())
 
     def __getitem__(self, chid):
-
         return self.getChain(chid)
 
     def getSegname(self):
@@ -86,7 +98,6 @@ class Segment(AtomSubset):
         """Return selection string that selects atoms in this segment."""
 
         if self._selstr:
-            return 'segname {0} and ({1})'.format(self.getSegname(),
-                                                        self._selstr)
+            return "segname {0} and ({1})".format(self.getSegname(), self._selstr)
         else:
-            return 'segname {0}'.format(self.getSegname())
+            return "segname {0}".format(self.getSegname())

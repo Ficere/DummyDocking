@@ -5,26 +5,28 @@
 # the SWIG interface file instead.
 
 
-
-
-
 from sys import version_info
+
 if version_info >= (2, 6, 0):
+
     def swig_import_helper():
         from os.path import dirname
         import imp
+
         fp = None
         try:
-            fp, pathname, description = imp.find_module('_adfrcc', [dirname(__file__)])
+            fp, pathname, description = imp.find_module("_adfrcc", [dirname(__file__)])
         except ImportError:
             import _adfrcc
+
             return _adfrcc
         if fp is not None:
             try:
-                _mod = imp.load_module('_adfrcc', fp, pathname, description)
+                _mod = imp.load_module("_adfrcc", fp, pathname, description)
             finally:
                 fp.close()
             return _mod
+
     _adfrcc = swig_import_helper()
     del swig_import_helper
 else:
@@ -37,16 +39,16 @@ except NameError:
 
 
 def _swig_setattr_nondynamic(self, class_type, name, value, static=1):
-    if (name == "thisown"):
+    if name == "thisown":
         return self.this.own(value)
-    if (name == "this"):
-        if type(value).__name__ == 'SwigPyObject':
+    if name == "this":
+        if type(value).__name__ == "SwigPyObject":
             self.__dict__[name] = value
             return
     method = class_type.__swig_setmethods__.get(name, None)
     if method:
         return method(self, value)
-    if (not static):
+    if not static:
         if _newclass:
             object.__setattr__(self, name, value)
         else:
@@ -60,15 +62,16 @@ def _swig_setattr(self, class_type, name, value):
 
 
 def _swig_getattr_nondynamic(self, class_type, name, static=1):
-    if (name == "thisown"):
+    if name == "thisown":
         return self.this.own()
     method = class_type.__swig_getmethods__.get(name, None)
     if method:
         return method(self)
-    if (not static):
+    if not static:
         return object.__getattr__(self, name)
     else:
         raise AttributeError(name)
+
 
 def _swig_getattr(self, class_type, name):
     return _swig_getattr_nondynamic(self, class_type, name, 0)
@@ -79,25 +82,35 @@ def _swig_repr(self):
         strthis = "proxy of " + self.this.__repr__()
     except Exception:
         strthis = ""
-    return "<%s.%s; %s >" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    return "<%s.%s; %s >" % (
+        self.__class__.__module__,
+        self.__class__.__name__,
+        strthis,
+    )
+
 
 try:
     _object = object
     _newclass = 1
 except AttributeError:
+
     class _object:
         pass
+
     _newclass = 0
 
 
 class SwigPyIterator(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, SwigPyIterator, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, SwigPyIterator, name, value
+    )
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, SwigPyIterator, name)
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
+
     __repr__ = _swig_repr
     __swig_destroy__ = _adfrcc.delete_SwigPyIterator
     __del__ = lambda self: None
@@ -149,10 +162,14 @@ class SwigPyIterator(_object):
 
     def __sub__(self, *args):
         return _adfrcc.SwigPyIterator___sub__(self, *args)
+
     def __iter__(self):
         return self
+
+
 SwigPyIterator_swigregister = _adfrcc.SwigPyIterator_swigregister
 SwigPyIterator_swigregister(SwigPyIterator)
+
 
 class Line(_object):
     __swig_setmethods__ = {}
@@ -163,6 +180,7 @@ class Line(_object):
 
     def iterator(self):
         return _adfrcc.Line_iterator(self)
+
     def __iter__(self):
         return self.iterator()
 
@@ -262,10 +280,14 @@ class Line(_object):
 
     def capacity(self):
         return _adfrcc.Line_capacity(self)
+
     __swig_destroy__ = _adfrcc.delete_Line
     __del__ = lambda self: None
+
+
 Line_swigregister = _adfrcc.Line_swigregister
 Line_swigregister(Line)
+
 
 class MathTable(_object):
     __swig_setmethods__ = {}
@@ -280,6 +302,7 @@ class MathTable(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_MathTable
     __del__ = lambda self: None
 
@@ -291,17 +314,23 @@ class MathTable(_object):
 
     def getNumBytes(self):
         return _adfrcc.MathTable_getNumBytes(self)
+
+
 MathTable_swigregister = _adfrcc.MathTable_swigregister
 MathTable_swigregister(MathTable)
 
+
 class MathTablesManager(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, MathTablesManager, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, MathTablesManager, name, value
+    )
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, MathTablesManager, name)
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined")
+
     __repr__ = _swig_repr
     __swig_getmethods__["getManager"] = lambda x: _adfrcc.MathTablesManager_getManager
     if _newclass:
@@ -309,10 +338,10 @@ class MathTablesManager(_object):
     __swig_destroy__ = _adfrcc.delete_MathTablesManager
     __del__ = lambda self: None
 
-    def registerTable(self, aTable, k1, k2=0., k3=0., k4=0., k5=0.):
+    def registerTable(self, aTable, k1, k2=0.0, k3=0.0, k4=0.0, k5=0.0):
         return _adfrcc.MathTablesManager_registerTable(self, aTable, k1, k2, k3, k4, k5)
 
-    def retrieveTable(self, k1, k2=0., k3=0., k4=0., k5=0.):
+    def retrieveTable(self, k1, k2=0.0, k3=0.0, k4=0.0, k5=0.0):
         return _adfrcc.MathTablesManager_retrieveTable(self, k1, k2, k3, k4, k5)
 
     def getNumTables(self):
@@ -320,16 +349,22 @@ class MathTablesManager(_object):
 
     def getNumBytes(self):
         return _adfrcc.MathTablesManager_getNumBytes(self)
+
     TABLE_TYPE_VDW = _adfrcc.MathTablesManager_TABLE_TYPE_VDW
     TABLE_TYPE_ESTAT = _adfrcc.MathTablesManager_TABLE_TYPE_ESTAT
     TABLE_TYPE_DESOLVATION = _adfrcc.MathTablesManager_TABLE_TYPE_DESOLVATION
     TABLE_TYPE_GAUSSIAN1 = _adfrcc.MathTablesManager_TABLE_TYPE_GAUSSIAN1
     TABLE_TYPE_GAUSSIAN2 = _adfrcc.MathTablesManager_TABLE_TYPE_GAUSSIAN2
+
+
 MathTablesManager_swigregister = _adfrcc.MathTablesManager_swigregister
 MathTablesManager_swigregister(MathTablesManager)
 
+
 def MathTablesManager_getManager():
     return _adfrcc.MathTablesManager_getManager()
+
+
 MathTablesManager_getManager = _adfrcc.MathTablesManager_getManager
 
 
@@ -353,13 +388,17 @@ LOG_LEVEL_FATAL = _adfrcc.LOG_LEVEL_FATAL
 
 _adfrcc.LOG_LEVEL_DISABLED_swigconstant(_adfrcc)
 LOG_LEVEL_DISABLED = _adfrcc.LOG_LEVEL_DISABLED
+
+
 class Logger(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Logger, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, Logger, name)
     __repr__ = _swig_repr
-    __swig_getmethods__["setLogLevelVerbose"] = lambda x: _adfrcc.Logger_setLogLevelVerbose
+    __swig_getmethods__[
+        "setLogLevelVerbose"
+    ] = lambda x: _adfrcc.Logger_setLogLevelVerbose
     if _newclass:
         setLogLevelVerbose = staticmethod(_adfrcc.Logger_setLogLevelVerbose)
     __swig_getmethods__["setLogLevelDebug"] = lambda x: _adfrcc.Logger_setLogLevelDebug
@@ -377,7 +416,9 @@ class Logger(_object):
     __swig_getmethods__["setLogLevelFatal"] = lambda x: _adfrcc.Logger_setLogLevelFatal
     if _newclass:
         setLogLevelFatal = staticmethod(_adfrcc.Logger_setLogLevelFatal)
-    __swig_getmethods__["setLogLevelDisabled"] = lambda x: _adfrcc.Logger_setLogLevelDisabled
+    __swig_getmethods__[
+        "setLogLevelDisabled"
+    ] = lambda x: _adfrcc.Logger_setLogLevelDisabled
     if _newclass:
         setLogLevelDisabled = staticmethod(_adfrcc.Logger_setLogLevelDisabled)
     __swig_getmethods__["setLogLevel"] = lambda x: _adfrcc.Logger_setLogLevel
@@ -389,12 +430,16 @@ class Logger(_object):
     __swig_setmethods__["logLevel"] = _adfrcc.Logger_logLevel_set
     __swig_getmethods__["logLevel"] = _adfrcc.Logger_logLevel_get
     if _newclass:
-        logLevel = _swig_property(_adfrcc.Logger_logLevel_get, _adfrcc.Logger_logLevel_set)
+        logLevel = _swig_property(
+            _adfrcc.Logger_logLevel_get, _adfrcc.Logger_logLevel_set
+        )
     TEXT_BUFFER_SIZE = _adfrcc.Logger_TEXT_BUFFER_SIZE
     __swig_setmethods__["textBuffer"] = _adfrcc.Logger_textBuffer_set
     __swig_getmethods__["textBuffer"] = _adfrcc.Logger_textBuffer_get
     if _newclass:
-        textBuffer = _swig_property(_adfrcc.Logger_textBuffer_get, _adfrcc.Logger_textBuffer_set)
+        textBuffer = _swig_property(
+            _adfrcc.Logger_textBuffer_get, _adfrcc.Logger_textBuffer_set
+        )
 
     def __init__(self):
         this = _adfrcc.new_Logger()
@@ -402,47 +447,78 @@ class Logger(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_Logger
     __del__ = lambda self: None
+
+
 Logger_swigregister = _adfrcc.Logger_swigregister
 Logger_swigregister(Logger)
 
+
 def Logger_setLogLevelVerbose():
     return _adfrcc.Logger_setLogLevelVerbose()
+
+
 Logger_setLogLevelVerbose = _adfrcc.Logger_setLogLevelVerbose
+
 
 def Logger_setLogLevelDebug():
     return _adfrcc.Logger_setLogLevelDebug()
+
+
 Logger_setLogLevelDebug = _adfrcc.Logger_setLogLevelDebug
+
 
 def Logger_setLogLevelInfo():
     return _adfrcc.Logger_setLogLevelInfo()
+
+
 Logger_setLogLevelInfo = _adfrcc.Logger_setLogLevelInfo
+
 
 def Logger_setLogLevelWarn():
     return _adfrcc.Logger_setLogLevelWarn()
+
+
 Logger_setLogLevelWarn = _adfrcc.Logger_setLogLevelWarn
+
 
 def Logger_setLogLevelError():
     return _adfrcc.Logger_setLogLevelError()
+
+
 Logger_setLogLevelError = _adfrcc.Logger_setLogLevelError
+
 
 def Logger_setLogLevelFatal():
     return _adfrcc.Logger_setLogLevelFatal()
+
+
 Logger_setLogLevelFatal = _adfrcc.Logger_setLogLevelFatal
+
 
 def Logger_setLogLevelDisabled():
     return _adfrcc.Logger_setLogLevelDisabled()
+
+
 Logger_setLogLevelDisabled = _adfrcc.Logger_setLogLevelDisabled
+
 
 def Logger_setLogLevel(aLogLevel):
     return _adfrcc.Logger_setLogLevel(aLogLevel)
+
+
 Logger_setLogLevel = _adfrcc.Logger_setLogLevel
+
 
 def Logger_getLogLevel():
     return _adfrcc.Logger_getLogLevel()
+
+
 Logger_getLogLevel = _adfrcc.Logger_getLogLevel
 cvar = _adfrcc.cvar
+
 
 class Element(_object):
     __swig_setmethods__ = {}
@@ -452,11 +528,16 @@ class Element(_object):
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined")
+
     __repr__ = _swig_repr
-    __swig_getmethods__["elementWithSymbol"] = lambda x: _adfrcc.Element_elementWithSymbol
+    __swig_getmethods__[
+        "elementWithSymbol"
+    ] = lambda x: _adfrcc.Element_elementWithSymbol
     if _newclass:
         elementWithSymbol = staticmethod(_adfrcc.Element_elementWithSymbol)
-    __swig_getmethods__["elementWithAtomicNumber"] = lambda x: _adfrcc.Element_elementWithAtomicNumber
+    __swig_getmethods__[
+        "elementWithAtomicNumber"
+    ] = lambda x: _adfrcc.Element_elementWithAtomicNumber
     if _newclass:
         elementWithAtomicNumber = staticmethod(_adfrcc.Element_elementWithAtomicNumber)
     __swig_destroy__ = _adfrcc.delete_Element
@@ -467,21 +548,30 @@ class Element(_object):
 
     def __ne__(self, other):
         return _adfrcc.Element___ne__(self, other)
+
     __swig_getmethods__["symbol"] = _adfrcc.Element_symbol_get
     if _newclass:
         symbol = _swig_property(_adfrcc.Element_symbol_get)
     __swig_getmethods__["atomicNumber"] = _adfrcc.Element_atomicNumber_get
     if _newclass:
         atomicNumber = _swig_property(_adfrcc.Element_atomicNumber_get)
+
+
 Element_swigregister = _adfrcc.Element_swigregister
 Element_swigregister(Element)
 
+
 def Element_elementWithSymbol(symbol):
     return _adfrcc.Element_elementWithSymbol(symbol)
+
+
 Element_elementWithSymbol = _adfrcc.Element_elementWithSymbol
+
 
 def Element_elementWithAtomicNumber(atomicNumber):
     return _adfrcc.Element_elementWithAtomicNumber(atomicNumber)
+
+
 Element_elementWithAtomicNumber = _adfrcc.Element_elementWithAtomicNumber
 Element.X = _adfrcc.cvar.Element_X
 Element.H = _adfrcc.cvar.Element_H
@@ -610,24 +700,39 @@ HBA_DIR1 = _adfrcc.HBA_DIR1
 _adfrcc.HBA_DIR2_swigconstant(_adfrcc)
 HBA_DIR2 = _adfrcc.HBA_DIR2
 
+
 def isAcceptor(acceptorType):
     return _adfrcc.isAcceptor(acceptorType)
+
+
 isAcceptor = _adfrcc.isAcceptor
+
 
 def isDirectionalAcceptor(acceptorType):
     return _adfrcc.isDirectionalAcceptor(acceptorType)
+
+
 isDirectionalAcceptor = _adfrcc.isDirectionalAcceptor
+
 
 def numAcceptorDirs(acceptorType):
     return _adfrcc.numAcceptorDirs(acceptorType)
+
+
 numAcceptorDirs = _adfrcc.numAcceptorDirs
+
 
 def parseAcceptorType(acceptorType, str):
     return _adfrcc.parseAcceptorType(acceptorType, str)
+
+
 parseAcceptorType = _adfrcc.parseAcceptorType
+
 
 def acceptorTypeDebugNameStr(acceptorType):
     return _adfrcc.acceptorTypeDebugNameStr(acceptorType)
+
+
 acceptorTypeDebugNameStr = _adfrcc.acceptorTypeDebugNameStr
 
 _adfrcc.HBD_NON_swigconstant(_adfrcc)
@@ -639,21 +744,35 @@ HBD_SPHERE = _adfrcc.HBD_SPHERE
 _adfrcc.HBD_DIR_swigconstant(_adfrcc)
 HBD_DIR = _adfrcc.HBD_DIR
 
+
 def isDonor(donorType):
     return _adfrcc.isDonor(donorType)
+
+
 isDonor = _adfrcc.isDonor
+
 
 def isDirectionalDonor(donorType):
     return _adfrcc.isDirectionalDonor(donorType)
+
+
 isDirectionalDonor = _adfrcc.isDirectionalDonor
+
 
 def parseDonorType(donorType, str):
     return _adfrcc.parseDonorType(donorType, str)
+
+
 parseDonorType = _adfrcc.parseDonorType
+
 
 def donorTypeDebugNameStr(donorType):
     return _adfrcc.donorTypeDebugNameStr(donorType)
+
+
 donorTypeDebugNameStr = _adfrcc.donorTypeDebugNameStr
+
+
 class AtomType(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, AtomType, name, value)
@@ -667,11 +786,30 @@ class AtomType(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_AtomType
     __del__ = lambda self: None
 
-    def registerOverride(self, otherAtomTypeIndex, equilibriumDist, wellDepth, energyPowN, energyPowM, hbCosAlphaPow, hbCosBetaPow):
-        return _adfrcc.AtomType_registerOverride(self, otherAtomTypeIndex, equilibriumDist, wellDepth, energyPowN, energyPowM, hbCosAlphaPow, hbCosBetaPow)
+    def registerOverride(
+        self,
+        otherAtomTypeIndex,
+        equilibriumDist,
+        wellDepth,
+        energyPowN,
+        energyPowM,
+        hbCosAlphaPow,
+        hbCosBetaPow,
+    ):
+        return _adfrcc.AtomType_registerOverride(
+            self,
+            otherAtomTypeIndex,
+            equilibriumDist,
+            wellDepth,
+            energyPowN,
+            energyPowM,
+            hbCosAlphaPow,
+            hbCosBetaPow,
+        )
 
     def finalizeParameters(self):
         return _adfrcc.AtomType_finalizeParameters(self)
@@ -690,14 +828,19 @@ class AtomType(_object):
 
     def printDebugDescription(self):
         return _adfrcc.AtomType_printDebugDescription(self)
+
     __swig_setmethods__["atomTypeName"] = _adfrcc.AtomType_atomTypeName_set
     __swig_getmethods__["atomTypeName"] = _adfrcc.AtomType_atomTypeName_get
     if _newclass:
-        atomTypeName = _swig_property(_adfrcc.AtomType_atomTypeName_get, _adfrcc.AtomType_atomTypeName_set)
+        atomTypeName = _swig_property(
+            _adfrcc.AtomType_atomTypeName_get, _adfrcc.AtomType_atomTypeName_set
+        )
     __swig_setmethods__["atomTypeIndex"] = _adfrcc.AtomType_atomTypeIndex_set
     __swig_getmethods__["atomTypeIndex"] = _adfrcc.AtomType_atomTypeIndex_get
     if _newclass:
-        atomTypeIndex = _swig_property(_adfrcc.AtomType_atomTypeIndex_get, _adfrcc.AtomType_atomTypeIndex_set)
+        atomTypeIndex = _swig_property(
+            _adfrcc.AtomType_atomTypeIndex_get, _adfrcc.AtomType_atomTypeIndex_set
+        )
     __swig_setmethods__["Rii"] = _adfrcc.AtomType_Rii_set
     __swig_getmethods__["Rii"] = _adfrcc.AtomType_Rii_get
     if _newclass:
@@ -709,11 +852,15 @@ class AtomType(_object):
     __swig_setmethods__["solvVolume"] = _adfrcc.AtomType_solvVolume_set
     __swig_getmethods__["solvVolume"] = _adfrcc.AtomType_solvVolume_get
     if _newclass:
-        solvVolume = _swig_property(_adfrcc.AtomType_solvVolume_get, _adfrcc.AtomType_solvVolume_set)
+        solvVolume = _swig_property(
+            _adfrcc.AtomType_solvVolume_get, _adfrcc.AtomType_solvVolume_set
+        )
     __swig_setmethods__["solvParameter"] = _adfrcc.AtomType_solvParameter_set
     __swig_getmethods__["solvParameter"] = _adfrcc.AtomType_solvParameter_get
     if _newclass:
-        solvParameter = _swig_property(_adfrcc.AtomType_solvParameter_get, _adfrcc.AtomType_solvParameter_set)
+        solvParameter = _swig_property(
+            _adfrcc.AtomType_solvParameter_get, _adfrcc.AtomType_solvParameter_set
+        )
     __swig_setmethods__["RijHb"] = _adfrcc.AtomType_RijHb_set
     __swig_getmethods__["RijHb"] = _adfrcc.AtomType_RijHb_get
     if _newclass:
@@ -721,113 +868,195 @@ class AtomType(_object):
     __swig_setmethods__["epsijHb"] = _adfrcc.AtomType_epsijHb_set
     __swig_getmethods__["epsijHb"] = _adfrcc.AtomType_epsijHb_get
     if _newclass:
-        epsijHb = _swig_property(_adfrcc.AtomType_epsijHb_get, _adfrcc.AtomType_epsijHb_set)
+        epsijHb = _swig_property(
+            _adfrcc.AtomType_epsijHb_get, _adfrcc.AtomType_epsijHb_set
+        )
     __swig_setmethods__["hbDonorType"] = _adfrcc.AtomType_hbDonorType_set
     __swig_getmethods__["hbDonorType"] = _adfrcc.AtomType_hbDonorType_get
     if _newclass:
-        hbDonorType = _swig_property(_adfrcc.AtomType_hbDonorType_get, _adfrcc.AtomType_hbDonorType_set)
+        hbDonorType = _swig_property(
+            _adfrcc.AtomType_hbDonorType_get, _adfrcc.AtomType_hbDonorType_set
+        )
     __swig_setmethods__["hbAcceptorType"] = _adfrcc.AtomType_hbAcceptorType_set
     __swig_getmethods__["hbAcceptorType"] = _adfrcc.AtomType_hbAcceptorType_get
     if _newclass:
-        hbAcceptorType = _swig_property(_adfrcc.AtomType_hbAcceptorType_get, _adfrcc.AtomType_hbAcceptorType_set)
+        hbAcceptorType = _swig_property(
+            _adfrcc.AtomType_hbAcceptorType_get, _adfrcc.AtomType_hbAcceptorType_set
+        )
     __swig_setmethods__["canHbond"] = _adfrcc.AtomType_canHbond_set
     __swig_getmethods__["canHbond"] = _adfrcc.AtomType_canHbond_get
     if _newclass:
-        canHbond = _swig_property(_adfrcc.AtomType_canHbond_get, _adfrcc.AtomType_canHbond_set)
+        canHbond = _swig_property(
+            _adfrcc.AtomType_canHbond_get, _adfrcc.AtomType_canHbond_set
+        )
     __swig_setmethods__["isHbDonor"] = _adfrcc.AtomType_isHbDonor_set
     __swig_getmethods__["isHbDonor"] = _adfrcc.AtomType_isHbDonor_get
     if _newclass:
-        isHbDonor = _swig_property(_adfrcc.AtomType_isHbDonor_get, _adfrcc.AtomType_isHbDonor_set)
+        isHbDonor = _swig_property(
+            _adfrcc.AtomType_isHbDonor_get, _adfrcc.AtomType_isHbDonor_set
+        )
     __swig_setmethods__["isHbDonorNonH"] = _adfrcc.AtomType_isHbDonorNonH_set
     __swig_getmethods__["isHbDonorNonH"] = _adfrcc.AtomType_isHbDonorNonH_get
     if _newclass:
-        isHbDonorNonH = _swig_property(_adfrcc.AtomType_isHbDonorNonH_get, _adfrcc.AtomType_isHbDonorNonH_set)
-    __swig_setmethods__["isHbDirectionalDonor"] = _adfrcc.AtomType_isHbDirectionalDonor_set
-    __swig_getmethods__["isHbDirectionalDonor"] = _adfrcc.AtomType_isHbDirectionalDonor_get
+        isHbDonorNonH = _swig_property(
+            _adfrcc.AtomType_isHbDonorNonH_get, _adfrcc.AtomType_isHbDonorNonH_set
+        )
+    __swig_setmethods__[
+        "isHbDirectionalDonor"
+    ] = _adfrcc.AtomType_isHbDirectionalDonor_set
+    __swig_getmethods__[
+        "isHbDirectionalDonor"
+    ] = _adfrcc.AtomType_isHbDirectionalDonor_get
     if _newclass:
-        isHbDirectionalDonor = _swig_property(_adfrcc.AtomType_isHbDirectionalDonor_get, _adfrcc.AtomType_isHbDirectionalDonor_set)
-    __swig_setmethods__["isHbDirectionalDonorNonH"] = _adfrcc.AtomType_isHbDirectionalDonorNonH_set
-    __swig_getmethods__["isHbDirectionalDonorNonH"] = _adfrcc.AtomType_isHbDirectionalDonorNonH_get
+        isHbDirectionalDonor = _swig_property(
+            _adfrcc.AtomType_isHbDirectionalDonor_get,
+            _adfrcc.AtomType_isHbDirectionalDonor_set,
+        )
+    __swig_setmethods__[
+        "isHbDirectionalDonorNonH"
+    ] = _adfrcc.AtomType_isHbDirectionalDonorNonH_set
+    __swig_getmethods__[
+        "isHbDirectionalDonorNonH"
+    ] = _adfrcc.AtomType_isHbDirectionalDonorNonH_get
     if _newclass:
-        isHbDirectionalDonorNonH = _swig_property(_adfrcc.AtomType_isHbDirectionalDonorNonH_get, _adfrcc.AtomType_isHbDirectionalDonorNonH_set)
+        isHbDirectionalDonorNonH = _swig_property(
+            _adfrcc.AtomType_isHbDirectionalDonorNonH_get,
+            _adfrcc.AtomType_isHbDirectionalDonorNonH_set,
+        )
     __swig_setmethods__["isHbAcceptor"] = _adfrcc.AtomType_isHbAcceptor_set
     __swig_getmethods__["isHbAcceptor"] = _adfrcc.AtomType_isHbAcceptor_get
     if _newclass:
-        isHbAcceptor = _swig_property(_adfrcc.AtomType_isHbAcceptor_get, _adfrcc.AtomType_isHbAcceptor_set)
-    __swig_setmethods__["isHbDirectionalAcceptor"] = _adfrcc.AtomType_isHbDirectionalAcceptor_set
-    __swig_getmethods__["isHbDirectionalAcceptor"] = _adfrcc.AtomType_isHbDirectionalAcceptor_get
+        isHbAcceptor = _swig_property(
+            _adfrcc.AtomType_isHbAcceptor_get, _adfrcc.AtomType_isHbAcceptor_set
+        )
+    __swig_setmethods__[
+        "isHbDirectionalAcceptor"
+    ] = _adfrcc.AtomType_isHbDirectionalAcceptor_set
+    __swig_getmethods__[
+        "isHbDirectionalAcceptor"
+    ] = _adfrcc.AtomType_isHbDirectionalAcceptor_get
     if _newclass:
-        isHbDirectionalAcceptor = _swig_property(_adfrcc.AtomType_isHbDirectionalAcceptor_get, _adfrcc.AtomType_isHbDirectionalAcceptor_set)
+        isHbDirectionalAcceptor = _swig_property(
+            _adfrcc.AtomType_isHbDirectionalAcceptor_get,
+            _adfrcc.AtomType_isHbDirectionalAcceptor_set,
+        )
     __swig_setmethods__["numAcceptorDirs"] = _adfrcc.AtomType_numAcceptorDirs_set
     __swig_getmethods__["numAcceptorDirs"] = _adfrcc.AtomType_numAcceptorDirs_get
     if _newclass:
-        numAcceptorDirs = _swig_property(_adfrcc.AtomType_numAcceptorDirs_get, _adfrcc.AtomType_numAcceptorDirs_set)
+        numAcceptorDirs = _swig_property(
+            _adfrcc.AtomType_numAcceptorDirs_get, _adfrcc.AtomType_numAcceptorDirs_set
+        )
     __swig_setmethods__["bondIndex"] = _adfrcc.AtomType_bondIndex_set
     __swig_getmethods__["bondIndex"] = _adfrcc.AtomType_bondIndex_get
     if _newclass:
-        bondIndex = _swig_property(_adfrcc.AtomType_bondIndex_get, _adfrcc.AtomType_bondIndex_set)
+        bondIndex = _swig_property(
+            _adfrcc.AtomType_bondIndex_get, _adfrcc.AtomType_bondIndex_set
+        )
     __swig_setmethods__["includeInScoring"] = _adfrcc.AtomType_includeInScoring_set
     __swig_getmethods__["includeInScoring"] = _adfrcc.AtomType_includeInScoring_get
     if _newclass:
-        includeInScoring = _swig_property(_adfrcc.AtomType_includeInScoring_get, _adfrcc.AtomType_includeInScoring_set)
+        includeInScoring = _swig_property(
+            _adfrcc.AtomType_includeInScoring_get, _adfrcc.AtomType_includeInScoring_set
+        )
     __swig_setmethods__["element"] = _adfrcc.AtomType_element_set
     __swig_getmethods__["element"] = _adfrcc.AtomType_element_get
     if _newclass:
-        element = _swig_property(_adfrcc.AtomType_element_get, _adfrcc.AtomType_element_set)
+        element = _swig_property(
+            _adfrcc.AtomType_element_get, _adfrcc.AtomType_element_set
+        )
     __swig_setmethods__["isHydrogen"] = _adfrcc.AtomType_isHydrogen_set
     __swig_getmethods__["isHydrogen"] = _adfrcc.AtomType_isHydrogen_get
     if _newclass:
-        isHydrogen = _swig_property(_adfrcc.AtomType_isHydrogen_get, _adfrcc.AtomType_isHydrogen_set)
+        isHydrogen = _swig_property(
+            _adfrcc.AtomType_isHydrogen_get, _adfrcc.AtomType_isHydrogen_set
+        )
     __swig_setmethods__["numAtomTypes"] = _adfrcc.AtomType_numAtomTypes_set
     __swig_getmethods__["numAtomTypes"] = _adfrcc.AtomType_numAtomTypes_get
     if _newclass:
-        numAtomTypes = _swig_property(_adfrcc.AtomType_numAtomTypes_get, _adfrcc.AtomType_numAtomTypes_set)
+        numAtomTypes = _swig_property(
+            _adfrcc.AtomType_numAtomTypes_get, _adfrcc.AtomType_numAtomTypes_set
+        )
     __swig_setmethods__["isHbondingPair"] = _adfrcc.AtomType_isHbondingPair_set
     __swig_getmethods__["isHbondingPair"] = _adfrcc.AtomType_isHbondingPair_get
     if _newclass:
-        isHbondingPair = _swig_property(_adfrcc.AtomType_isHbondingPair_get, _adfrcc.AtomType_isHbondingPair_set)
+        isHbondingPair = _swig_property(
+            _adfrcc.AtomType_isHbondingPair_get, _adfrcc.AtomType_isHbondingPair_set
+        )
     __swig_setmethods__["equilibriumDist"] = _adfrcc.AtomType_equilibriumDist_set
     __swig_getmethods__["equilibriumDist"] = _adfrcc.AtomType_equilibriumDist_get
     if _newclass:
-        equilibriumDist = _swig_property(_adfrcc.AtomType_equilibriumDist_get, _adfrcc.AtomType_equilibriumDist_set)
+        equilibriumDist = _swig_property(
+            _adfrcc.AtomType_equilibriumDist_get, _adfrcc.AtomType_equilibriumDist_set
+        )
     __swig_setmethods__["wellDepth"] = _adfrcc.AtomType_wellDepth_set
     __swig_getmethods__["wellDepth"] = _adfrcc.AtomType_wellDepth_get
     if _newclass:
-        wellDepth = _swig_property(_adfrcc.AtomType_wellDepth_get, _adfrcc.AtomType_wellDepth_set)
+        wellDepth = _swig_property(
+            _adfrcc.AtomType_wellDepth_get, _adfrcc.AtomType_wellDepth_set
+        )
     __swig_setmethods__["energyPowN"] = _adfrcc.AtomType_energyPowN_set
     __swig_getmethods__["energyPowN"] = _adfrcc.AtomType_energyPowN_get
     if _newclass:
-        energyPowN = _swig_property(_adfrcc.AtomType_energyPowN_get, _adfrcc.AtomType_energyPowN_set)
+        energyPowN = _swig_property(
+            _adfrcc.AtomType_energyPowN_get, _adfrcc.AtomType_energyPowN_set
+        )
     __swig_setmethods__["energyPowM"] = _adfrcc.AtomType_energyPowM_set
     __swig_getmethods__["energyPowM"] = _adfrcc.AtomType_energyPowM_get
     if _newclass:
-        energyPowM = _swig_property(_adfrcc.AtomType_energyPowM_get, _adfrcc.AtomType_energyPowM_set)
+        energyPowM = _swig_property(
+            _adfrcc.AtomType_energyPowM_get, _adfrcc.AtomType_energyPowM_set
+        )
     __swig_setmethods__["energyFactorN"] = _adfrcc.AtomType_energyFactorN_set
     __swig_getmethods__["energyFactorN"] = _adfrcc.AtomType_energyFactorN_get
     if _newclass:
-        energyFactorN = _swig_property(_adfrcc.AtomType_energyFactorN_get, _adfrcc.AtomType_energyFactorN_set)
+        energyFactorN = _swig_property(
+            _adfrcc.AtomType_energyFactorN_get, _adfrcc.AtomType_energyFactorN_set
+        )
     __swig_setmethods__["energyFactorM"] = _adfrcc.AtomType_energyFactorM_set
     __swig_getmethods__["energyFactorM"] = _adfrcc.AtomType_energyFactorM_get
     if _newclass:
-        energyFactorM = _swig_property(_adfrcc.AtomType_energyFactorM_get, _adfrcc.AtomType_energyFactorM_set)
+        energyFactorM = _swig_property(
+            _adfrcc.AtomType_energyFactorM_get, _adfrcc.AtomType_energyFactorM_set
+        )
     __swig_setmethods__["hbCosAlphaPow"] = _adfrcc.AtomType_hbCosAlphaPow_set
     __swig_getmethods__["hbCosAlphaPow"] = _adfrcc.AtomType_hbCosAlphaPow_get
     if _newclass:
-        hbCosAlphaPow = _swig_property(_adfrcc.AtomType_hbCosAlphaPow_get, _adfrcc.AtomType_hbCosAlphaPow_set)
+        hbCosAlphaPow = _swig_property(
+            _adfrcc.AtomType_hbCosAlphaPow_get, _adfrcc.AtomType_hbCosAlphaPow_set
+        )
     __swig_setmethods__["hbCosBetaPow"] = _adfrcc.AtomType_hbCosBetaPow_set
     __swig_getmethods__["hbCosBetaPow"] = _adfrcc.AtomType_hbCosBetaPow_get
     if _newclass:
-        hbCosBetaPow = _swig_property(_adfrcc.AtomType_hbCosBetaPow_get, _adfrcc.AtomType_hbCosBetaPow_set)
-    __swig_setmethods__["hbWorstAngleCosToAlphaPow"] = _adfrcc.AtomType_hbWorstAngleCosToAlphaPow_set
-    __swig_getmethods__["hbWorstAngleCosToAlphaPow"] = _adfrcc.AtomType_hbWorstAngleCosToAlphaPow_get
+        hbCosBetaPow = _swig_property(
+            _adfrcc.AtomType_hbCosBetaPow_get, _adfrcc.AtomType_hbCosBetaPow_set
+        )
+    __swig_setmethods__[
+        "hbWorstAngleCosToAlphaPow"
+    ] = _adfrcc.AtomType_hbWorstAngleCosToAlphaPow_set
+    __swig_getmethods__[
+        "hbWorstAngleCosToAlphaPow"
+    ] = _adfrcc.AtomType_hbWorstAngleCosToAlphaPow_get
     if _newclass:
-        hbWorstAngleCosToAlphaPow = _swig_property(_adfrcc.AtomType_hbWorstAngleCosToAlphaPow_get, _adfrcc.AtomType_hbWorstAngleCosToAlphaPow_set)
-    __swig_setmethods__["hbWorstAngleCosToBetaPow"] = _adfrcc.AtomType_hbWorstAngleCosToBetaPow_set
-    __swig_getmethods__["hbWorstAngleCosToBetaPow"] = _adfrcc.AtomType_hbWorstAngleCosToBetaPow_get
+        hbWorstAngleCosToAlphaPow = _swig_property(
+            _adfrcc.AtomType_hbWorstAngleCosToAlphaPow_get,
+            _adfrcc.AtomType_hbWorstAngleCosToAlphaPow_set,
+        )
+    __swig_setmethods__[
+        "hbWorstAngleCosToBetaPow"
+    ] = _adfrcc.AtomType_hbWorstAngleCosToBetaPow_set
+    __swig_getmethods__[
+        "hbWorstAngleCosToBetaPow"
+    ] = _adfrcc.AtomType_hbWorstAngleCosToBetaPow_get
     if _newclass:
-        hbWorstAngleCosToBetaPow = _swig_property(_adfrcc.AtomType_hbWorstAngleCosToBetaPow_get, _adfrcc.AtomType_hbWorstAngleCosToBetaPow_set)
+        hbWorstAngleCosToBetaPow = _swig_property(
+            _adfrcc.AtomType_hbWorstAngleCosToBetaPow_get,
+            _adfrcc.AtomType_hbWorstAngleCosToBetaPow_set,
+        )
+
+
 AtomType_swigregister = _adfrcc.AtomType_swigregister
 AtomType_swigregister(AtomType)
+
 
 class Randomize(_object):
     __swig_setmethods__ = {}
@@ -838,7 +1067,9 @@ class Randomize(_object):
     __swig_getmethods__["setRandSeed"] = lambda x: _adfrcc.Randomize_setRandSeed
     if _newclass:
         setRandSeed = staticmethod(_adfrcc.Randomize_setRandSeed)
-    __swig_getmethods__["randFloatBetween"] = lambda x: _adfrcc.Randomize_randFloatBetween
+    __swig_getmethods__[
+        "randFloatBetween"
+    ] = lambda x: _adfrcc.Randomize_randFloatBetween
     if _newclass:
         randFloatBetween = staticmethod(_adfrcc.Randomize_randFloatBetween)
     __swig_getmethods__["randIntLessThan"] = lambda x: _adfrcc.Randomize_randIntLessThan
@@ -854,30 +1085,48 @@ class Randomize(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_Randomize
     __del__ = lambda self: None
+
+
 Randomize_swigregister = _adfrcc.Randomize_swigregister
 Randomize_swigregister(Randomize)
 
+
 def Randomize_setRandSeed(seed=-1):
     return _adfrcc.Randomize_setRandSeed(seed)
+
+
 Randomize_setRandSeed = _adfrcc.Randomize_setRandSeed
+
 
 def Randomize_randFloatBetween(low, high):
     return _adfrcc.Randomize_randFloatBetween(low, high)
+
+
 Randomize_randFloatBetween = _adfrcc.Randomize_randFloatBetween
+
 
 def Randomize_randIntLessThan(lessThan):
     return _adfrcc.Randomize_randIntLessThan(lessThan)
+
+
 Randomize_randIntLessThan = _adfrcc.Randomize_randIntLessThan
+
 
 def Randomize_randGaussian(mean, stdDev):
     return _adfrcc.Randomize_randGaussian(mean, stdDev)
+
+
 Randomize_randGaussian = _adfrcc.Randomize_randGaussian
+
 
 class NamedObject(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, NamedObject, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, NamedObject, name, value
+    )
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, NamedObject, name)
     __repr__ = _swig_repr
@@ -888,6 +1137,7 @@ class NamedObject(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_NamedObject
     __del__ = lambda self: None
 
@@ -896,8 +1146,11 @@ class NamedObject(_object):
 
     def getName(self):
         return _adfrcc.NamedObject_getName(self)
+
+
 NamedObject_swigregister = _adfrcc.NamedObject_swigregister
 NamedObject_swigregister(NamedObject)
+
 
 class Parameters(_object):
     __swig_setmethods__ = {}
@@ -907,6 +1160,7 @@ class Parameters(_object):
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined")
+
     __repr__ = _swig_repr
     __swig_getmethods__["getParameters"] = lambda x: _adfrcc.Parameters_getParameters
     if _newclass:
@@ -1000,26 +1254,37 @@ class Parameters(_object):
 
     def printDebugDescription(self):
         return _adfrcc.Parameters_printDebugDescription(self)
+
     __swig_setmethods__["feCoeffVdw"] = _adfrcc.Parameters_feCoeffVdw_set
     __swig_getmethods__["feCoeffVdw"] = _adfrcc.Parameters_feCoeffVdw_get
     if _newclass:
-        feCoeffVdw = _swig_property(_adfrcc.Parameters_feCoeffVdw_get, _adfrcc.Parameters_feCoeffVdw_set)
+        feCoeffVdw = _swig_property(
+            _adfrcc.Parameters_feCoeffVdw_get, _adfrcc.Parameters_feCoeffVdw_set
+        )
     __swig_setmethods__["feCoeffHbond"] = _adfrcc.Parameters_feCoeffHbond_set
     __swig_getmethods__["feCoeffHbond"] = _adfrcc.Parameters_feCoeffHbond_get
     if _newclass:
-        feCoeffHbond = _swig_property(_adfrcc.Parameters_feCoeffHbond_get, _adfrcc.Parameters_feCoeffHbond_set)
+        feCoeffHbond = _swig_property(
+            _adfrcc.Parameters_feCoeffHbond_get, _adfrcc.Parameters_feCoeffHbond_set
+        )
     __swig_setmethods__["feCoeffEstat"] = _adfrcc.Parameters_feCoeffEstat_set
     __swig_getmethods__["feCoeffEstat"] = _adfrcc.Parameters_feCoeffEstat_get
     if _newclass:
-        feCoeffEstat = _swig_property(_adfrcc.Parameters_feCoeffEstat_get, _adfrcc.Parameters_feCoeffEstat_set)
+        feCoeffEstat = _swig_property(
+            _adfrcc.Parameters_feCoeffEstat_get, _adfrcc.Parameters_feCoeffEstat_set
+        )
     __swig_setmethods__["feCoeffDesolv"] = _adfrcc.Parameters_feCoeffDesolv_set
     __swig_getmethods__["feCoeffDesolv"] = _adfrcc.Parameters_feCoeffDesolv_get
     if _newclass:
-        feCoeffDesolv = _swig_property(_adfrcc.Parameters_feCoeffDesolv_get, _adfrcc.Parameters_feCoeffDesolv_set)
+        feCoeffDesolv = _swig_property(
+            _adfrcc.Parameters_feCoeffDesolv_get, _adfrcc.Parameters_feCoeffDesolv_set
+        )
     __swig_setmethods__["feCoeffTors"] = _adfrcc.Parameters_feCoeffTors_set
     __swig_getmethods__["feCoeffTors"] = _adfrcc.Parameters_feCoeffTors_get
     if _newclass:
-        feCoeffTors = _swig_property(_adfrcc.Parameters_feCoeffTors_get, _adfrcc.Parameters_feCoeffTors_set)
+        feCoeffTors = _swig_property(
+            _adfrcc.Parameters_feCoeffTors_get, _adfrcc.Parameters_feCoeffTors_set
+        )
     __swig_setmethods__["vdwN"] = _adfrcc.Parameters_vdwN_set
     __swig_getmethods__["vdwN"] = _adfrcc.Parameters_vdwN_get
     if _newclass:
@@ -1039,63 +1304,106 @@ class Parameters(_object):
     __swig_setmethods__["maxDistVdw"] = _adfrcc.Parameters_maxDistVdw_set
     __swig_getmethods__["maxDistVdw"] = _adfrcc.Parameters_maxDistVdw_get
     if _newclass:
-        maxDistVdw = _swig_property(_adfrcc.Parameters_maxDistVdw_get, _adfrcc.Parameters_maxDistVdw_set)
+        maxDistVdw = _swig_property(
+            _adfrcc.Parameters_maxDistVdw_get, _adfrcc.Parameters_maxDistVdw_set
+        )
     __swig_setmethods__["maxDistHbond"] = _adfrcc.Parameters_maxDistHbond_set
     __swig_getmethods__["maxDistHbond"] = _adfrcc.Parameters_maxDistHbond_get
     if _newclass:
-        maxDistHbond = _swig_property(_adfrcc.Parameters_maxDistHbond_get, _adfrcc.Parameters_maxDistHbond_set)
+        maxDistHbond = _swig_property(
+            _adfrcc.Parameters_maxDistHbond_get, _adfrcc.Parameters_maxDistHbond_set
+        )
     __swig_setmethods__["maxDistEstat"] = _adfrcc.Parameters_maxDistEstat_set
     __swig_getmethods__["maxDistEstat"] = _adfrcc.Parameters_maxDistEstat_get
     if _newclass:
-        maxDistEstat = _swig_property(_adfrcc.Parameters_maxDistEstat_get, _adfrcc.Parameters_maxDistEstat_set)
+        maxDistEstat = _swig_property(
+            _adfrcc.Parameters_maxDistEstat_get, _adfrcc.Parameters_maxDistEstat_set
+        )
     __swig_setmethods__["maxDistSolv"] = _adfrcc.Parameters_maxDistSolv_set
     __swig_getmethods__["maxDistSolv"] = _adfrcc.Parameters_maxDistSolv_get
     if _newclass:
-        maxDistSolv = _swig_property(_adfrcc.Parameters_maxDistSolv_get, _adfrcc.Parameters_maxDistSolv_set)
+        maxDistSolv = _swig_property(
+            _adfrcc.Parameters_maxDistSolv_get, _adfrcc.Parameters_maxDistSolv_set
+        )
     __swig_setmethods__["useTables"] = _adfrcc.Parameters_useTables_set
     __swig_getmethods__["useTables"] = _adfrcc.Parameters_useTables_get
     if _newclass:
-        useTables = _swig_property(_adfrcc.Parameters_useTables_get, _adfrcc.Parameters_useTables_set)
+        useTables = _swig_property(
+            _adfrcc.Parameters_useTables_get, _adfrcc.Parameters_useTables_set
+        )
     __swig_setmethods__["tablesInterpolate"] = _adfrcc.Parameters_tablesInterpolate_set
     __swig_getmethods__["tablesInterpolate"] = _adfrcc.Parameters_tablesInterpolate_get
     if _newclass:
-        tablesInterpolate = _swig_property(_adfrcc.Parameters_tablesInterpolate_get, _adfrcc.Parameters_tablesInterpolate_set)
+        tablesInterpolate = _swig_property(
+            _adfrcc.Parameters_tablesInterpolate_get,
+            _adfrcc.Parameters_tablesInterpolate_set,
+        )
     __swig_setmethods__["tablesIncrement"] = _adfrcc.Parameters_tablesIncrement_set
     __swig_getmethods__["tablesIncrement"] = _adfrcc.Parameters_tablesIncrement_get
     if _newclass:
-        tablesIncrement = _swig_property(_adfrcc.Parameters_tablesIncrement_get, _adfrcc.Parameters_tablesIncrement_set)
+        tablesIncrement = _swig_property(
+            _adfrcc.Parameters_tablesIncrement_get,
+            _adfrcc.Parameters_tablesIncrement_set,
+        )
     __swig_setmethods__["tablesMaxVdw"] = _adfrcc.Parameters_tablesMaxVdw_set
     __swig_getmethods__["tablesMaxVdw"] = _adfrcc.Parameters_tablesMaxVdw_get
     if _newclass:
-        tablesMaxVdw = _swig_property(_adfrcc.Parameters_tablesMaxVdw_get, _adfrcc.Parameters_tablesMaxVdw_set)
+        tablesMaxVdw = _swig_property(
+            _adfrcc.Parameters_tablesMaxVdw_get, _adfrcc.Parameters_tablesMaxVdw_set
+        )
     __swig_setmethods__["tablesMaxEstat"] = _adfrcc.Parameters_tablesMaxEstat_set
     __swig_getmethods__["tablesMaxEstat"] = _adfrcc.Parameters_tablesMaxEstat_get
     if _newclass:
-        tablesMaxEstat = _swig_property(_adfrcc.Parameters_tablesMaxEstat_get, _adfrcc.Parameters_tablesMaxEstat_set)
+        tablesMaxEstat = _swig_property(
+            _adfrcc.Parameters_tablesMaxEstat_get, _adfrcc.Parameters_tablesMaxEstat_set
+        )
     __swig_setmethods__["tablesMaxSolv"] = _adfrcc.Parameters_tablesMaxSolv_set
     __swig_getmethods__["tablesMaxSolv"] = _adfrcc.Parameters_tablesMaxSolv_get
     if _newclass:
-        tablesMaxSolv = _swig_property(_adfrcc.Parameters_tablesMaxSolv_get, _adfrcc.Parameters_tablesMaxSolv_set)
-    __swig_setmethods__["distSmoothingWidth"] = _adfrcc.Parameters_distSmoothingWidth_set
-    __swig_getmethods__["distSmoothingWidth"] = _adfrcc.Parameters_distSmoothingWidth_get
+        tablesMaxSolv = _swig_property(
+            _adfrcc.Parameters_tablesMaxSolv_get, _adfrcc.Parameters_tablesMaxSolv_set
+        )
+    __swig_setmethods__[
+        "distSmoothingWidth"
+    ] = _adfrcc.Parameters_distSmoothingWidth_set
+    __swig_getmethods__[
+        "distSmoothingWidth"
+    ] = _adfrcc.Parameters_distSmoothingWidth_get
     if _newclass:
-        distSmoothingWidth = _swig_property(_adfrcc.Parameters_distSmoothingWidth_get, _adfrcc.Parameters_distSmoothingWidth_set)
+        distSmoothingWidth = _swig_property(
+            _adfrcc.Parameters_distSmoothingWidth_get,
+            _adfrcc.Parameters_distSmoothingWidth_set,
+        )
     __swig_setmethods__["collisionDist"] = _adfrcc.Parameters_collisionDist_set
     __swig_getmethods__["collisionDist"] = _adfrcc.Parameters_collisionDist_get
     if _newclass:
-        collisionDist = _swig_property(_adfrcc.Parameters_collisionDist_get, _adfrcc.Parameters_collisionDist_set)
-    __swig_setmethods__["abortIfNumCollisions"] = _adfrcc.Parameters_abortIfNumCollisions_set
-    __swig_getmethods__["abortIfNumCollisions"] = _adfrcc.Parameters_abortIfNumCollisions_get
+        collisionDist = _swig_property(
+            _adfrcc.Parameters_collisionDist_get, _adfrcc.Parameters_collisionDist_set
+        )
+    __swig_setmethods__[
+        "abortIfNumCollisions"
+    ] = _adfrcc.Parameters_abortIfNumCollisions_set
+    __swig_getmethods__[
+        "abortIfNumCollisions"
+    ] = _adfrcc.Parameters_abortIfNumCollisions_get
     if _newclass:
-        abortIfNumCollisions = _swig_property(_adfrcc.Parameters_abortIfNumCollisions_get, _adfrcc.Parameters_abortIfNumCollisions_set)
+        abortIfNumCollisions = _swig_property(
+            _adfrcc.Parameters_abortIfNumCollisions_get,
+            _adfrcc.Parameters_abortIfNumCollisions_set,
+        )
     __swig_setmethods__["hbWorstAngle"] = _adfrcc.Parameters_hbWorstAngle_set
     __swig_getmethods__["hbWorstAngle"] = _adfrcc.Parameters_hbWorstAngle_get
     if _newclass:
-        hbWorstAngle = _swig_property(_adfrcc.Parameters_hbWorstAngle_get, _adfrcc.Parameters_hbWorstAngle_set)
+        hbWorstAngle = _swig_property(
+            _adfrcc.Parameters_hbWorstAngle_get, _adfrcc.Parameters_hbWorstAngle_set
+        )
     __swig_setmethods__["hbWorstAngleCos"] = _adfrcc.Parameters_hbWorstAngleCos_set
     __swig_getmethods__["hbWorstAngleCos"] = _adfrcc.Parameters_hbWorstAngleCos_get
     if _newclass:
-        hbWorstAngleCos = _swig_property(_adfrcc.Parameters_hbWorstAngleCos_get, _adfrcc.Parameters_hbWorstAngleCos_set)
+        hbWorstAngleCos = _swig_property(
+            _adfrcc.Parameters_hbWorstAngleCos_get,
+            _adfrcc.Parameters_hbWorstAngleCos_set,
+        )
     __swig_setmethods__["qasp"] = _adfrcc.Parameters_qasp_set
     __swig_getmethods__["qasp"] = _adfrcc.Parameters_qasp_get
     if _newclass:
@@ -1103,26 +1411,38 @@ class Parameters(_object):
     __swig_setmethods__["numAtomTypes"] = _adfrcc.Parameters_numAtomTypes_set
     __swig_getmethods__["numAtomTypes"] = _adfrcc.Parameters_numAtomTypes_get
     if _newclass:
-        numAtomTypes = _swig_property(_adfrcc.Parameters_numAtomTypes_get, _adfrcc.Parameters_numAtomTypes_set)
+        numAtomTypes = _swig_property(
+            _adfrcc.Parameters_numAtomTypes_get, _adfrcc.Parameters_numAtomTypes_set
+        )
     __swig_setmethods__["hbondMode"] = _adfrcc.Parameters_hbondMode_set
     __swig_getmethods__["hbondMode"] = _adfrcc.Parameters_hbondMode_get
     if _newclass:
-        hbondMode = _swig_property(_adfrcc.Parameters_hbondMode_get, _adfrcc.Parameters_hbondMode_set)
+        hbondMode = _swig_property(
+            _adfrcc.Parameters_hbondMode_get, _adfrcc.Parameters_hbondMode_set
+        )
+
+
 Parameters_swigregister = _adfrcc.Parameters_swigregister
 Parameters_swigregister(Parameters)
 
+
 def Parameters_getParameters():
     return _adfrcc.Parameters_getParameters()
+
+
 Parameters_getParameters = _adfrcc.Parameters_getParameters
+
 
 class AtomSetStatic(NamedObject):
     __swig_setmethods__ = {}
     for _s in [NamedObject]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, AtomSetStatic, name, value)
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, AtomSetStatic, name, value
+    )
     __swig_getmethods__ = {}
     for _s in [NamedObject]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, AtomSetStatic, name)
     __repr__ = _swig_repr
 
@@ -1132,6 +1452,7 @@ class AtomSetStatic(NamedObject):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_AtomSetStatic
     __del__ = lambda self: None
 
@@ -1154,7 +1475,9 @@ class AtomSetStatic(NamedObject):
         return _adfrcc.AtomSetStatic_setNoScoreHops(self, aNoScoreHops)
 
     def setPairScorable(self, atomIndex1, atomIndex2, isScorable):
-        return _adfrcc.AtomSetStatic_setPairScorable(self, atomIndex1, atomIndex2, isScorable)
+        return _adfrcc.AtomSetStatic_setPairScorable(
+            self, atomIndex1, atomIndex2, isScorable
+        )
 
     def getPairScorable(self, atomIndex1, atomIndex2):
         return _adfrcc.AtomSetStatic_getPairScorable(self, atomIndex1, atomIndex2)
@@ -1185,84 +1508,140 @@ class AtomSetStatic(NamedObject):
 
     def printDebugDescription(self):
         return _adfrcc.AtomSetStatic_printDebugDescription(self)
+
     __swig_getmethods__["numAtoms"] = _adfrcc.AtomSetStatic_numAtoms_get
     if _newclass:
         numAtoms = _swig_property(_adfrcc.AtomSetStatic_numAtoms_get)
     __swig_setmethods__["atomTypes"] = _adfrcc.AtomSetStatic_atomTypes_set
     __swig_getmethods__["atomTypes"] = _adfrcc.AtomSetStatic_atomTypes_get
     if _newclass:
-        atomTypes = _swig_property(_adfrcc.AtomSetStatic_atomTypes_get, _adfrcc.AtomSetStatic_atomTypes_set)
+        atomTypes = _swig_property(
+            _adfrcc.AtomSetStatic_atomTypes_get, _adfrcc.AtomSetStatic_atomTypes_set
+        )
     __swig_setmethods__["atomTypeNames"] = _adfrcc.AtomSetStatic_atomTypeNames_set
     __swig_getmethods__["atomTypeNames"] = _adfrcc.AtomSetStatic_atomTypeNames_get
     if _newclass:
-        atomTypeNames = _swig_property(_adfrcc.AtomSetStatic_atomTypeNames_get, _adfrcc.AtomSetStatic_atomTypeNames_set)
+        atomTypeNames = _swig_property(
+            _adfrcc.AtomSetStatic_atomTypeNames_get,
+            _adfrcc.AtomSetStatic_atomTypeNames_set,
+        )
     __swig_setmethods__["charges"] = _adfrcc.AtomSetStatic_charges_set
     __swig_getmethods__["charges"] = _adfrcc.AtomSetStatic_charges_get
     if _newclass:
-        charges = _swig_property(_adfrcc.AtomSetStatic_charges_get, _adfrcc.AtomSetStatic_charges_set)
+        charges = _swig_property(
+            _adfrcc.AtomSetStatic_charges_get, _adfrcc.AtomSetStatic_charges_set
+        )
     __swig_setmethods__["origCoords"] = _adfrcc.AtomSetStatic_origCoords_set
     __swig_getmethods__["origCoords"] = _adfrcc.AtomSetStatic_origCoords_get
     if _newclass:
-        origCoords = _swig_property(_adfrcc.AtomSetStatic_origCoords_get, _adfrcc.AtomSetStatic_origCoords_set)
+        origCoords = _swig_property(
+            _adfrcc.AtomSetStatic_origCoords_get, _adfrcc.AtomSetStatic_origCoords_set
+        )
     __swig_setmethods__["covalentBonds"] = _adfrcc.AtomSetStatic_covalentBonds_set
     __swig_getmethods__["covalentBonds"] = _adfrcc.AtomSetStatic_covalentBonds_get
     if _newclass:
-        covalentBonds = _swig_property(_adfrcc.AtomSetStatic_covalentBonds_get, _adfrcc.AtomSetStatic_covalentBonds_set)
+        covalentBonds = _swig_property(
+            _adfrcc.AtomSetStatic_covalentBonds_get,
+            _adfrcc.AtomSetStatic_covalentBonds_set,
+        )
     __swig_setmethods__["numDonorDirs"] = _adfrcc.AtomSetStatic_numDonorDirs_set
     __swig_getmethods__["numDonorDirs"] = _adfrcc.AtomSetStatic_numDonorDirs_get
     if _newclass:
-        numDonorDirs = _swig_property(_adfrcc.AtomSetStatic_numDonorDirs_get, _adfrcc.AtomSetStatic_numDonorDirs_set)
+        numDonorDirs = _swig_property(
+            _adfrcc.AtomSetStatic_numDonorDirs_get,
+            _adfrcc.AtomSetStatic_numDonorDirs_set,
+        )
     __swig_setmethods__["numAcceptorDirs"] = _adfrcc.AtomSetStatic_numAcceptorDirs_set
     __swig_getmethods__["numAcceptorDirs"] = _adfrcc.AtomSetStatic_numAcceptorDirs_get
     if _newclass:
-        numAcceptorDirs = _swig_property(_adfrcc.AtomSetStatic_numAcceptorDirs_get, _adfrcc.AtomSetStatic_numAcceptorDirs_set)
+        numAcceptorDirs = _swig_property(
+            _adfrcc.AtomSetStatic_numAcceptorDirs_get,
+            _adfrcc.AtomSetStatic_numAcceptorDirs_set,
+        )
     __swig_setmethods__["donorDirsIndexes"] = _adfrcc.AtomSetStatic_donorDirsIndexes_set
     __swig_getmethods__["donorDirsIndexes"] = _adfrcc.AtomSetStatic_donorDirsIndexes_get
     if _newclass:
-        donorDirsIndexes = _swig_property(_adfrcc.AtomSetStatic_donorDirsIndexes_get, _adfrcc.AtomSetStatic_donorDirsIndexes_set)
-    __swig_setmethods__["acceptorDirsIndexes"] = _adfrcc.AtomSetStatic_acceptorDirsIndexes_set
-    __swig_getmethods__["acceptorDirsIndexes"] = _adfrcc.AtomSetStatic_acceptorDirsIndexes_get
+        donorDirsIndexes = _swig_property(
+            _adfrcc.AtomSetStatic_donorDirsIndexes_get,
+            _adfrcc.AtomSetStatic_donorDirsIndexes_set,
+        )
+    __swig_setmethods__[
+        "acceptorDirsIndexes"
+    ] = _adfrcc.AtomSetStatic_acceptorDirsIndexes_set
+    __swig_getmethods__[
+        "acceptorDirsIndexes"
+    ] = _adfrcc.AtomSetStatic_acceptorDirsIndexes_get
     if _newclass:
-        acceptorDirsIndexes = _swig_property(_adfrcc.AtomSetStatic_acceptorDirsIndexes_get, _adfrcc.AtomSetStatic_acceptorDirsIndexes_set)
+        acceptorDirsIndexes = _swig_property(
+            _adfrcc.AtomSetStatic_acceptorDirsIndexes_get,
+            _adfrcc.AtomSetStatic_acceptorDirsIndexes_set,
+        )
     __swig_setmethods__["origHbondDirs"] = _adfrcc.AtomSetStatic_origHbondDirs_set
     __swig_getmethods__["origHbondDirs"] = _adfrcc.AtomSetStatic_origHbondDirs_get
     if _newclass:
-        origHbondDirs = _swig_property(_adfrcc.AtomSetStatic_origHbondDirs_get, _adfrcc.AtomSetStatic_origHbondDirs_set)
+        origHbondDirs = _swig_property(
+            _adfrcc.AtomSetStatic_origHbondDirs_get,
+            _adfrcc.AtomSetStatic_origHbondDirs_set,
+        )
     __swig_setmethods__["numHbondDirs"] = _adfrcc.AtomSetStatic_numHbondDirs_set
     __swig_getmethods__["numHbondDirs"] = _adfrcc.AtomSetStatic_numHbondDirs_get
     if _newclass:
-        numHbondDirs = _swig_property(_adfrcc.AtomSetStatic_numHbondDirs_get, _adfrcc.AtomSetStatic_numHbondDirs_set)
+        numHbondDirs = _swig_property(
+            _adfrcc.AtomSetStatic_numHbondDirs_get,
+            _adfrcc.AtomSetStatic_numHbondDirs_set,
+        )
     __swig_setmethods__["noScoreHops"] = _adfrcc.AtomSetStatic_noScoreHops_set
     __swig_getmethods__["noScoreHops"] = _adfrcc.AtomSetStatic_noScoreHops_get
     if _newclass:
-        noScoreHops = _swig_property(_adfrcc.AtomSetStatic_noScoreHops_get, _adfrcc.AtomSetStatic_noScoreHops_set)
-    __swig_setmethods__["scorablePairsMatrix"] = _adfrcc.AtomSetStatic_scorablePairsMatrix_set
-    __swig_getmethods__["scorablePairsMatrix"] = _adfrcc.AtomSetStatic_scorablePairsMatrix_get
+        noScoreHops = _swig_property(
+            _adfrcc.AtomSetStatic_noScoreHops_get, _adfrcc.AtomSetStatic_noScoreHops_set
+        )
+    __swig_setmethods__[
+        "scorablePairsMatrix"
+    ] = _adfrcc.AtomSetStatic_scorablePairsMatrix_set
+    __swig_getmethods__[
+        "scorablePairsMatrix"
+    ] = _adfrcc.AtomSetStatic_scorablePairsMatrix_get
     if _newclass:
-        scorablePairsMatrix = _swig_property(_adfrcc.AtomSetStatic_scorablePairsMatrix_get, _adfrcc.AtomSetStatic_scorablePairsMatrix_set)
+        scorablePairsMatrix = _swig_property(
+            _adfrcc.AtomSetStatic_scorablePairsMatrix_get,
+            _adfrcc.AtomSetStatic_scorablePairsMatrix_set,
+        )
     __swig_setmethods__["scorableGrid"] = _adfrcc.AtomSetStatic_scorableGrid_set
     __swig_getmethods__["scorableGrid"] = _adfrcc.AtomSetStatic_scorableGrid_get
     if _newclass:
-        scorableGrid = _swig_property(_adfrcc.AtomSetStatic_scorableGrid_get, _adfrcc.AtomSetStatic_scorableGrid_set)
+        scorableGrid = _swig_property(
+            _adfrcc.AtomSetStatic_scorableGrid_get,
+            _adfrcc.AtomSetStatic_scorableGrid_set,
+        )
     __swig_setmethods__["scorablePairwise"] = _adfrcc.AtomSetStatic_scorablePairwise_set
     __swig_getmethods__["scorablePairwise"] = _adfrcc.AtomSetStatic_scorablePairwise_get
     if _newclass:
-        scorablePairwise = _swig_property(_adfrcc.AtomSetStatic_scorablePairwise_get, _adfrcc.AtomSetStatic_scorablePairwise_set)
+        scorablePairwise = _swig_property(
+            _adfrcc.AtomSetStatic_scorablePairwise_get,
+            _adfrcc.AtomSetStatic_scorablePairwise_set,
+        )
     __swig_setmethods__["isDataFinalized"] = _adfrcc.AtomSetStatic_isDataFinalized_set
     __swig_getmethods__["isDataFinalized"] = _adfrcc.AtomSetStatic_isDataFinalized_get
     if _newclass:
-        isDataFinalized = _swig_property(_adfrcc.AtomSetStatic_isDataFinalized_get, _adfrcc.AtomSetStatic_isDataFinalized_set)
+        isDataFinalized = _swig_property(
+            _adfrcc.AtomSetStatic_isDataFinalized_get,
+            _adfrcc.AtomSetStatic_isDataFinalized_set,
+        )
+
+
 AtomSetStatic_swigregister = _adfrcc.AtomSetStatic_swigregister
 AtomSetStatic_swigregister(AtomSetStatic)
+
 
 class AtomSet(NamedObject):
     __swig_setmethods__ = {}
     for _s in [NamedObject]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
     __setattr__ = lambda self, name, value: _swig_setattr(self, AtomSet, name, value)
     __swig_getmethods__ = {}
     for _s in [NamedObject]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, AtomSet, name)
     __repr__ = _swig_repr
 
@@ -1272,6 +1651,7 @@ class AtomSet(NamedObject):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_AtomSet
     __del__ = lambda self: None
 
@@ -1289,6 +1669,7 @@ class AtomSet(NamedObject):
 
     def printDebugDescription(self):
         return _adfrcc.AtomSet_printDebugDescription(self)
+
     __swig_getmethods__["atomSetStatic"] = _adfrcc.AtomSet_atomSetStatic_get
     if _newclass:
         atomSetStatic = _swig_property(_adfrcc.AtomSet_atomSetStatic_get)
@@ -1302,56 +1683,84 @@ class AtomSet(NamedObject):
     __swig_setmethods__["hbondDirs"] = _adfrcc.AtomSet_hbondDirs_set
     __swig_getmethods__["hbondDirs"] = _adfrcc.AtomSet_hbondDirs_get
     if _newclass:
-        hbondDirs = _swig_property(_adfrcc.AtomSet_hbondDirs_get, _adfrcc.AtomSet_hbondDirs_set)
+        hbondDirs = _swig_property(
+            _adfrcc.AtomSet_hbondDirs_get, _adfrcc.AtomSet_hbondDirs_set
+        )
 
     def createForcesArrays(self):
         return _adfrcc.AtomSet_createForcesArrays(self)
+
     __swig_setmethods__["totalForcesArray"] = _adfrcc.AtomSet_totalForcesArray_set
     __swig_getmethods__["totalForcesArray"] = _adfrcc.AtomSet_totalForcesArray_get
     if _newclass:
-        totalForcesArray = _swig_property(_adfrcc.AtomSet_totalForcesArray_get, _adfrcc.AtomSet_totalForcesArray_set)
+        totalForcesArray = _swig_property(
+            _adfrcc.AtomSet_totalForcesArray_get, _adfrcc.AtomSet_totalForcesArray_set
+        )
 
     def getForcesArrayPy(self):
         return _adfrcc.AtomSet_getForcesArrayPy(self)
+
     __swig_setmethods__["gridForcesArray"] = _adfrcc.AtomSet_gridForcesArray_set
     __swig_getmethods__["gridForcesArray"] = _adfrcc.AtomSet_gridForcesArray_get
     if _newclass:
-        gridForcesArray = _swig_property(_adfrcc.AtomSet_gridForcesArray_get, _adfrcc.AtomSet_gridForcesArray_set)
+        gridForcesArray = _swig_property(
+            _adfrcc.AtomSet_gridForcesArray_get, _adfrcc.AtomSet_gridForcesArray_set
+        )
 
     def getGridForcesArrayPy(self):
         return _adfrcc.AtomSet_getGridForcesArrayPy(self)
+
     __swig_setmethods__["vdwForcesArray"] = _adfrcc.AtomSet_vdwForcesArray_set
     __swig_getmethods__["vdwForcesArray"] = _adfrcc.AtomSet_vdwForcesArray_get
     if _newclass:
-        vdwForcesArray = _swig_property(_adfrcc.AtomSet_vdwForcesArray_get, _adfrcc.AtomSet_vdwForcesArray_set)
+        vdwForcesArray = _swig_property(
+            _adfrcc.AtomSet_vdwForcesArray_get, _adfrcc.AtomSet_vdwForcesArray_set
+        )
 
     def getVdwForcesArrayPy(self):
         return _adfrcc.AtomSet_getVdwForcesArrayPy(self)
+
     __swig_setmethods__["hbForcesArray"] = _adfrcc.AtomSet_hbForcesArray_set
     __swig_getmethods__["hbForcesArray"] = _adfrcc.AtomSet_hbForcesArray_get
     if _newclass:
-        hbForcesArray = _swig_property(_adfrcc.AtomSet_hbForcesArray_get, _adfrcc.AtomSet_hbForcesArray_set)
+        hbForcesArray = _swig_property(
+            _adfrcc.AtomSet_hbForcesArray_get, _adfrcc.AtomSet_hbForcesArray_set
+        )
 
     def getHbForcesArrayPy(self):
         return _adfrcc.AtomSet_getHbForcesArrayPy(self)
+
     __swig_setmethods__["elecForcesArray"] = _adfrcc.AtomSet_elecForcesArray_set
     __swig_getmethods__["elecForcesArray"] = _adfrcc.AtomSet_elecForcesArray_get
     if _newclass:
-        elecForcesArray = _swig_property(_adfrcc.AtomSet_elecForcesArray_get, _adfrcc.AtomSet_elecForcesArray_set)
+        elecForcesArray = _swig_property(
+            _adfrcc.AtomSet_elecForcesArray_get, _adfrcc.AtomSet_elecForcesArray_set
+        )
 
     def getElecForcesArrayPy(self):
         return _adfrcc.AtomSet_getElecForcesArrayPy(self)
+
     __swig_setmethods__["dsolForcesArray"] = _adfrcc.AtomSet_dsolForcesArray_set
     __swig_getmethods__["dsolForcesArray"] = _adfrcc.AtomSet_dsolForcesArray_get
     if _newclass:
-        dsolForcesArray = _swig_property(_adfrcc.AtomSet_dsolForcesArray_get, _adfrcc.AtomSet_dsolForcesArray_set)
+        dsolForcesArray = _swig_property(
+            _adfrcc.AtomSet_dsolForcesArray_get, _adfrcc.AtomSet_dsolForcesArray_set
+        )
 
     def getDsolForcesArrayPy(self):
         return _adfrcc.AtomSet_getDsolForcesArrayPy(self)
-    __swig_setmethods__["neighborRMSDForcesArray"] = _adfrcc.AtomSet_neighborRMSDForcesArray_set
-    __swig_getmethods__["neighborRMSDForcesArray"] = _adfrcc.AtomSet_neighborRMSDForcesArray_get
+
+    __swig_setmethods__[
+        "neighborRMSDForcesArray"
+    ] = _adfrcc.AtomSet_neighborRMSDForcesArray_set
+    __swig_getmethods__[
+        "neighborRMSDForcesArray"
+    ] = _adfrcc.AtomSet_neighborRMSDForcesArray_get
     if _newclass:
-        neighborRMSDForcesArray = _swig_property(_adfrcc.AtomSet_neighborRMSDForcesArray_get, _adfrcc.AtomSet_neighborRMSDForcesArray_set)
+        neighborRMSDForcesArray = _swig_property(
+            _adfrcc.AtomSet_neighborRMSDForcesArray_get,
+            _adfrcc.AtomSet_neighborRMSDForcesArray_set,
+        )
 
     def getNeighborRMSDForcesArrayPy(self):
         return _adfrcc.AtomSet_getNeighborRMSDForcesArrayPy(self)
@@ -1361,8 +1770,11 @@ class AtomSet(NamedObject):
 
     def writeXYZR(self, fp, score):
         return _adfrcc.AtomSet_writeXYZR(self, fp, score)
+
+
 AtomSet_swigregister = _adfrcc.AtomSet_swigregister
 AtomSet_swigregister(AtomSet)
+
 
 class GridMap(_object):
     __swig_setmethods__ = {}
@@ -1377,11 +1789,14 @@ class GridMap(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_GridMap
     __del__ = lambda self: None
 
     def loadFromMapFile(self, aMapType, aMapFileDir, aMapFileName):
-        return _adfrcc.GridMap_loadFromMapFile(self, aMapType, aMapFileDir, aMapFileName)
+        return _adfrcc.GridMap_loadFromMapFile(
+            self, aMapType, aMapFileDir, aMapFileName
+        )
 
     def saveToMapFile(self, aMapFileDir, aMapFileName):
         return _adfrcc.GridMap_saveToMapFile(self, aMapFileDir, aMapFileName)
@@ -1424,21 +1839,25 @@ class GridMap(_object):
 
     def printDebugDescription(self):
         return _adfrcc.GridMap_printDebugDescription(self)
+
+
 GridMap_swigregister = _adfrcc.GridMap_swigregister
 GridMap_swigregister(GridMap)
+
 
 class Scorer(NamedObject):
     __swig_setmethods__ = {}
     for _s in [NamedObject]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
     __setattr__ = lambda self, name, value: _swig_setattr(self, Scorer, name, value)
     __swig_getmethods__ = {}
     for _s in [NamedObject]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, Scorer, name)
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
+
     __repr__ = _swig_repr
     __swig_destroy__ = _adfrcc.delete_Scorer
     __del__ = lambda self: None
@@ -1460,17 +1879,20 @@ class Scorer(NamedObject):
 
     def printDebugDescription(self):
         return _adfrcc.Scorer_printDebugDescription(self)
+
+
 Scorer_swigregister = _adfrcc.Scorer_swigregister
 Scorer_swigregister(Scorer)
+
 
 class GridScorer(Scorer):
     __swig_setmethods__ = {}
     for _s in [Scorer]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
     __setattr__ = lambda self, name, value: _swig_setattr(self, GridScorer, name, value)
     __swig_getmethods__ = {}
     for _s in [Scorer]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, GridScorer, name)
     __repr__ = _swig_repr
 
@@ -1480,6 +1902,7 @@ class GridScorer(Scorer):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_GridScorer
     __del__ = lambda self: None
 
@@ -1545,17 +1968,22 @@ class GridScorer(Scorer):
 
     def printDebugDescription(self):
         return _adfrcc.GridScorer_printDebugDescription(self)
+
+
 GridScorer_swigregister = _adfrcc.GridScorer_swigregister
 GridScorer_swigregister(GridScorer)
+
 
 class PairwiseScorer(Scorer):
     __swig_setmethods__ = {}
     for _s in [Scorer]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, PairwiseScorer, name, value)
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, PairwiseScorer, name, value
+    )
     __swig_getmethods__ = {}
     for _s in [Scorer]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, PairwiseScorer, name)
     __repr__ = _swig_repr
 
@@ -1565,6 +1993,7 @@ class PairwiseScorer(Scorer):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_PairwiseScorer
     __del__ = lambda self: None
 
@@ -1687,17 +2116,22 @@ class PairwiseScorer(Scorer):
 
     def printDebugDescription(self):
         return _adfrcc.PairwiseScorer_printDebugDescription(self)
+
+
 PairwiseScorer_swigregister = _adfrcc.PairwiseScorer_swigregister
 PairwiseScorer_swigregister(PairwiseScorer)
+
 
 class RigidReceptorScorer(Scorer):
     __swig_setmethods__ = {}
     for _s in [Scorer]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, RigidReceptorScorer, name, value)
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, RigidReceptorScorer, name, value
+    )
     __swig_getmethods__ = {}
     for _s in [Scorer]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, RigidReceptorScorer, name)
     __repr__ = _swig_repr
 
@@ -1707,6 +2141,7 @@ class RigidReceptorScorer(Scorer):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_RigidReceptorScorer
     __del__ = lambda self: None
 
@@ -1796,17 +2231,22 @@ class RigidReceptorScorer(Scorer):
 
     def computeTotalForces(self):
         return _adfrcc.RigidReceptorScorer_computeTotalForces(self)
+
+
 RigidReceptorScorer_swigregister = _adfrcc.RigidReceptorScorer_swigregister
 RigidReceptorScorer_swigregister(RigidReceptorScorer)
+
 
 class FlexibleReceptorScorer(RigidReceptorScorer):
     __swig_setmethods__ = {}
     for _s in [RigidReceptorScorer]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, FlexibleReceptorScorer, name, value)
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, FlexibleReceptorScorer, name, value
+    )
     __swig_getmethods__ = {}
     for _s in [RigidReceptorScorer]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, FlexibleReceptorScorer, name)
     __repr__ = _swig_repr
 
@@ -1816,6 +2256,7 @@ class FlexibleReceptorScorer(RigidReceptorScorer):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_FlexibleReceptorScorer
     __del__ = lambda self: None
 
@@ -1871,21 +2312,26 @@ class FlexibleReceptorScorer(RigidReceptorScorer):
         return _adfrcc.FlexibleReceptorScorer_calculateScores(self)
 
     def calculateScoresIncludingOffsets(self, ftRoot):
-        return _adfrcc.FlexibleReceptorScorer_calculateScoresIncludingOffsets(self, ftRoot)
+        return _adfrcc.FlexibleReceptorScorer_calculateScoresIncludingOffsets(
+            self, ftRoot
+        )
 
     def printDebugDescription(self):
         return _adfrcc.FlexibleReceptorScorer_printDebugDescription(self)
+
+
 FlexibleReceptorScorer_swigregister = _adfrcc.FlexibleReceptorScorer_swigregister
 FlexibleReceptorScorer_swigregister(FlexibleReceptorScorer)
+
 
 class FTBase(NamedObject):
     __swig_setmethods__ = {}
     for _s in [NamedObject]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
     __setattr__ = lambda self, name, value: _swig_setattr(self, FTBase, name, value)
     __swig_getmethods__ = {}
     for _s in [NamedObject]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, FTBase, name)
     __repr__ = _swig_repr
 
@@ -1895,6 +2341,7 @@ class FTBase(NamedObject):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_FTBase
     __del__ = lambda self: None
 
@@ -2043,7 +2490,9 @@ class FTBase(NamedObject):
         return _adfrcc.FTBase_ADFRValuesToBFGSValues(self, dest, values)
 
     def BFGSValuesToADFRValues(self, dest, offsetDest, values, offsetSource):
-        return _adfrcc.FTBase_BFGSValuesToADFRValues(self, dest, offsetDest, values, offsetSource)
+        return _adfrcc.FTBase_BFGSValuesToADFRValues(
+            self, dest, offsetDest, values, offsetSource
+        )
 
     def getBFGSboundsMin(self, dest):
         return _adfrcc.FTBase_getBFGSboundsMin(self, dest)
@@ -2080,17 +2529,22 @@ class FTBase(NamedObject):
 
     def deleteTree(self):
         return _adfrcc.FTBase_deleteTree(self)
+
+
 FTBase_swigregister = _adfrcc.FTBase_swigregister
 FTBase_swigregister(FTBase)
+
 
 class FTAtomsNode(FTBase):
     __swig_setmethods__ = {}
     for _s in [FTBase]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, FTAtomsNode, name, value)
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, FTAtomsNode, name, value
+    )
     __swig_getmethods__ = {}
     for _s in [FTBase]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, FTAtomsNode, name)
     __repr__ = _swig_repr
 
@@ -2100,6 +2554,7 @@ class FTAtomsNode(FTBase):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_FTAtomsNode
     __del__ = lambda self: None
 
@@ -2114,17 +2569,22 @@ class FTAtomsNode(FTBase):
 
     def getAtomIndexesPy(self):
         return _adfrcc.FTAtomsNode_getAtomIndexesPy(self)
+
+
 FTAtomsNode_swigregister = _adfrcc.FTAtomsNode_swigregister
 FTAtomsNode_swigregister(FTAtomsNode)
+
 
 class FTDeclareAtomSet(FTBase):
     __swig_setmethods__ = {}
     for _s in [FTBase]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, FTDeclareAtomSet, name, value)
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, FTDeclareAtomSet, name, value
+    )
     __swig_getmethods__ = {}
     for _s in [FTBase]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, FTDeclareAtomSet, name)
     __repr__ = _swig_repr
 
@@ -2134,22 +2594,28 @@ class FTDeclareAtomSet(FTBase):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_FTDeclareAtomSet
     __del__ = lambda self: None
 
     def setAtomSet(self, aAtomSet):
         return _adfrcc.FTDeclareAtomSet_setAtomSet(self, aAtomSet)
+
+
 FTDeclareAtomSet_swigregister = _adfrcc.FTDeclareAtomSet_swigregister
 FTDeclareAtomSet_swigregister(FTDeclareAtomSet)
+
 
 class FTDiscreteConformation(FTAtomsNode):
     __swig_setmethods__ = {}
     for _s in [FTAtomsNode]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, FTDiscreteConformation, name, value)
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, FTDiscreteConformation, name, value
+    )
     __swig_getmethods__ = {}
     for _s in [FTAtomsNode]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, FTDiscreteConformation, name)
     __repr__ = _swig_repr
 
@@ -2159,6 +2625,7 @@ class FTDiscreteConformation(FTAtomsNode):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_FTDiscreteConformation
     __del__ = lambda self: None
 
@@ -2179,17 +2646,22 @@ class FTDiscreteConformation(FTAtomsNode):
 
     def randomize(self):
         return _adfrcc.FTDiscreteConformation_randomize(self)
+
+
 FTDiscreteConformation_swigregister = _adfrcc.FTDiscreteConformation_swigregister
 FTDiscreteConformation_swigregister(FTDiscreteConformation)
+
 
 class FTDiscreteTransformation(FTBase):
     __swig_setmethods__ = {}
     for _s in [FTBase]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, FTDiscreteTransformation, name, value)
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, FTDiscreteTransformation, name, value
+    )
     __swig_getmethods__ = {}
     for _s in [FTBase]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, FTDiscreteTransformation, name)
     __repr__ = _swig_repr
 
@@ -2199,6 +2671,7 @@ class FTDiscreteTransformation(FTBase):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_FTDiscreteTransformation
     __del__ = lambda self: None
 
@@ -2219,17 +2692,22 @@ class FTDiscreteTransformation(FTBase):
 
     def getMatrixChoice(self):
         return _adfrcc.FTDiscreteTransformation_getMatrixChoice(self)
+
+
 FTDiscreteTransformation_swigregister = _adfrcc.FTDiscreteTransformation_swigregister
 FTDiscreteTransformation_swigregister(FTDiscreteTransformation)
+
 
 class FTDiscreteTranslation(FTBase):
     __swig_setmethods__ = {}
     for _s in [FTBase]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, FTDiscreteTranslation, name, value)
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, FTDiscreteTranslation, name, value
+    )
     __swig_getmethods__ = {}
     for _s in [FTBase]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, FTDiscreteTranslation, name)
     __repr__ = _swig_repr
 
@@ -2239,11 +2717,14 @@ class FTDiscreteTranslation(FTBase):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_FTDiscreteTranslation
     __del__ = lambda self: None
 
     def setPreferredPoints(self, aNumPreferredPoints):
-        return _adfrcc.FTDiscreteTranslation_setPreferredPoints(self, aNumPreferredPoints)
+        return _adfrcc.FTDiscreteTranslation_setPreferredPoints(
+            self, aNumPreferredPoints
+        )
 
     def setBounds(self, aMini, aMaxi):
         return _adfrcc.FTDiscreteTranslation_setBounds(self, aMini, aMaxi)
@@ -2255,18 +2736,25 @@ class FTDiscreteTranslation(FTBase):
         return _adfrcc.FTDiscreteTranslation_randomize(self)
 
     def forcesToGeneGradients(self, indopt, atomSet, offset, grad):
-        return _adfrcc.FTDiscreteTranslation_forcesToGeneGradients(self, indopt, atomSet, offset, grad)
+        return _adfrcc.FTDiscreteTranslation_forcesToGeneGradients(
+            self, indopt, atomSet, offset, grad
+        )
+
+
 FTDiscreteTranslation_swigregister = _adfrcc.FTDiscreteTranslation_swigregister
 FTDiscreteTranslation_swigregister(FTDiscreteTranslation)
+
 
 class FTRotationAboutBond(FTBase):
     __swig_setmethods__ = {}
     for _s in [FTBase]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, FTRotationAboutBond, name, value)
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, FTRotationAboutBond, name, value
+    )
     __swig_getmethods__ = {}
     for _s in [FTBase]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, FTRotationAboutBond, name)
     __repr__ = _swig_repr
 
@@ -2276,13 +2764,16 @@ class FTRotationAboutBond(FTBase):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_FTRotationAboutBond
     __del__ = lambda self: None
 
     def setAxisAtomIndexes(self, aAxisAtomIndex1, aAxisAtomIndex2):
-        return _adfrcc.FTRotationAboutBond_setAxisAtomIndexes(self, aAxisAtomIndex1, aAxisAtomIndex2)
+        return _adfrcc.FTRotationAboutBond_setAxisAtomIndexes(
+            self, aAxisAtomIndex1, aAxisAtomIndex2
+        )
 
-    def setDeltaAmplitude(self, aDeltaAmplitude=2.):
+    def setDeltaAmplitude(self, aDeltaAmplitude=2.0):
         return _adfrcc.FTRotationAboutBond_setDeltaAmplitude(self, aDeltaAmplitude)
 
     def initialize(self):
@@ -2290,17 +2781,22 @@ class FTRotationAboutBond(FTBase):
 
     def randomize(self):
         return _adfrcc.FTRotationAboutBond_randomize(self)
+
+
 FTRotationAboutBond_swigregister = _adfrcc.FTRotationAboutBond_swigregister
 FTRotationAboutBond_swigregister(FTRotationAboutBond)
+
 
 class FTRotationAboutPointQuat(FTBase):
     __swig_setmethods__ = {}
     for _s in [FTBase]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, FTRotationAboutPointQuat, name, value)
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, FTRotationAboutPointQuat, name, value
+    )
     __swig_getmethods__ = {}
     for _s in [FTBase]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, FTRotationAboutPointQuat, name)
     __repr__ = _swig_repr
 
@@ -2310,6 +2806,7 @@ class FTRotationAboutPointQuat(FTBase):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_FTRotationAboutPointQuat
     __del__ = lambda self: None
 
@@ -2332,30 +2829,39 @@ class FTRotationAboutPointQuat(FTBase):
         return _adfrcc.FTRotationAboutPointQuat_randomize(self)
 
     def forcesToGeneGradients(self, indopt, atomSet, offset, grad):
-        return _adfrcc.FTRotationAboutPointQuat_forcesToGeneGradients(self, indopt, atomSet, offset, grad)
+        return _adfrcc.FTRotationAboutPointQuat_forcesToGeneGradients(
+            self, indopt, atomSet, offset, grad
+        )
 
     def ADFRValuesToBFGSValues(self, dest, values):
-        return _adfrcc.FTRotationAboutPointQuat_ADFRValuesToBFGSValues(self, dest, values)
+        return _adfrcc.FTRotationAboutPointQuat_ADFRValuesToBFGSValues(
+            self, dest, values
+        )
 
     def BFGSValuesToADFRValues(self, dest, offsetDest, values, offsetSource):
-        return _adfrcc.FTRotationAboutPointQuat_BFGSValuesToADFRValues(self, dest, offsetDest, values, offsetSource)
+        return _adfrcc.FTRotationAboutPointQuat_BFGSValuesToADFRValues(
+            self, dest, offsetDest, values, offsetSource
+        )
 
     def getBFGSboundsMin(self, dest):
         return _adfrcc.FTRotationAboutPointQuat_getBFGSboundsMin(self, dest)
 
     def getBFGSboundsMax(self, dest):
         return _adfrcc.FTRotationAboutPointQuat_getBFGSboundsMax(self, dest)
+
+
 FTRotationAboutPointQuat_swigregister = _adfrcc.FTRotationAboutPointQuat_swigregister
 FTRotationAboutPointQuat_swigregister(FTRotationAboutPointQuat)
+
 
 class FTTorsion(FTBase):
     __swig_setmethods__ = {}
     for _s in [FTBase]:
-        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+        __swig_setmethods__.update(getattr(_s, "__swig_setmethods__", {}))
     __setattr__ = lambda self, name, value: _swig_setattr(self, FTTorsion, name, value)
     __swig_getmethods__ = {}
     for _s in [FTBase]:
-        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+        __swig_getmethods__.update(getattr(_s, "__swig_getmethods__", {}))
     __getattr__ = lambda self, name: _swig_getattr(self, FTTorsion, name)
     __repr__ = _swig_repr
 
@@ -2365,11 +2871,16 @@ class FTTorsion(FTBase):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_FTTorsion
     __del__ = lambda self: None
 
-    def setDihedralAtomIndexes(self, aAtomIndex1, aAtomIndex2, aAtomIndex3, aAtomIndex4, aAtomSet=None):
-        return _adfrcc.FTTorsion_setDihedralAtomIndexes(self, aAtomIndex1, aAtomIndex2, aAtomIndex3, aAtomIndex4, aAtomSet)
+    def setDihedralAtomIndexes(
+        self, aAtomIndex1, aAtomIndex2, aAtomIndex3, aAtomIndex4, aAtomSet=None
+    ):
+        return _adfrcc.FTTorsion_setDihedralAtomIndexes(
+            self, aAtomIndex1, aAtomIndex2, aAtomIndex3, aAtomIndex4, aAtomSet
+        )
 
     def getDihedralAtomIndexesC(self):
         return _adfrcc.FTTorsion_getDihedralAtomIndexesC(self)
@@ -2379,14 +2890,20 @@ class FTTorsion(FTBase):
 
     def getDihedralAtomIndexesPy(self):
         return _adfrcc.FTTorsion_getDihedralAtomIndexesPy(self)
+
     __swig_setmethods__["affectedAtoms"] = _adfrcc.FTTorsion_affectedAtoms_set
     __swig_getmethods__["affectedAtoms"] = _adfrcc.FTTorsion_affectedAtoms_get
     if _newclass:
-        affectedAtoms = _swig_property(_adfrcc.FTTorsion_affectedAtoms_get, _adfrcc.FTTorsion_affectedAtoms_set)
+        affectedAtoms = _swig_property(
+            _adfrcc.FTTorsion_affectedAtoms_get, _adfrcc.FTTorsion_affectedAtoms_set
+        )
     __swig_setmethods__["numAffectedAtoms"] = _adfrcc.FTTorsion_numAffectedAtoms_set
     __swig_getmethods__["numAffectedAtoms"] = _adfrcc.FTTorsion_numAffectedAtoms_get
     if _newclass:
-        numAffectedAtoms = _swig_property(_adfrcc.FTTorsion_numAffectedAtoms_get, _adfrcc.FTTorsion_numAffectedAtoms_set)
+        numAffectedAtoms = _swig_property(
+            _adfrcc.FTTorsion_numAffectedAtoms_get,
+            _adfrcc.FTTorsion_numAffectedAtoms_set,
+        )
 
     def setAffectedAtoms(self, aAtomIndices, aAtomSet):
         return _adfrcc.FTTorsion_setAffectedAtoms(self, aAtomIndices, aAtomSet)
@@ -2400,7 +2917,7 @@ class FTTorsion(FTBase):
     def getAffectedAtomIndexesPy(self):
         return _adfrcc.FTTorsion_getAffectedAtomIndexesPy(self)
 
-    def setDeltaAmplitude(self, aDeltaAmplitude=2.):
+    def setDeltaAmplitude(self, aDeltaAmplitude=2.0):
         return _adfrcc.FTTorsion_setDeltaAmplitude(self, aDeltaAmplitude)
 
     def initialize(self):
@@ -2410,13 +2927,17 @@ class FTTorsion(FTBase):
         return _adfrcc.FTTorsion_randomize(self)
 
     def forcesToGeneGradients(self, indopt, atomSet, offset, grad):
-        return _adfrcc.FTTorsion_forcesToGeneGradients(self, indopt, atomSet, offset, grad)
+        return _adfrcc.FTTorsion_forcesToGeneGradients(
+            self, indopt, atomSet, offset, grad
+        )
 
     def ADFRValuesToBFGSValues(self, dest, values):
         return _adfrcc.FTTorsion_ADFRValuesToBFGSValues(self, dest, values)
 
     def BFGSValuesToADFRValues(self, dest, offsetDest, values, offsetSource):
-        return _adfrcc.FTTorsion_BFGSValuesToADFRValues(self, dest, offsetDest, values, offsetSource)
+        return _adfrcc.FTTorsion_BFGSValuesToADFRValues(
+            self, dest, offsetDest, values, offsetSource
+        )
 
     def getBFGSboundsMin(self, dest):
         return _adfrcc.FTTorsion_getBFGSboundsMin(self, dest)
@@ -2426,8 +2947,11 @@ class FTTorsion(FTBase):
 
     def getOrigAngle(self):
         return _adfrcc.FTTorsion_getOrigAngle(self)
+
+
 FTTorsion_swigregister = _adfrcc.FTTorsion_swigregister
 FTTorsion_swigregister(FTTorsion)
+
 
 class Genome(_object):
     __swig_setmethods__ = {}
@@ -2442,6 +2966,7 @@ class Genome(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_Genome
     __del__ = lambda self: None
 
@@ -2561,20 +3086,30 @@ class Genome(_object):
 
     def getTotalScore(self):
         return _adfrcc.Genome_getTotalScore(self)
+
     __swig_setmethods__["ramaPhiInd"] = _adfrcc.Genome_ramaPhiInd_set
     __swig_getmethods__["ramaPhiInd"] = _adfrcc.Genome_ramaPhiInd_get
     if _newclass:
-        ramaPhiInd = _swig_property(_adfrcc.Genome_ramaPhiInd_get, _adfrcc.Genome_ramaPhiInd_set)
+        ramaPhiInd = _swig_property(
+            _adfrcc.Genome_ramaPhiInd_get, _adfrcc.Genome_ramaPhiInd_set
+        )
     __swig_setmethods__["ramaPsiInd"] = _adfrcc.Genome_ramaPsiInd_set
     __swig_getmethods__["ramaPsiInd"] = _adfrcc.Genome_ramaPsiInd_get
     if _newclass:
-        ramaPsiInd = _swig_property(_adfrcc.Genome_ramaPsiInd_get, _adfrcc.Genome_ramaPsiInd_set)
+        ramaPsiInd = _swig_property(
+            _adfrcc.Genome_ramaPsiInd_get, _adfrcc.Genome_ramaPsiInd_set
+        )
     __swig_setmethods__["ramaAAType"] = _adfrcc.Genome_ramaAAType_set
     __swig_getmethods__["ramaAAType"] = _adfrcc.Genome_ramaAAType_get
     if _newclass:
-        ramaAAType = _swig_property(_adfrcc.Genome_ramaAAType_get, _adfrcc.Genome_ramaAAType_set)
+        ramaAAType = _swig_property(
+            _adfrcc.Genome_ramaAAType_get, _adfrcc.Genome_ramaAAType_set
+        )
+
+
 Genome_swigregister = _adfrcc.Genome_swigregister
 Genome_swigregister(Genome)
+
 
 class Individual(_object):
     __swig_setmethods__ = {}
@@ -2589,6 +3124,7 @@ class Individual(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_Individual
     __del__ = lambda self: None
 
@@ -2624,6 +3160,7 @@ class Individual(_object):
 
     def getRamaScore(self):
         return _adfrcc.Individual_getRamaScore(self)
+
     __swig_setmethods__["dphi"] = _adfrcc.Individual_dphi_set
     __swig_getmethods__["dphi"] = _adfrcc.Individual_dphi_get
     if _newclass:
@@ -2632,8 +3169,11 @@ class Individual(_object):
     __swig_getmethods__["dpsi"] = _adfrcc.Individual_dpsi_get
     if _newclass:
         dpsi = _swig_property(_adfrcc.Individual_dpsi_get, _adfrcc.Individual_dpsi_set)
+
+
 Individual_swigregister = _adfrcc.Individual_swigregister
 Individual_swigregister(Individual)
+
 
 class SolisWets(_object):
     __swig_setmethods__ = {}
@@ -2651,6 +3191,7 @@ class SolisWets(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_SolisWets
     __del__ = lambda self: None
 
@@ -2689,13 +3230,36 @@ class SolisWets(_object):
 
     def getSearchRate(self):
         return _adfrcc.SolisWets_getSearchRate(self)
+
     __swig_setmethods__["atomSet"] = _adfrcc.SolisWets_atomSet_set
     __swig_getmethods__["atomSet"] = _adfrcc.SolisWets_atomSet_get
     if _newclass:
-        atomSet = _swig_property(_adfrcc.SolisWets_atomSet_get, _adfrcc.SolisWets_atomSet_set)
+        atomSet = _swig_property(
+            _adfrcc.SolisWets_atomSet_get, _adfrcc.SolisWets_atomSet_set
+        )
 
-    def minimize(self, individual, nbSteps, noImproveStop, sw_max_steps, sw_MAX_FAIL, sw_searchRate, aMaxEvals, trajFilename):
-        return _adfrcc.SolisWets_minimize(self, individual, nbSteps, noImproveStop, sw_max_steps, sw_MAX_FAIL, sw_searchRate, aMaxEvals, trajFilename)
+    def minimize(
+        self,
+        individual,
+        nbSteps,
+        noImproveStop,
+        sw_max_steps,
+        sw_MAX_FAIL,
+        sw_searchRate,
+        aMaxEvals,
+        trajFilename,
+    ):
+        return _adfrcc.SolisWets_minimize(
+            self,
+            individual,
+            nbSteps,
+            noImproveStop,
+            sw_max_steps,
+            sw_MAX_FAIL,
+            sw_searchRate,
+            aMaxEvals,
+            trajFilename,
+        )
 
     def search(self, individual):
         return _adfrcc.SolisWets_search(self, individual)
@@ -2720,19 +3284,28 @@ class SolisWets(_object):
 
     def getTotalSteps(self):
         return _adfrcc.SolisWets_getTotalSteps(self)
+
     __swig_setmethods__["trajectoryFile"] = _adfrcc.SolisWets_trajectoryFile_set
     __swig_getmethods__["trajectoryFile"] = _adfrcc.SolisWets_trajectoryFile_get
     if _newclass:
-        trajectoryFile = _swig_property(_adfrcc.SolisWets_trajectoryFile_get, _adfrcc.SolisWets_trajectoryFile_set)
+        trajectoryFile = _swig_property(
+            _adfrcc.SolisWets_trajectoryFile_get, _adfrcc.SolisWets_trajectoryFile_set
+        )
 
     def setEnableDebugOutput(self, enable):
         return _adfrcc.SolisWets_setEnableDebugOutput(self, enable)
+
+
 SolisWets_swigregister = _adfrcc.SolisWets_swigregister
 SolisWets_swigregister(SolisWets)
 
+
 def SolisWets_getSingleton():
     return _adfrcc.SolisWets_getSingleton()
+
+
 SolisWets_getSingleton = _adfrcc.SolisWets_getSingleton
+
 
 class BFGSQuat(_object):
     __swig_setmethods__ = {}
@@ -2750,6 +3323,7 @@ class BFGSQuat(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_BFGSQuat
     __del__ = lambda self: None
 
@@ -2759,68 +3333,118 @@ class BFGSQuat(_object):
     def getMaxSteps(self):
         return _adfrcc.BFGSQuat_getMaxSteps(self)
 
-    def minimize(self, aIndividual, aMaxSteps, xtol_abs, xtol_rel, ftol_abs, ftol_rel, trajFilename):
-        return _adfrcc.BFGSQuat_minimize(self, aIndividual, aMaxSteps, xtol_abs, xtol_rel, ftol_abs, ftol_rel, trajFilename)
+    def minimize(
+        self,
+        aIndividual,
+        aMaxSteps,
+        xtol_abs,
+        xtol_rel,
+        ftol_abs,
+        ftol_rel,
+        trajFilename,
+    ):
+        return _adfrcc.BFGSQuat_minimize(
+            self,
+            aIndividual,
+            aMaxSteps,
+            xtol_abs,
+            xtol_rel,
+            ftol_abs,
+            ftol_rel,
+            trajFilename,
+        )
 
     def setEnableDebugOutput(self, enable):
         return _adfrcc.BFGSQuat_setEnableDebugOutput(self, enable)
+
     __swig_setmethods__["nbVarsADFR"] = _adfrcc.BFGSQuat_nbVarsADFR_set
     __swig_getmethods__["nbVarsADFR"] = _adfrcc.BFGSQuat_nbVarsADFR_get
     if _newclass:
-        nbVarsADFR = _swig_property(_adfrcc.BFGSQuat_nbVarsADFR_get, _adfrcc.BFGSQuat_nbVarsADFR_set)
+        nbVarsADFR = _swig_property(
+            _adfrcc.BFGSQuat_nbVarsADFR_get, _adfrcc.BFGSQuat_nbVarsADFR_set
+        )
     __swig_setmethods__["nbVarsBFGS"] = _adfrcc.BFGSQuat_nbVarsBFGS_set
     __swig_getmethods__["nbVarsBFGS"] = _adfrcc.BFGSQuat_nbVarsBFGS_get
     if _newclass:
-        nbVarsBFGS = _swig_property(_adfrcc.BFGSQuat_nbVarsBFGS_get, _adfrcc.BFGSQuat_nbVarsBFGS_set)
+        nbVarsBFGS = _swig_property(
+            _adfrcc.BFGSQuat_nbVarsBFGS_get, _adfrcc.BFGSQuat_nbVarsBFGS_set
+        )
     __swig_setmethods__["BFGSoffsets"] = _adfrcc.BFGSQuat_BFGSoffsets_set
     __swig_getmethods__["BFGSoffsets"] = _adfrcc.BFGSQuat_BFGSoffsets_get
     if _newclass:
-        BFGSoffsets = _swig_property(_adfrcc.BFGSQuat_BFGSoffsets_get, _adfrcc.BFGSQuat_BFGSoffsets_set)
+        BFGSoffsets = _swig_property(
+            _adfrcc.BFGSQuat_BFGSoffsets_get, _adfrcc.BFGSQuat_BFGSoffsets_set
+        )
     __swig_setmethods__["individual"] = _adfrcc.BFGSQuat_individual_set
     __swig_getmethods__["individual"] = _adfrcc.BFGSQuat_individual_get
     if _newclass:
-        individual = _swig_property(_adfrcc.BFGSQuat_individual_get, _adfrcc.BFGSQuat_individual_set)
+        individual = _swig_property(
+            _adfrcc.BFGSQuat_individual_get, _adfrcc.BFGSQuat_individual_set
+        )
     __swig_setmethods__["genome"] = _adfrcc.BFGSQuat_genome_set
     __swig_getmethods__["genome"] = _adfrcc.BFGSQuat_genome_get
     if _newclass:
-        genome = _swig_property(_adfrcc.BFGSQuat_genome_get, _adfrcc.BFGSQuat_genome_set)
+        genome = _swig_property(
+            _adfrcc.BFGSQuat_genome_get, _adfrcc.BFGSQuat_genome_set
+        )
     __swig_setmethods__["nevals"] = _adfrcc.BFGSQuat_nevals_set
     __swig_getmethods__["nevals"] = _adfrcc.BFGSQuat_nevals_get
     if _newclass:
-        nevals = _swig_property(_adfrcc.BFGSQuat_nevals_get, _adfrcc.BFGSQuat_nevals_set)
+        nevals = _swig_property(
+            _adfrcc.BFGSQuat_nevals_get, _adfrcc.BFGSQuat_nevals_set
+        )
     __swig_setmethods__["bestADFRGenes"] = _adfrcc.BFGSQuat_bestADFRGenes_set
     __swig_getmethods__["bestADFRGenes"] = _adfrcc.BFGSQuat_bestADFRGenes_get
     if _newclass:
-        bestADFRGenes = _swig_property(_adfrcc.BFGSQuat_bestADFRGenes_get, _adfrcc.BFGSQuat_bestADFRGenes_set)
+        bestADFRGenes = _swig_property(
+            _adfrcc.BFGSQuat_bestADFRGenes_get, _adfrcc.BFGSQuat_bestADFRGenes_set
+        )
     __swig_setmethods__["bestScore"] = _adfrcc.BFGSQuat_bestScore_set
     __swig_getmethods__["bestScore"] = _adfrcc.BFGSQuat_bestScore_get
     if _newclass:
-        bestScore = _swig_property(_adfrcc.BFGSQuat_bestScore_get, _adfrcc.BFGSQuat_bestScore_set)
+        bestScore = _swig_property(
+            _adfrcc.BFGSQuat_bestScore_get, _adfrcc.BFGSQuat_bestScore_set
+        )
     __swig_setmethods__["atomSet"] = _adfrcc.BFGSQuat_atomSet_set
     __swig_getmethods__["atomSet"] = _adfrcc.BFGSQuat_atomSet_get
     if _newclass:
-        atomSet = _swig_property(_adfrcc.BFGSQuat_atomSet_get, _adfrcc.BFGSQuat_atomSet_set)
+        atomSet = _swig_property(
+            _adfrcc.BFGSQuat_atomSet_get, _adfrcc.BFGSQuat_atomSet_set
+        )
     __swig_setmethods__["trajectoryFile"] = _adfrcc.BFGSQuat_trajectoryFile_set
     __swig_getmethods__["trajectoryFile"] = _adfrcc.BFGSQuat_trajectoryFile_get
     if _newclass:
-        trajectoryFile = _swig_property(_adfrcc.BFGSQuat_trajectoryFile_get, _adfrcc.BFGSQuat_trajectoryFile_set)
+        trajectoryFile = _swig_property(
+            _adfrcc.BFGSQuat_trajectoryFile_get, _adfrcc.BFGSQuat_trajectoryFile_set
+        )
 
     def forces_to_delta_genes(self, indopt, grad):
         return _adfrcc.BFGSQuat_forces_to_delta_genes(self, indopt, grad)
+
+
 BFGSQuat_swigregister = _adfrcc.BFGSQuat_swigregister
 BFGSQuat_swigregister(BFGSQuat)
 
+
 def BFGSQuat_getSingleton(aIndividual):
     return _adfrcc.BFGSQuat_getSingleton(aIndividual)
+
+
 BFGSQuat_getSingleton = _adfrcc.BFGSQuat_getSingleton
 
 
 def eval(indopt, grad, f_data):
     return _adfrcc.eval(indopt, grad, f_data)
+
+
 eval = _adfrcc.eval
+
+
 class AddGradients(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, AddGradients, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, AddGradients, name, value
+    )
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, AddGradients, name)
     __repr__ = _swig_repr
@@ -2831,33 +3455,43 @@ class AddGradients(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _adfrcc.delete_AddGradients
     __del__ = lambda self: None
     __swig_setmethods__["gradLow"] = _adfrcc.AddGradients_gradLow_set
     __swig_getmethods__["gradLow"] = _adfrcc.AddGradients_gradLow_get
     if _newclass:
-        gradLow = _swig_property(_adfrcc.AddGradients_gradLow_get, _adfrcc.AddGradients_gradLow_set)
+        gradLow = _swig_property(
+            _adfrcc.AddGradients_gradLow_get, _adfrcc.AddGradients_gradLow_set
+        )
     __swig_setmethods__["clusters"] = _adfrcc.AddGradients_clusters_set
     __swig_getmethods__["clusters"] = _adfrcc.AddGradients_clusters_get
     if _newclass:
-        clusters = _swig_property(_adfrcc.AddGradients_clusters_get, _adfrcc.AddGradients_clusters_set)
+        clusters = _swig_property(
+            _adfrcc.AddGradients_clusters_get, _adfrcc.AddGradients_clusters_set
+        )
 
     def processMaps(self, maps, spacing, nneighb, cutOffValue, errorCut, filename):
-        return _adfrcc.AddGradients_processMaps(self, maps, spacing, nneighb, cutOffValue, errorCut, filename)
+        return _adfrcc.AddGradients_processMaps(
+            self, maps, spacing, nneighb, cutOffValue, errorCut, filename
+        )
 
     def testGridOrder(self, gridMap):
         return _adfrcc.AddGradients_testGridOrder(self, gridMap)
 
     def getMapClusters(self, mapType):
         return _adfrcc.AddGradients_getMapClusters(self, mapType)
+
+
 AddGradients_swigregister = _adfrcc.AddGradients_swigregister
 AddGradients_swigregister(AddGradients)
 
 
 def get_ompthread_count():
     return _adfrcc.get_ompthread_count()
+
+
 get_ompthread_count = _adfrcc.get_ompthread_count
 # This file is compatible with both classic and new-style classes.
 
 openmp_enabled = cvar.openmp_enabled
-

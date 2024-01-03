@@ -10,7 +10,8 @@ from .chain import Chain
 from .residue import Residue
 from .segment import Segment
 
-__all__ = ['HierView']
+__all__ = ["HierView"]
+
 
 def countNone(seq):
     # this is to replace statements like self._segments.count(None)
@@ -18,8 +19,9 @@ def countNone(seq):
     nn = 0
     for item in seq:
         if item is None:
-            nn+=1
+            nn += 1
     return nn
+
 
 class HierView(object):
 
@@ -49,33 +51,34 @@ class HierView(object):
     for chain P in segment PROT needs to be indexed as ``hv['PROT', 'P']``."""
 
     def __init__(self, atoms, **kwargs):
-
         if not isinstance(atoms, (AtomGroup, Selection)):
-            raise TypeError('atoms must be an AtomGroup or Selection instance')
+            raise TypeError("atoms must be an AtomGroup or Selection instance")
 
         self._atoms = atoms
         self.update(**kwargs)
 
     def __repr__(self):
-
         if self._segments:
-            return ('<HierView: {0} ({1} segments, {2} chains, {3} '
-                    'residues)>').format(str(self._atoms), self.numSegments(),
-                                         self.numChains(), self.numResidues())
+            return (
+                "<HierView: {0} ({1} segments, {2} chains, {3} " "residues)>"
+            ).format(
+                str(self._atoms),
+                self.numSegments(),
+                self.numChains(),
+                self.numResidues(),
+            )
         else:
-            return ('<HierView: {0} ({1} chains, {2} residues)>'
-               ).format(str(self._atoms), self.numChains(), self.numResidues())
+            return ("<HierView: {0} ({1} chains, {2} residues)>").format(
+                str(self._atoms), self.numChains(), self.numResidues()
+            )
 
     def __str__(self):
-
-        return 'HierView of {0}'.format(str(self._atoms))
+        return "HierView of {0}".format(str(self._atoms))
 
     def __len__(self):
-
         return len(self._chains)
 
     def __getitem__(self, key):
-
         if isinstance(key, str):
             return self.getSegment(key) or self.getChain(key)
 
@@ -86,13 +89,16 @@ class HierView(object):
                 return self.__getitem__(key[0])
 
             if length == 2:
-                return (self.getChain(key[1], key[0]) or
-                         self.getResidue(*key) or
-                         self.getResidue(None, key[0], key[1]))
+                return (
+                    self.getChain(key[1], key[0])
+                    or self.getResidue(*key)
+                    or self.getResidue(None, key[0], key[1])
+                )
 
             if length == 3:
-                return self.getResidue(*key) or self.getResidue(key[1],
-                                                key[2], None, key[0])
+                return self.getResidue(*key) or self.getResidue(
+                    key[1], key[2], None, key[0]
+                )
 
             if length == 4:
                 return self.getResidue(key[1], key[2], key[3], key[0])
@@ -113,7 +119,6 @@ class HierView(object):
             return self._ag._getChids()[0]
 
     def _getResidue(self, index):
-
         try:
             residue = self._residues[index]
         except IndexError:
@@ -123,13 +128,17 @@ class HierView(object):
                 try:
                     residue.getAtomGroup()
                 except AttributeError:
-                    residue = self._residues[index] = Residue(self._ag,
-                                            residue, self, self._acsi,
-                                            unique=True, selstr=self._selstr)
+                    residue = self._residues[index] = Residue(
+                        self._ag,
+                        residue,
+                        self,
+                        self._acsi,
+                        unique=True,
+                        selstr=self._selstr,
+                    )
             return residue
 
     def _getChain(self, index):
-
         try:
             chain = self._chains[index]
         except IndexError:
@@ -139,13 +148,17 @@ class HierView(object):
                 try:
                     chain.getAtomGroup()
                 except AttributeError:
-                    chain = self._chains[index] = Chain(self._ag,
-                                            chain, self, self._acsi,
-                                            unique=True, selstr=self._selstr)
+                    chain = self._chains[index] = Chain(
+                        self._ag,
+                        chain,
+                        self,
+                        self._acsi,
+                        unique=True,
+                        selstr=self._selstr,
+                    )
             return chain
 
     def _getSegment(self, index):
-
         try:
             segment = self._segments[index]
         except IndexError:
@@ -155,9 +168,14 @@ class HierView(object):
                 try:
                     segment.getAtomGroup()
                 except AttributeError:
-                    segment = self._segments[index] = Segment(self._ag,
-                                            segment, self, self._acsi,
-                                            unique=True, selstr=self._selstr)
+                    segment = self._segments[index] = Segment(
+                        self._ag,
+                        segment,
+                        self,
+                        self._acsi,
+                        unique=True,
+                        selstr=self._selstr,
+                    )
             return segment
 
     def getAtoms(self):
@@ -193,14 +211,18 @@ class HierView(object):
         self._residues = _residues = [None] * ag.numResidues()
         self._chains = _chains = [None] * ag.numChains()
 
-        for hvidx, _list in [(atoms._getSegindices(), _segments),
-                             (atoms._getChindices(), _chains),
-                             (atoms._getResindices(), _residues),]:
-            if not _list: continue
+        for hvidx, _list in [
+            (atoms._getSegindices(), _segments),
+            (atoms._getChindices(), _chains),
+            (atoms._getResindices(), _residues),
+        ]:
+            if not _list:
+                continue
             pidx = hvidx[0]
             pi = 0
             for i, idx in enumerate(hvidx):
-                if pidx == idx: continue
+                if pidx == idx:
+                    continue
                 subset = _list[pidx]
                 if subset is None:
                     _list[pidx] = indices[pi:i]
@@ -227,7 +249,7 @@ class HierView(object):
 
         nones = None
         getnones = lambda: [None] * n_atoms if nones is None else nones
-        termini = ag.getFlags('pdbter')
+        termini = ag.getFlags("pdbter")
         if termini is None:
             termini = getnones()
 
@@ -248,7 +270,7 @@ class HierView(object):
                 else:
                     _segments = None
             else:
-                ps = None       # previous segment name
+                ps = None  # previous segment name
                 for i, s in enumerate(sgnms):
                     if s == ps or s in _dict:
                         continue
@@ -259,7 +281,7 @@ class HierView(object):
                     _dict[s] = segindex
                     _segments.append(idx)
 
-        ag._data['segindex'] = segindices
+        ag._data["segindex"] = segindices
 
         # identify chains
         chindex = -1
@@ -296,7 +318,7 @@ class HierView(object):
                     cid = _dict.get(s_c)
                     idx = _indices[_i:i]
                     if cid is None:
-                        #segment = _dict[ps]
+                        # segment = _dict[ps]
                         chindex += 1
                         chindices[idx] = chindex
                         _dict[s_c] = chindex
@@ -312,7 +334,7 @@ class HierView(object):
                 cid = _dict.get(s_c)
                 idx = _indices[_i:]
                 if cid is None:
-                    #segment = _dict[ps]
+                    # segment = _dict[ps]
                     chindex += 1
                     chindices[idx] = chindex
                     _dict[s_c] = chindex
@@ -322,9 +344,9 @@ class HierView(object):
                     chindices[idx] = cid
                     _chains[cid] = concatenate((chain, idx))
 
-        ag._data['chindex'] = chindices
+        ag._data["chindex"] = chindices
 
-        if kwargs.get('chain') == True:
+        if kwargs.get("chain") == True:
             return
 
         # identify residues
@@ -333,7 +355,7 @@ class HierView(object):
 
         rnums = ag._getResnums()
         if rnums is None:
-            raise ValueError('resnums are not set')
+            raise ValueError("resnums are not set")
         if _segments is None:
             sgnms = nones = getnones()
         if _chains is None:
@@ -353,12 +375,11 @@ class HierView(object):
             i = icods[j] or None
             c = chids[j]
             s = sgnms[j]
-            if r != pr or i != pi or c != pc or s != ps or (j and termini[j-1]):
+            if r != pr or i != pi or c != pc or s != ps or (j and termini[j - 1]):
                 s_c_r_i = (ps, pc, pr, pi)
                 rid = _get(s_c_r_i)
                 idx = _indices[_j:j]
-                if (rid is None or isinstance(rid, list) or
-                    termini[_residues[rid][-1]]):
+                if rid is None or isinstance(rid, list) or termini[_residues[rid][-1]]:
                     resindex += 1
                     resindices[idx] = resindex
                     _append(idx)
@@ -395,30 +416,39 @@ class HierView(object):
             resindices[idx] = rid
             _residues[rid] = concatenate((residue, idx))
 
-        ag._data['resindex'] = resindices
+        ag._data["resindex"] = resindices
 
     def getResidue(self, chid, resnum, icode=None, segname=None):
         """Return residue with number *resnum* and insertion code *icode* from
         the chain with identifier *chid* in segment with name *segname*."""
 
         try:
-            index = self._dict[(segname or self._getSegname(),
-                                chid or self._getChid(),
-                                resnum, icode or None)]
+            index = self._dict[
+                (
+                    segname or self._getSegname(),
+                    chid or self._getChid(),
+                    resnum,
+                    icode or None,
+                )
+            ]
         except KeyError:
             pass
         else:
             if isinstance(index, list):
-                return [r for r in [self._getResidue(i) for i in index]
-                        if r is not None]
+                return [
+                    r for r in [self._getResidue(i) for i in index] if r is not None
+                ]
             else:
                 return self._getResidue(index)
 
     def numResidues(self):
         """Return number of residues."""
 
-        return (len(self._residues) if self._ag is self._atoms else
-                len(self._residues) - countNone(self._residues))
+        return (
+            len(self._residues)
+            if self._ag is self._atoms
+            else len(self._residues) - countNone(self._residues)
+        )
 
     def iterResidues(self):
         """Yield residues."""
@@ -435,16 +465,16 @@ class HierView(object):
             except AttributeError:
                 pass
             else:
-                item = alist[i] = Residue(ag, item, self, acsi, selstr=selstr,
-                                          unique=True)
+                item = alist[i] = Residue(
+                    ag, item, self, acsi, selstr=selstr, unique=True
+                )
             yield item
 
     def getChain(self, chid, segname=None):
         """Return chain with identifier *chid*, if it is present."""
 
         try:
-            index = self._dict[(segname or self._getSegname(),
-                                chid or None)]
+            index = self._dict[(segname or self._getSegname(), chid or None)]
         except KeyError:
             pass
         else:
@@ -465,8 +495,9 @@ class HierView(object):
             except AttributeError:
                 pass
             else:
-                item = alist[i] = Chain(ag, item, self, acsi, selstr=selstr,
-                                        unique=True)
+                item = alist[i] = Chain(
+                    ag, item, self, acsi, selstr=selstr, unique=True
+                )
             yield item
 
     __iter__ = iterChains
@@ -474,8 +505,11 @@ class HierView(object):
     def numChains(self):
         """Return number of chains."""
 
-        return (len(self._chains) if self._ag is self._atoms else
-                len(self._chains) - countNone(self._chains))
+        return (
+            len(self._chains)
+            if self._ag is self._atoms
+            else len(self._chains) - countNone(self._chains)
+        )
 
     def getSegment(self, segname):
         """Return segment with name *segname*, if it is present."""
@@ -489,8 +523,11 @@ class HierView(object):
 
     def numSegments(self):
         """Return number of chains."""
-        return (len(self._segments) if self._ag is self._atoms else
-                len(self._segments) - countNone(self._segments))
+        return (
+            len(self._segments)
+            if self._ag is self._atoms
+            else len(self._segments) - countNone(self._segments)
+        )
 
     def iterSegments(self):
         """Yield segments."""
@@ -507,6 +544,7 @@ class HierView(object):
             except AttributeError:
                 pass
             else:
-                item = alist[i] = Segment(ag, item, self, acsi, selstr=selstr,
-                                          unique=True)
+                item = alist[i] = Segment(
+                    ag, item, self, acsi, selstr=selstr, unique=True
+                )
             yield item

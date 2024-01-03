@@ -5,26 +5,30 @@
 # the SWIG interface file instead.
 
 
-
-
-
 from sys import version_info
+
 if version_info >= (2, 6, 0):
+
     def swig_import_helper():
         from os.path import dirname
         import imp
+
         fp = None
         try:
-            fp, pathname, description = imp.find_module('_isocontour', [dirname(__file__)])
+            fp, pathname, description = imp.find_module(
+                "_isocontour", [dirname(__file__)]
+            )
         except ImportError:
             import _isocontour
+
             return _isocontour
         if fp is not None:
             try:
-                _mod = imp.load_module('_isocontour', fp, pathname, description)
+                _mod = imp.load_module("_isocontour", fp, pathname, description)
             finally:
                 fp.close()
             return _mod
+
     _isocontour = swig_import_helper()
     del swig_import_helper
 else:
@@ -37,16 +41,16 @@ except NameError:
 
 
 def _swig_setattr_nondynamic(self, class_type, name, value, static=1):
-    if (name == "thisown"):
+    if name == "thisown":
         return self.this.own(value)
-    if (name == "this"):
-        if type(value).__name__ == 'SwigPyObject':
+    if name == "this":
+        if type(value).__name__ == "SwigPyObject":
             self.__dict__[name] = value
             return
     method = class_type.__swig_setmethods__.get(name, None)
     if method:
         return method(self, value)
-    if (not static):
+    if not static:
         if _newclass:
             object.__setattr__(self, name, value)
         else:
@@ -60,15 +64,16 @@ def _swig_setattr(self, class_type, name, value):
 
 
 def _swig_getattr_nondynamic(self, class_type, name, static=1):
-    if (name == "thisown"):
+    if name == "thisown":
         return self.this.own()
     method = class_type.__swig_getmethods__.get(name, None)
     if method:
         return method(self)
-    if (not static):
+    if not static:
         return object.__getattr__(self, name)
     else:
         raise AttributeError(name)
+
 
 def _swig_getattr(self, class_type, name):
     return _swig_getattr_nondynamic(self, class_type, name, 0)
@@ -79,16 +84,22 @@ def _swig_repr(self):
         strthis = "proxy of " + self.this.__repr__()
     except Exception:
         strthis = ""
-    return "<%s.%s; %s >" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    return "<%s.%s; %s >" % (
+        self.__class__.__module__,
+        self.__class__.__name__,
+        strthis,
+    )
+
 
 try:
     _object = object
     _newclass = 1
 except AttributeError:
+
     class _object:
         pass
-    _newclass = 0
 
+    _newclass = 0
 
 
 _isocontour.CONTOUR_UCHAR_swigconstant(_isocontour)
@@ -114,56 +125,82 @@ CONTOUR_REG_3D = _isocontour.CONTOUR_REG_3D
 
 _isocontour.NO_COLOR_VARIABLE_swigconstant(_isocontour)
 NO_COLOR_VARIABLE = _isocontour.NO_COLOR_VARIABLE
+
+
 class DatasetInfo(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, DatasetInfo, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, DatasetInfo, name, value
+    )
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DatasetInfo, name)
     __repr__ = _swig_repr
     __swig_setmethods__["datatype"] = _isocontour.DatasetInfo_datatype_set
     __swig_getmethods__["datatype"] = _isocontour.DatasetInfo_datatype_get
     if _newclass:
-        datatype = _swig_property(_isocontour.DatasetInfo_datatype_get, _isocontour.DatasetInfo_datatype_set)
+        datatype = _swig_property(
+            _isocontour.DatasetInfo_datatype_get, _isocontour.DatasetInfo_datatype_set
+        )
     __swig_setmethods__["meshtype"] = _isocontour.DatasetInfo_meshtype_set
     __swig_getmethods__["meshtype"] = _isocontour.DatasetInfo_meshtype_get
     if _newclass:
-        meshtype = _swig_property(_isocontour.DatasetInfo_meshtype_get, _isocontour.DatasetInfo_meshtype_set)
+        meshtype = _swig_property(
+            _isocontour.DatasetInfo_meshtype_get, _isocontour.DatasetInfo_meshtype_set
+        )
     __swig_setmethods__["nvars"] = _isocontour.DatasetInfo_nvars_set
     __swig_getmethods__["nvars"] = _isocontour.DatasetInfo_nvars_get
     if _newclass:
-        nvars = _swig_property(_isocontour.DatasetInfo_nvars_get, _isocontour.DatasetInfo_nvars_set)
+        nvars = _swig_property(
+            _isocontour.DatasetInfo_nvars_get, _isocontour.DatasetInfo_nvars_set
+        )
     __swig_setmethods__["ntime"] = _isocontour.DatasetInfo_ntime_set
     __swig_getmethods__["ntime"] = _isocontour.DatasetInfo_ntime_get
     if _newclass:
-        ntime = _swig_property(_isocontour.DatasetInfo_ntime_get, _isocontour.DatasetInfo_ntime_set)
+        ntime = _swig_property(
+            _isocontour.DatasetInfo_ntime_get, _isocontour.DatasetInfo_ntime_set
+        )
     __swig_setmethods__["dim"] = _isocontour.DatasetInfo_dim_set
     __swig_getmethods__["dim"] = _isocontour.DatasetInfo_dim_get
     if _newclass:
-        dim = _swig_property(_isocontour.DatasetInfo_dim_get, _isocontour.DatasetInfo_dim_set)
+        dim = _swig_property(
+            _isocontour.DatasetInfo_dim_get, _isocontour.DatasetInfo_dim_set
+        )
     __swig_setmethods__["orig"] = _isocontour.DatasetInfo_orig_set
     __swig_getmethods__["orig"] = _isocontour.DatasetInfo_orig_get
     if _newclass:
-        orig = _swig_property(_isocontour.DatasetInfo_orig_get, _isocontour.DatasetInfo_orig_set)
+        orig = _swig_property(
+            _isocontour.DatasetInfo_orig_get, _isocontour.DatasetInfo_orig_set
+        )
     __swig_setmethods__["span"] = _isocontour.DatasetInfo_span_set
     __swig_getmethods__["span"] = _isocontour.DatasetInfo_span_get
     if _newclass:
-        span = _swig_property(_isocontour.DatasetInfo_span_get, _isocontour.DatasetInfo_span_set)
+        span = _swig_property(
+            _isocontour.DatasetInfo_span_get, _isocontour.DatasetInfo_span_set
+        )
     __swig_setmethods__["minext"] = _isocontour.DatasetInfo_minext_set
     __swig_getmethods__["minext"] = _isocontour.DatasetInfo_minext_get
     if _newclass:
-        minext = _swig_property(_isocontour.DatasetInfo_minext_get, _isocontour.DatasetInfo_minext_set)
+        minext = _swig_property(
+            _isocontour.DatasetInfo_minext_get, _isocontour.DatasetInfo_minext_set
+        )
     __swig_setmethods__["maxext"] = _isocontour.DatasetInfo_maxext_set
     __swig_getmethods__["maxext"] = _isocontour.DatasetInfo_maxext_get
     if _newclass:
-        maxext = _swig_property(_isocontour.DatasetInfo_maxext_get, _isocontour.DatasetInfo_maxext_set)
+        maxext = _swig_property(
+            _isocontour.DatasetInfo_maxext_get, _isocontour.DatasetInfo_maxext_set
+        )
     __swig_setmethods__["minvar"] = _isocontour.DatasetInfo_minvar_set
     __swig_getmethods__["minvar"] = _isocontour.DatasetInfo_minvar_get
     if _newclass:
-        minvar = _swig_property(_isocontour.DatasetInfo_minvar_get, _isocontour.DatasetInfo_minvar_set)
+        minvar = _swig_property(
+            _isocontour.DatasetInfo_minvar_get, _isocontour.DatasetInfo_minvar_set
+        )
     __swig_setmethods__["maxvar"] = _isocontour.DatasetInfo_maxvar_set
     __swig_getmethods__["maxvar"] = _isocontour.DatasetInfo_maxvar_get
     if _newclass:
-        maxvar = _swig_property(_isocontour.DatasetInfo_maxvar_get, _isocontour.DatasetInfo_maxvar_set)
+        maxvar = _swig_property(
+            _isocontour.DatasetInfo_maxvar_get, _isocontour.DatasetInfo_maxvar_set
+        )
 
     def _dim(self):
         return _isocontour.DatasetInfo__dim(self)
@@ -186,10 +223,14 @@ class DatasetInfo(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _isocontour.delete_DatasetInfo
     __del__ = lambda self: None
+
+
 DatasetInfo_swigregister = _isocontour.DatasetInfo_swigregister
 DatasetInfo_swigregister(DatasetInfo)
+
 
 class Seed(_object):
     __swig_setmethods__ = {}
@@ -208,7 +249,9 @@ class Seed(_object):
     __swig_setmethods__["cell_id"] = _isocontour.Seed_cell_id_set
     __swig_getmethods__["cell_id"] = _isocontour.Seed_cell_id_get
     if _newclass:
-        cell_id = _swig_property(_isocontour.Seed_cell_id_get, _isocontour.Seed_cell_id_set)
+        cell_id = _swig_property(
+            _isocontour.Seed_cell_id_get, _isocontour.Seed_cell_id_set
+        )
 
     def __init__(self):
         this = _isocontour.new_Seed()
@@ -216,10 +259,14 @@ class Seed(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _isocontour.delete_Seed
     __del__ = lambda self: None
+
+
 Seed_swigregister = _isocontour.Seed_swigregister
 Seed_swigregister(Seed)
+
 
 class SeedData(_object):
     __swig_setmethods__ = {}
@@ -230,11 +277,15 @@ class SeedData(_object):
     __swig_setmethods__["nseeds"] = _isocontour.SeedData_nseeds_set
     __swig_getmethods__["nseeds"] = _isocontour.SeedData_nseeds_get
     if _newclass:
-        nseeds = _swig_property(_isocontour.SeedData_nseeds_get, _isocontour.SeedData_nseeds_set)
+        nseeds = _swig_property(
+            _isocontour.SeedData_nseeds_get, _isocontour.SeedData_nseeds_set
+        )
     __swig_setmethods__["seeds"] = _isocontour.SeedData_seeds_set
     __swig_getmethods__["seeds"] = _isocontour.SeedData_seeds_get
     if _newclass:
-        seeds = _swig_property(_isocontour.SeedData_seeds_get, _isocontour.SeedData_seeds_set)
+        seeds = _swig_property(
+            _isocontour.SeedData_seeds_get, _isocontour.SeedData_seeds_set
+        )
 
     def __init__(self):
         this = _isocontour.new_SeedData()
@@ -242,10 +293,14 @@ class SeedData(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _isocontour.delete_SeedData
     __del__ = lambda self: None
+
+
 SeedData_swigregister = _isocontour.SeedData_swigregister
 SeedData_swigregister(SeedData)
+
 
 class Signature(_object):
     __swig_setmethods__ = {}
@@ -256,11 +311,15 @@ class Signature(_object):
     __swig_setmethods__["name"] = _isocontour.Signature_name_set
     __swig_getmethods__["name"] = _isocontour.Signature_name_get
     if _newclass:
-        name = _swig_property(_isocontour.Signature_name_get, _isocontour.Signature_name_set)
+        name = _swig_property(
+            _isocontour.Signature_name_get, _isocontour.Signature_name_set
+        )
     __swig_setmethods__["nval"] = _isocontour.Signature_nval_set
     __swig_getmethods__["nval"] = _isocontour.Signature_nval_get
     if _newclass:
-        nval = _swig_property(_isocontour.Signature_nval_get, _isocontour.Signature_nval_set)
+        nval = _swig_property(
+            _isocontour.Signature_nval_get, _isocontour.Signature_nval_set
+        )
     __swig_setmethods__["fx"] = _isocontour.Signature_fx_set
     __swig_getmethods__["fx"] = _isocontour.Signature_fx_get
     if _newclass:
@@ -282,10 +341,14 @@ class Signature(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _isocontour.delete_Signature
     __del__ = lambda self: None
+
+
 Signature_swigregister = _isocontour.Signature_swigregister
 Signature_swigregister(Signature)
+
 
 class SliceData(_object):
     __swig_setmethods__ = {}
@@ -296,27 +359,39 @@ class SliceData(_object):
     __swig_setmethods__["width"] = _isocontour.SliceData_width_set
     __swig_getmethods__["width"] = _isocontour.SliceData_width_get
     if _newclass:
-        width = _swig_property(_isocontour.SliceData_width_get, _isocontour.SliceData_width_set)
+        width = _swig_property(
+            _isocontour.SliceData_width_get, _isocontour.SliceData_width_set
+        )
     __swig_setmethods__["height"] = _isocontour.SliceData_height_set
     __swig_getmethods__["height"] = _isocontour.SliceData_height_get
     if _newclass:
-        height = _swig_property(_isocontour.SliceData_height_get, _isocontour.SliceData_height_set)
+        height = _swig_property(
+            _isocontour.SliceData_height_get, _isocontour.SliceData_height_set
+        )
     __swig_setmethods__["datatype"] = _isocontour.SliceData_datatype_set
     __swig_getmethods__["datatype"] = _isocontour.SliceData_datatype_get
     if _newclass:
-        datatype = _swig_property(_isocontour.SliceData_datatype_get, _isocontour.SliceData_datatype_set)
+        datatype = _swig_property(
+            _isocontour.SliceData_datatype_get, _isocontour.SliceData_datatype_set
+        )
     __swig_setmethods__["ucdata"] = _isocontour.SliceData_ucdata_set
     __swig_getmethods__["ucdata"] = _isocontour.SliceData_ucdata_get
     if _newclass:
-        ucdata = _swig_property(_isocontour.SliceData_ucdata_get, _isocontour.SliceData_ucdata_set)
+        ucdata = _swig_property(
+            _isocontour.SliceData_ucdata_get, _isocontour.SliceData_ucdata_set
+        )
     __swig_setmethods__["usdata"] = _isocontour.SliceData_usdata_set
     __swig_getmethods__["usdata"] = _isocontour.SliceData_usdata_get
     if _newclass:
-        usdata = _swig_property(_isocontour.SliceData_usdata_get, _isocontour.SliceData_usdata_set)
+        usdata = _swig_property(
+            _isocontour.SliceData_usdata_get, _isocontour.SliceData_usdata_set
+        )
     __swig_setmethods__["fdata"] = _isocontour.SliceData_fdata_set
     __swig_getmethods__["fdata"] = _isocontour.SliceData_fdata_get
     if _newclass:
-        fdata = _swig_property(_isocontour.SliceData_fdata_get, _isocontour.SliceData_fdata_set)
+        fdata = _swig_property(
+            _isocontour.SliceData_fdata_get, _isocontour.SliceData_fdata_set
+        )
 
     def __init__(self):
         this = _isocontour.new_SliceData()
@@ -324,25 +399,35 @@ class SliceData(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _isocontour.delete_SliceData
     __del__ = lambda self: None
+
+
 SliceData_swigregister = _isocontour.SliceData_swigregister
 SliceData_swigregister(SliceData)
 
+
 class Contour2dData(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, Contour2dData, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, Contour2dData, name, value
+    )
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, Contour2dData, name)
     __repr__ = _swig_repr
     __swig_setmethods__["nvert"] = _isocontour.Contour2dData_nvert_set
     __swig_getmethods__["nvert"] = _isocontour.Contour2dData_nvert_get
     if _newclass:
-        nvert = _swig_property(_isocontour.Contour2dData_nvert_get, _isocontour.Contour2dData_nvert_set)
+        nvert = _swig_property(
+            _isocontour.Contour2dData_nvert_get, _isocontour.Contour2dData_nvert_set
+        )
     __swig_setmethods__["nedge"] = _isocontour.Contour2dData_nedge_set
     __swig_getmethods__["nedge"] = _isocontour.Contour2dData_nedge_get
     if _newclass:
-        nedge = _swig_property(_isocontour.Contour2dData_nedge_get, _isocontour.Contour2dData_nedge_set)
+        nedge = _swig_property(
+            _isocontour.Contour2dData_nedge_get, _isocontour.Contour2dData_nedge_set
+        )
 
     def __init__(self):
         this = _isocontour.new_Contour2dData()
@@ -350,41 +435,60 @@ class Contour2dData(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _isocontour.delete_Contour2dData
     __del__ = lambda self: None
+
+
 Contour2dData_swigregister = _isocontour.Contour2dData_swigregister
 Contour2dData_swigregister(Contour2dData)
 
+
 class Contour3dData(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, Contour3dData, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(
+        self, Contour3dData, name, value
+    )
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, Contour3dData, name)
     __repr__ = _swig_repr
     __swig_setmethods__["nvert"] = _isocontour.Contour3dData_nvert_set
     __swig_getmethods__["nvert"] = _isocontour.Contour3dData_nvert_get
     if _newclass:
-        nvert = _swig_property(_isocontour.Contour3dData_nvert_get, _isocontour.Contour3dData_nvert_set)
+        nvert = _swig_property(
+            _isocontour.Contour3dData_nvert_get, _isocontour.Contour3dData_nvert_set
+        )
     __swig_setmethods__["ntri"] = _isocontour.Contour3dData_ntri_set
     __swig_getmethods__["ntri"] = _isocontour.Contour3dData_ntri_get
     if _newclass:
-        ntri = _swig_property(_isocontour.Contour3dData_ntri_get, _isocontour.Contour3dData_ntri_set)
+        ntri = _swig_property(
+            _isocontour.Contour3dData_ntri_get, _isocontour.Contour3dData_ntri_set
+        )
     __swig_setmethods__["vfun"] = _isocontour.Contour3dData_vfun_set
     __swig_getmethods__["vfun"] = _isocontour.Contour3dData_vfun_get
     if _newclass:
-        vfun = _swig_property(_isocontour.Contour3dData_vfun_get, _isocontour.Contour3dData_vfun_set)
+        vfun = _swig_property(
+            _isocontour.Contour3dData_vfun_get, _isocontour.Contour3dData_vfun_set
+        )
     __swig_setmethods__["colorvar"] = _isocontour.Contour3dData_colorvar_set
     __swig_getmethods__["colorvar"] = _isocontour.Contour3dData_colorvar_get
     if _newclass:
-        colorvar = _swig_property(_isocontour.Contour3dData_colorvar_get, _isocontour.Contour3dData_colorvar_set)
+        colorvar = _swig_property(
+            _isocontour.Contour3dData_colorvar_get,
+            _isocontour.Contour3dData_colorvar_set,
+        )
     __swig_setmethods__["fmin"] = _isocontour.Contour3dData_fmin_set
     __swig_getmethods__["fmin"] = _isocontour.Contour3dData_fmin_get
     if _newclass:
-        fmin = _swig_property(_isocontour.Contour3dData_fmin_get, _isocontour.Contour3dData_fmin_set)
+        fmin = _swig_property(
+            _isocontour.Contour3dData_fmin_get, _isocontour.Contour3dData_fmin_set
+        )
     __swig_setmethods__["fmax"] = _isocontour.Contour3dData_fmax_set
     __swig_getmethods__["fmax"] = _isocontour.Contour3dData_fmax_get
     if _newclass:
-        fmax = _swig_property(_isocontour.Contour3dData_fmax_get, _isocontour.Contour3dData_fmax_set)
+        fmax = _swig_property(
+            _isocontour.Contour3dData_fmax_get, _isocontour.Contour3dData_fmax_set
+        )
 
     def __init__(self):
         this = _isocontour.new_Contour3dData()
@@ -392,10 +496,14 @@ class Contour3dData(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _isocontour.delete_Contour3dData
     __del__ = lambda self: None
+
+
 Contour3dData_swigregister = _isocontour.Contour3dData_swigregister
 Contour3dData_swigregister(Contour3dData)
+
 
 class ConDataset(_object):
     __swig_setmethods__ = {}
@@ -406,23 +514,33 @@ class ConDataset(_object):
     __swig_setmethods__["vnames"] = _isocontour.ConDataset_vnames_set
     __swig_getmethods__["vnames"] = _isocontour.ConDataset_vnames_get
     if _newclass:
-        vnames = _swig_property(_isocontour.ConDataset_vnames_get, _isocontour.ConDataset_vnames_set)
+        vnames = _swig_property(
+            _isocontour.ConDataset_vnames_get, _isocontour.ConDataset_vnames_set
+        )
     __swig_setmethods__["nsfun"] = _isocontour.ConDataset_nsfun_set
     __swig_getmethods__["nsfun"] = _isocontour.ConDataset_nsfun_get
     if _newclass:
-        nsfun = _swig_property(_isocontour.ConDataset_nsfun_get, _isocontour.ConDataset_nsfun_set)
+        nsfun = _swig_property(
+            _isocontour.ConDataset_nsfun_get, _isocontour.ConDataset_nsfun_set
+        )
     __swig_setmethods__["sfun"] = _isocontour.ConDataset_sfun_set
     __swig_getmethods__["sfun"] = _isocontour.ConDataset_sfun_get
     if _newclass:
-        sfun = _swig_property(_isocontour.ConDataset_sfun_get, _isocontour.ConDataset_sfun_set)
+        sfun = _swig_property(
+            _isocontour.ConDataset_sfun_get, _isocontour.ConDataset_sfun_set
+        )
     __swig_setmethods__["data"] = _isocontour.ConDataset_data_set
     __swig_getmethods__["data"] = _isocontour.ConDataset_data_get
     if _newclass:
-        data = _swig_property(_isocontour.ConDataset_data_get, _isocontour.ConDataset_data_set)
+        data = _swig_property(
+            _isocontour.ConDataset_data_get, _isocontour.ConDataset_data_set
+        )
     __swig_setmethods__["plot"] = _isocontour.ConDataset_plot_set
     __swig_getmethods__["plot"] = _isocontour.ConDataset_plot_get
     if _newclass:
-        plot = _swig_property(_isocontour.ConDataset_plot_get, _isocontour.ConDataset_plot_set)
+        plot = _swig_property(
+            _isocontour.ConDataset_plot_get, _isocontour.ConDataset_plot_set
+        )
 
     def getSignature(self, variable, timestep, funcnum):
         return _isocontour.ConDataset_getSignature(self, variable, timestep, funcnum)
@@ -433,137 +551,239 @@ class ConDataset(_object):
             self.this.append(this)
         except Exception:
             self.this = this
+
     __swig_destroy__ = _isocontour.delete_ConDataset
     __del__ = lambda self: None
+
+
 ConDataset_swigregister = _isocontour.ConDataset_swigregister
 ConDataset_swigregister(ConDataset)
 
 
 def setVerboseLevel(level):
     return _isocontour.setVerboseLevel(level)
+
+
 setVerboseLevel = _isocontour.setVerboseLevel
 
-def newDatasetUnstr(datatype, meshtype, nvars, ntime, nverts, ncells, verts, cells, celladj, data):
-    return _isocontour.newDatasetUnstr(datatype, meshtype, nvars, ntime, nverts, ncells, verts, cells, celladj, data)
+
+def newDatasetUnstr(
+    datatype, meshtype, nvars, ntime, nverts, ncells, verts, cells, celladj, data
+):
+    return _isocontour.newDatasetUnstr(
+        datatype, meshtype, nvars, ntime, nverts, ncells, verts, cells, celladj, data
+    )
+
+
 newDatasetUnstr = _isocontour.newDatasetUnstr
+
 
 def newDatasetReg(datatype, meshtype, nvars, ntime, dim, data):
     return _isocontour.newDatasetReg(datatype, meshtype, nvars, ntime, dim, data)
+
+
 newDatasetReg = _isocontour.newDatasetReg
+
 
 def loadDataset(datatype, meshtype, nvars, ntime, files):
     return _isocontour.loadDataset(datatype, meshtype, nvars, ntime, files)
+
+
 loadDataset = _isocontour.loadDataset
+
 
 def getDatasetInfo(dataset):
     return _isocontour.getDatasetInfo(dataset)
+
+
 getDatasetInfo = _isocontour.getDatasetInfo
+
 
 def getVariableNames(dataset):
     return _isocontour.getVariableNames(dataset)
+
+
 getVariableNames = _isocontour.getVariableNames
+
 
 def getSeedCells(dataset, variable, timestep):
     return _isocontour.getSeedCells(dataset, variable, timestep)
+
+
 getSeedCells = _isocontour.getSeedCells
+
 
 def getNumberOfSignatures(dataset):
     return _isocontour.getNumberOfSignatures(dataset)
+
+
 getNumberOfSignatures = _isocontour.getNumberOfSignatures
+
 
 def getSignatureFunctions(dataset, variable, timestep):
     return _isocontour.getSignatureFunctions(dataset, variable, timestep)
+
+
 getSignatureFunctions = _isocontour.getSignatureFunctions
+
 
 def getSignatureValues(dataset, variable, timestep, isovalue):
     return _isocontour.getSignatureValues(dataset, variable, timestep, isovalue)
+
+
 getSignatureValues = _isocontour.getSignatureValues
+
 
 def getSlice(dataset, variable, timestep, axis, index):
     return _isocontour.getSlice(dataset, variable, timestep, axis, index)
+
+
 getSlice = _isocontour.getSlice
+
 
 def getContour2d(dataset, variable, timestep, isovalue):
     return _isocontour.getContour2d(dataset, variable, timestep, isovalue)
+
+
 getContour2d = _isocontour.getContour2d
+
 
 def getContour3d(dataset, variable, timestep, isovalue, colorvar):
     return _isocontour.getContour3d(dataset, variable, timestep, isovalue, colorvar)
+
+
 getContour3d = _isocontour.getContour3d
+
 
 def saveContour2d(dataset, variable, timestep, isovalue, filename):
     return _isocontour.saveContour2d(dataset, variable, timestep, isovalue, filename)
+
+
 saveContour2d = _isocontour.saveContour2d
 
+
 def saveContour3d(dataset, variable, timestep, isovalue, colorvar, filename):
-    return _isocontour.saveContour3d(dataset, variable, timestep, isovalue, colorvar, filename)
+    return _isocontour.saveContour3d(
+        dataset, variable, timestep, isovalue, colorvar, filename
+    )
+
+
 saveContour3d = _isocontour.saveContour3d
 
+
 def writeIsoComponents(dataset, variable, timestep, isovalue, colorvar, fprefix):
-    return _isocontour.writeIsoComponents(dataset, variable, timestep, isovalue, colorvar, fprefix)
+    return _isocontour.writeIsoComponents(
+        dataset, variable, timestep, isovalue, colorvar, fprefix
+    )
+
+
 writeIsoComponents = _isocontour.writeIsoComponents
+
 
 def clearDataset(dataset):
     return _isocontour.clearDataset(dataset)
+
+
 clearDataset = _isocontour.clearDataset
+
 
 def newDatasetRegFloat3D(dim, orig, span):
     return _isocontour.newDatasetRegFloat3D(dim, orig, span)
+
+
 newDatasetRegFloat3D = _isocontour.newDatasetRegFloat3D
+
 
 def delDatasetReg(dataset):
     return _isocontour.delDatasetReg(dataset)
+
+
 delDatasetReg = _isocontour.delDatasetReg
+
 
 def delContour3d(contour):
     return _isocontour.delContour3d(contour)
+
+
 delContour3d = _isocontour.delContour3d
+
 
 def newDatasetRegShort3D(dim, orig, span):
     return _isocontour.newDatasetRegShort3D(dim, orig, span)
+
+
 newDatasetRegShort3D = _isocontour.newDatasetRegShort3D
+
 
 def newDatasetRegUchar3D(dim, orig, span):
     return _isocontour.newDatasetRegUchar3D(dim, orig, span)
+
+
 newDatasetRegUchar3D = _isocontour.newDatasetRegUchar3D
+
 
 def setOrig3D(dataset, orig):
     return _isocontour.setOrig3D(dataset, orig)
+
+
 setOrig3D = _isocontour.setOrig3D
+
 
 def setSpan3D(dataset, span):
     return _isocontour.setSpan3D(dataset, span)
+
+
 setSpan3D = _isocontour.setSpan3D
+
 
 def newDatasetRegFloat2D(dim, orig, span):
     return _isocontour.newDatasetRegFloat2D(dim, orig, span)
+
+
 newDatasetRegFloat2D = _isocontour.newDatasetRegFloat2D
+
 
 def newDatasetRegShort2D(dim, orig, span):
     return _isocontour.newDatasetRegShort2D(dim, orig, span)
+
+
 newDatasetRegShort2D = _isocontour.newDatasetRegShort2D
+
 
 def newDatasetRegUchar2D(dim, orig, span):
     return _isocontour.newDatasetRegUchar2D(dim, orig, span)
+
+
 newDatasetRegUchar2D = _isocontour.newDatasetRegUchar2D
+
 
 def setOrig2D(dataset, orig):
     return _isocontour.setOrig2D(dataset, orig)
+
+
 setOrig2D = _isocontour.setOrig2D
+
 
 def setSpan2D(dataset, span):
     return _isocontour.setSpan2D(dataset, span)
+
+
 setSpan2D = _isocontour.setSpan2D
+
 
 def getContour3dData(iscontour, vert, norm, vfun, tri, flipNormals):
     return _isocontour.getContour3dData(iscontour, vert, norm, vfun, tri, flipNormals)
+
+
 getContour3dData = _isocontour.getContour3dData
+
 
 def getContour2dData(iscocontour, vert, edge):
     return _isocontour.getContour2dData(iscocontour, vert, edge)
+
+
 getContour2dData = _isocontour.getContour2dData
 # This file is compatible with both classic and new-style classes.
 
 string2Float = _isocontour.string2Float
 getSliceArray = _isocontour.getSliceArray
-
