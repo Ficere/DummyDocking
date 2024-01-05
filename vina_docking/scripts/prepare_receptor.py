@@ -6,9 +6,13 @@ from multiprocessing import Pool
 import subprocess
 from functools import partial
 import warnings
+import sys
 
 warnings.filterwarnings("ignore")
 BIN_LIB = str(Path(Path(__file__).parent.parent, "bin"))
+ADFRSUITE = f"{BIN_LIB}/ADFRsuit/ADFRsuite-1.1dev/bin"
+if ADFRSUITE not in sys.path:
+    sys.path.append(ADFRSUITE)
 PREPARE_RECEPTOR = str(Path(BIN_LIB, "ADFRsuit/ADFRsuite-1.1dev/bin/prepare_receptor"))
 
 

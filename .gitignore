@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 
 dev.ipynb
-example/output
+example/output*

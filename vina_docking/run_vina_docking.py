@@ -11,13 +11,16 @@ import shutil
 import pandas as pd
 from functools import partial
 from pprint import pprint
+import sys
+from scripts.prepare_receptor import ADFRSUITE
+if ADFRSUITE not in sys.path:
+    sys.path.append(ADFRSUITE)
 from scripts import (
     run_docking,
     run_prepare_ligand,
     run_prepare_receptor,
     get_docking_details,
 )
-
 warnings.filterwarnings("ignore")
 
 
