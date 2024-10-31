@@ -33,7 +33,7 @@ def best_affinity(log_file):
     return cur_low
 
 
-def run_docking(receptor_path, ligand_path, output_dir):
+def run_docking(receptor_path, ligand_path, output_dir, score_only=False):
     workdir = Path(output_dir, f"{Path(receptor_path).stem};;{Path(ligand_path).stem}")
     Path(workdir).mkdir(parents=True, exist_ok=True)
     shutil.copy(receptor_path, Path(workdir, "receptor.pdbqt"))
@@ -65,24 +65,42 @@ def run_docking(receptor_path, ligand_path, output_dir):
         stdout=open(Path(workdir, "autogrid.log"), "w"),
         stderr=open(Path(workdir, "autogrid.err"), "w"),
     )
-    subprocess.run(
-        [
-            VINA,
-            "--ligand",
-            "ligand.pdbqt",
-            "--maps",
-            "receptor",
-            "--scoring",
-            "ad4",
-            "--exhaustiveness",
-            "8",
-            "--out",
-            "docking_result.pdbqt",
-        ],
-        cwd=workdir,
-        stdout=open(Path(workdir, "vina_dock.log"), "w"),
-        stderr=open(Path(workdir, "vina_dock.err"), "w"),
-    )
+    if not score_only:
+        subprocess.run(
+            [
+                VINA,
+                "--ligand",
+                "ligand.pdbqt",
+                "--maps",
+                "receptor",
+                "--scoring",
+                "ad4",
+                "--exhaustiveness",
+                "8",
+                "--out",
+                "docking_result.pdbqt",
+            ],
+            cwd=workdir,
+            stdout=open(Path(workdir, "vina_dock.log"), "w"),
+            stderr=open(Path(workdir, "vina_dock.err"), "w"),
+        )
+    else:
+        subprocess.run(
+            [
+                VINA,
+                "--ligand",
+                "ligand.pdbqt",
+                "--receptor",
+                "receptor.pdbqt",
+                "--scoring",
+                "ad4",
+                "--autobox",
+                "--score_only",
+            ],
+            cwd=workdir,
+            stdout=open(Path(workdir, "vina_dock.log"), "w"),
+            stderr=open(Path(workdir, "vina_dock.err"), "w"),
+        )
     affinity = best_affinity(Path(workdir, "vina_dock.log"))
     return Path(receptor_path).stem, Path(ligand_path).stem, affinity, workdir
 
