@@ -119,6 +119,12 @@ def main():
         default=None,
         help="Path to output dir for search key sites",
     )
+    parser.add_argument(
+        "-so",
+        "--score_only",
+        action="store_true",
+        help="Whether to only score the docking results",
+    )
     args = parser.parse_args()
     pprint(vars(args))
     ligand_files = glob(f"{args.ligand_dir}/*")
@@ -148,7 +154,7 @@ def main():
             )
         )
     docking_inputs = [
-        [receptor, ligand, docking_results_dir]
+        [receptor, ligand, docking_results_dir, args.score_only]
         for ligand in glob(f"{prepared_ligand_dir}/*")
         for receptor in glob(f"{prepared_receptor_dir}/*")
     ]
