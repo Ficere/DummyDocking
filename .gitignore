@@ -161,3 +161,5 @@ cython_debug/
 
 dev.ipynb
 example/output*
+vina_docking/bin/ADFRsuit/ADFRsuite-1.1dev
+vina_docking/bin/ADFRsuit/initADFRsuite.sh
