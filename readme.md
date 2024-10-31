@@ -19,9 +19,13 @@ Here is a molecular docking procedure designed for dummies like me, including:
 conda create -yn vina_docking python=3.10
 conda activate vina_docking
 conda install -yc conda-forge mamba
-mamba install -yc conda-forge rdkit openbabel
+mamba install -yc conda-forge openbabel
 mamba install -yc bioconda mmseqs2
-pip install pandas meeko openpyxl scipy tqdm biopython multitasking retry lxml
+pip install pandas meeko openpyxl scipy tqdm biopython multitasking retry lxml rdkit
+git clone https://github.com/Ficere/DummyDocking.git 
+cd DummyDocking/vina_docking/bin/ADFRsuit 
+chmod 777 install.sh
+./install.sh
 ```
 
 # Usage
